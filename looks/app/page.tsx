@@ -15,7 +15,9 @@ export default function Home() {
   return (
     // Locked to screen height: nothing can scroll
     <main className="flex h-dvh flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
-      <SiteHeader />
+        <div className="shrink-0">
+          <SiteHeader />
+        </div>
 
       <section
         className="mt-6 grid grid-cols-2 items-start gap-x-4 gap-y-5 text-[15px] leading-normal xl:grid-cols-4 xl:gap-x-8"
