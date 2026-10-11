@@ -80,12 +80,12 @@ export default function Home() {
       {/* Footer: takes ALL remaining height */}
       <footer className="mt-8 flex flex-1 flex-col sm:mt-10">
         <nav
-          className="mb-3 flex flex-wrap gap-1.5 sm:mb-4"
+          className="mt-auto mb-3 flex shrink-0 flex-wrap gap-1.5 sm:mb-4"
           aria-label="Social links"
         >
           {socials.map((social) => (
             <a
-              className="rounded-[5px] bg-[#ededed] px-3 py-2 text-base leading-none no-underline transition-colors hover:bg-[#dcdcdc]"
+              className="rounded-[5px] bg-[#ededed] px-3 py-2 text-[13px] leading-none no-underline transition-colors hover:bg-[#dcdcdc] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:px-[11px] sm:text-base lg:text-[clamp(14px,.92vw,18px)]"
               key={social.name}
               href={social.href}
               target={social.name === "Mail" ? undefined : "_blank"}
