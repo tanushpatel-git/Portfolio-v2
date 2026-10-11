@@ -172,14 +172,22 @@ export default function SiteHeader() {
     };
     lastTickIndexRef.current = activeIndex;
     setDragging(true);
-    e.currentTarget.setPointerCapture(e.pointerId);
   };
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
     if (!drag.active) return;
     const delta = e.clientX - drag.startX;
-    if (Math.abs(delta) > 5) drag.moved = true;
+    if (!drag.moved && Math.abs(delta) > 5) {
+      // Only capture once a real drag begins, so simple clicks still reach
+      // the links and fire their onClick.
+      drag.moved = true;
+      try {
+        e.currentTarget.setPointerCapture(drag.pointerId);
+      } catch {
+        /* not capturable */
+      }
+    }
     setDragDelta(delta);
     tickTo(nearestIndexTo(offset + delta));
   };
