@@ -22,10 +22,20 @@ export default function SiteHeader() {
   const [active, setActive] = useState("about");
   const [offset, setOffset] = useState(0);
   const [ready, setReady] = useState(false);
+  const [dragDelta, setDragDelta] = useState(0);
+  const [dragging, setDragging] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Array<HTMLAnchorElement | null>>([]);
+  const itemCentersRef = useRef<number[]>([]);
+  const containerWidthRef = useRef(0);
+  const dragRef = useRef({
+    active: false,
+    startX: 0,
+    pointerId: -1,
+    moved: false,
+  });
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const tickBufferRef = useRef<AudioBuffer | null>(null);
@@ -89,15 +99,19 @@ export default function SiteHeader() {
   const measure = useCallback(() => {
     const container = containerRef.current;
     const row = rowRef.current;
-    const item = itemRefs.current[activeIndex];
-    if (!container || !row || !item) return;
+    if (!container || !row) return;
 
     const containerRect = container.getBoundingClientRect();
     const rowRect = row.getBoundingClientRect();
-    const itemRect = item.getBoundingClientRect();
-    const itemCenterInRow = itemRect.left + itemRect.width / 2 - rowRect.left;
+    containerWidthRef.current = containerRect.width;
+    itemCentersRef.current = itemRefs.current.map((el) => {
+      if (!el) return 0;
+      const rect = el.getBoundingClientRect();
+      return rect.left + rect.width / 2 - rowRect.left;
+    });
 
-    setOffset(containerRect.width / 2 - itemCenterInRow);
+    const activeCenter = itemCentersRef.current[activeIndex] ?? 0;
+    setOffset(containerRect.width / 2 - activeCenter);
   }, [activeIndex]);
 
   useLayoutEffect(() => {
@@ -111,10 +125,67 @@ export default function SiteHeader() {
     };
   }, [measure]);
 
+  const selectIndex = (index: number) => {
+    if (index < 0 || index >= navItems.length) return;
+    if (navItems[index].id === active) return;
+    playTick();
+    setActive(navItems[index].id);
+  };
+
   const select = (id: string) => {
     if (id === active) return;
     playTick();
     setActive(id);
+  };
+
+  // --- Drag / swipe to change the active item -----------------------------
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragRef.current = {
+      active: true,
+      startX: e.clientX,
+      pointerId: e.pointerId,
+      moved: false,
+    };
+    setDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag.active) return;
+    const delta = e.clientX - drag.startX;
+    if (Math.abs(delta) > 5) drag.moved = true;
+    setDragDelta(delta);
+  };
+
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag.active) return;
+    drag.active = false;
+    setDragging(false);
+    try {
+      e.currentTarget.releasePointerCapture(drag.pointerId);
+    } catch {
+      /* already released */
+    }
+
+    const centers = itemCentersRef.current;
+    const translate = offset + dragDelta;
+    const containerCenter = containerWidthRef.current / 2;
+
+    let nearest = activeIndex;
+    let best = Infinity;
+    centers.forEach((center, index) => {
+      const distance = Math.abs(center + translate - containerCenter);
+      if (distance < best) {
+        best = distance;
+        nearest = index;
+      }
+    });
+
+    setDragDelta(0);
+    if (nearest !== activeIndex) selectIndex(nearest);
   };
 
   const linkBase =
@@ -144,12 +215,21 @@ export default function SiteHeader() {
 
         {/* Navigation: the row slides so the active item stays centered */}
         <nav aria-label="Main navigation" className="pb-2">
-          <div ref={containerRef} className="overflow-hidden py-1">
+          <div
+            ref={containerRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+            className={`touch-pan-y overflow-hidden py-1 select-none ${
+              dragging ? "cursor-grabbing" : "cursor-grab"
+            }`}
+          >
             <div
               ref={rowRef}
-              style={{ transform: `translateX(${offset}px)` }}
+              style={{ transform: `translateX(${offset + dragDelta}px)` }}
               className={`flex items-center justify-start ${GAP} ${
-                ready
+                ready && !dragging
                   ? "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
                   : ""
               }`}
@@ -161,7 +241,14 @@ export default function SiteHeader() {
                     itemRefs.current[index] = el;
                   }}
                   href={`#${item.id}`}
-                  onClick={() => select(item.id)}
+                  draggable={false}
+                  onClick={(e) => {
+                    if (dragRef.current.moved) {
+                      e.preventDefault();
+                      return;
+                    }
+                    select(item.id);
+                  }}
                   aria-current={index === activeIndex ? "page" : undefined}
                   className={`${linkBase} ${
                     index === activeIndex ? activeCls : inactive
