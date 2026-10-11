@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const TICK_COUNT = 41;
 const CENTER_TICK = Math.floor(TICK_COUNT / 2); // 20
@@ -15,6 +15,8 @@ const navItems = [
 // One gap value used everywhere, so spacing is identical between all items
 const GAP = "gap-x-3 sm:gap-x-5";
 
+const TICK_SRC = "/SoundBar/tick.wav";
+
 export default function SiteHeader() {
   const [active, setActive] = useState("about");
   const [offset, setOffset] = useState(0);
@@ -23,8 +25,22 @@ export default function SiteHeader() {
   const containerRef = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Array<HTMLAnchorElement | null>>([]);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const activeIndex = navItems.findIndex((item) => item.id === active);
+
+  // Preload the tick sound once the component mounts
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) audio.load();
+  }, []);
+
+  const playTick = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = 0;
+    void audio.play().catch(() => {});
+  }, []);
 
   // Center the active item by sliding the whole row horizontally
   const measure = useCallback(() => {
@@ -54,6 +70,7 @@ export default function SiteHeader() {
 
   const select = (id: string) => {
     if (id === active) return;
+    playTick();
     setActive(id);
   };
 
@@ -114,6 +131,8 @@ export default function SiteHeader() {
           </div>
         </nav>
       </div>
+
+      <audio ref={audioRef} src={TICK_SRC} preload="auto" className="hidden" />
     </header>
   );
 }
