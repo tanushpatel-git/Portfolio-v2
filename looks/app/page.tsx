@@ -19,10 +19,12 @@ export default function Home() {
           <SiteHeader />
         </div>
 
-      <section
-        className="mt-6 grid grid-cols-2 items-start gap-x-4 gap-y-5 text-[15px] leading-normal xl:grid-cols-4 xl:gap-x-8"
-        id="about"
-      >
+        {/* About and portfolio sections (natural height) */}
+        <section
+          className="mt-6 grid shrink-0 grid-cols-2 items-start gap-x-4 gap-y-5 text-[clamp(13px,2.4dvh,19px)] leading-[1.45] sm:mt-8 sm:gap-x-8 sm:text-[clamp(14px,2.2dvh,20px)] lg:text-[clamp(15px,2dvh,21px)] xl:mt-[40px] xl:grid-cols-[minmax(0,1.28fr)_minmax(0,.55fr)_minmax(0,1.12fr)_minmax(0,1.05fr)] xl:gap-x-[clamp(22px,2.1vw,42px)] xl:text-[clamp(16px,1.13vw,23px)] xl:leading-[1.37]"
+          id="about"
+          aria-label="About Tanush Patel"
+        >
         <div>
           <h1 className="m-0 text-lg font-semibold">Tanush Patel</h1>
           <p className="mb-0 mt-2 max-w-[470px]">
