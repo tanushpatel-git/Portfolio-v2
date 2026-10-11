@@ -13,7 +13,8 @@ const linkCls = "underline underline-offset-2 hover:decoration-2";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col px-4 sm:px-6 lg:px-[2.35vw]">
+    // Locked to screen height: nothing can scroll
+    <main className="flex h-dvh flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
       <SiteHeader />
 
       <section
