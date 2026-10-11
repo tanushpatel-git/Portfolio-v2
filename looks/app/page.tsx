@@ -1,5 +1,6 @@
 import Image from "next/image";
 import SiteHeader from "@/component/SiteHeader";
+import ImageTrail from "@/component/ImageTrail";
 
 const socials = [
   { name: "Mail", href: "tanush000patel@gmail.com" },
@@ -27,7 +28,9 @@ export default function Home() {
         >
         {/* Introduction */}
         <div className="min-w-0">
-          <h1 className="m-0 text-[1.08em] font-semibold leading-[1.3]">Tanush Patel</h1>
+          <h1 className="m-0 text-[1.08em] font-semibold leading-[1.3]">
+            Tanush Patel
+          </h1>
           <p className="mb-0 mt-2 max-w-[470px]">
             A designer and developer crafting thoughtful digital experiences.
             I bring ideas to life through considered design and code.
@@ -78,6 +81,7 @@ export default function Home() {
       </section>
 
       {/* Footer: takes ALL remaining height */}
+      <ImageTrail className="flex flex-1 flex-col">
       <footer className="mt-8 flex flex-1 flex-col sm:mt-10">
         <nav
           className="mt-auto mb-3 flex shrink-0 flex-wrap gap-1.5 sm:mb-4"
@@ -107,6 +111,7 @@ export default function Home() {
           priority
         />
       </footer>
+      </ImageTrail>
     </main>
   );
 }
