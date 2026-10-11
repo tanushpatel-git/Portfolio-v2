@@ -96,8 +96,9 @@ export default function Home() {
           ))}
         </nav>
 
+        {/* Full image: height follows the width, nothing is cropped */}
         <Image
-          className="block h-auto w-full object-contain object-bottom"
+          className="block h-auto max-h-[65dvh] w-full shrink-0 object-contain object-bottom"
           src="/tanushDesign.jpeg"
           alt="Tanush Design"
           width={1600}
