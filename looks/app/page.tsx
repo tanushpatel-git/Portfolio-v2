@@ -77,7 +77,8 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="mt-8 flex flex-col sm:mt-10">
+      {/* Footer: takes ALL remaining height */}
+      <footer className="mt-8 flex flex-1 flex-col sm:mt-10">
         <nav
           className="mb-3 flex flex-wrap gap-1.5 sm:mb-4"
           aria-label="Social links"
