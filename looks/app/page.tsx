@@ -1,65 +1,101 @@
 import Image from "next/image";
+import SiteHeader from "@/component/SiteHeader";
+
+const socials = [
+  { name: "Mail", href: "tanush000patel@gmail.com" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/" },
+  { name: "Instagram", href: "https://www.instagram.com/" },
+  { name: "GitHub", href: "https://github.com/tanushpatel-git" },
+  { name: "Portfolio-v1", href: "https://tanushportfolioo.netlify.app/" },
+];
+
+const linkCls = "underline underline-offset-2 hover:decoration-2";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="flex min-h-screen flex-col px-4 sm:px-6 lg:px-[2.35vw]">
+      <SiteHeader />
+
+      <section
+        className="mt-6 grid grid-cols-2 items-start gap-x-4 gap-y-5 text-[15px] leading-normal xl:grid-cols-4 xl:gap-x-8"
+        id="about"
+      >
+        <div>
+          <h1 className="m-0 text-lg font-semibold">Tanush Patel</h1>
+          <p className="mb-0 mt-2 max-w-[470px]">
+            A designer and developer crafting thoughtful digital experiences.
+            I bring ideas to life through considered design and code.
+            <br className="hidden xl:block" /> Building for the web, with
+            curiosity and care.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div id="design">
+          <h2 className="mb-[7px] mt-0 text-lg font-semibold">Case studies</h2>
+          <ul className="m-0 list-none p-0">
+            {["Product design", "Brand systems", "Digital experiences", "Experiments", "See more..."].map(
+              (label) => (
+                <li key={label}>
+                  <a className={linkCls} href="/">
+                    {label}
+                  </a>
+                </li>
+              )
+            )}
+          </ul>
         </div>
-      </main>
-    </div>
+
+        <div id="engineering">
+          <h2 className="mb-[7px] mt-0 text-lg font-semibold">Experience</h2>
+          <div className="space-y-1">
+            <p className="m-0">Independent: Designer &amp; developer (2024 – present)</p>
+            <p className="m-0">Digital studio: Product designer (2022 – 2024)</p>
+            <p className="m-0">Creative practice: Designer (2020 – 2022)</p>
+            <p className="m-0">Freelance designer (2019 – 2024)</p>
+          </div>
+        </div>
+
+        <div id="articles">
+          <h2 className="mb-[7px] mt-0 text-lg font-semibold">Writing, talks &amp; more</h2>
+          <ul className="m-0 list-none p-0">
+            <li><a className={linkCls} href="#articles">Selected writing</a></li>
+            <li><a className={linkCls} href="#articles">Design notes</a></li>
+            <li>Conversations &amp; features</li>
+            <li><a className={linkCls} href="#articles">Ideas in progress</a></li>
+            <li><a className={linkCls} href="#articles">The creative process</a></li>
+            <li><a className={linkCls} href="#articles">Get in touch</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <footer className="mt-8 flex flex-col sm:mt-10">
+        <nav
+          className="mb-3 flex flex-wrap gap-1.5 sm:mb-4"
+          aria-label="Social links"
+        >
+          {socials.map((social) => (
+            <a
+              className="rounded-[5px] bg-[#ededed] px-3 py-2 text-base leading-none no-underline transition-colors hover:bg-[#dcdcdc]"
+              key={social.name}
+              href={social.href}
+              target={social.name === "Mail" ? undefined : "_blank"}
+              rel={social.name === "Mail" ? undefined : "noopener noreferrer"}
+            >
+              {social.name}
+            </a>
+          ))}
+        </nav>
+
+        <Image
+          className="block h-auto w-full object-contain object-bottom"
+          src="/tanushDesign.jpeg"
+          alt="Tanush Design"
+          width={1600}
+          height={700}
+          sizes="100vw"
+          priority
+        />
+      </footer>
+    </main>
   );
 }
