@@ -26,7 +26,7 @@ export default function Home() {
           aria-label="About Tanush Patel"
         >
         <div>
-          <h1 className="m-0 text-lg font-semibold">Tanush Patel</h1>
+          <h1 className="m-0 text-[1.08em] font-semibold leading-[1.3]">Tanush Patel</h1>
           <p className="mb-0 mt-2 max-w-[470px]">
             A designer and developer crafting thoughtful digital experiences.
             I bring ideas to life through considered design and code.
@@ -36,7 +36,7 @@ export default function Home() {
         </div>
 
         <div id="design">
-          <h2 className="mb-[7px] mt-0 text-lg font-semibold">Case studies</h2>
+          <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Case studies</h2>
           <ul className="m-0 list-none p-0">
             {["Product design", "Brand systems", "Digital experiences", "Experiments", "See more..."].map(
               (label) => (
@@ -51,7 +51,7 @@ export default function Home() {
         </div>
 
         <div id="engineering">
-          <h2 className="mb-[7px] mt-0 text-lg font-semibold">Experience</h2>
+          <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Experience</h2>
           <div className="space-y-1">
             <p className="m-0">Independent: Designer &amp; developer (2024 – present)</p>
             <p className="m-0">Digital studio: Product designer (2022 – 2024)</p>
@@ -61,7 +61,7 @@ export default function Home() {
         </div>
 
         <div id="articles">
-          <h2 className="mb-[7px] mt-0 text-lg font-semibold">Writing, talks &amp; more</h2>
+          <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Writing, talks &amp; more</h2>
           <ul className="m-0 list-none p-0">
             <li><a className={linkCls} href="#articles">Selected writing</a></li>
             <li><a className={linkCls} href="#articles">Design notes</a></li>
