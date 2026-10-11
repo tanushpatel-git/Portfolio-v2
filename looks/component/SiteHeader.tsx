@@ -39,6 +39,7 @@ export default function SiteHeader() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const tickBufferRef = useRef<AudioBuffer | null>(null);
+  const lastTickIndexRef = useRef(0);
 
   const activeIndex = navItems.findIndex((item) => item.id === active);
 
@@ -125,10 +126,9 @@ export default function SiteHeader() {
     };
   }, [measure]);
 
-  const selectIndex = (index: number) => {
+  const commitIndex = (index: number) => {
     if (index < 0 || index >= navItems.length) return;
     if (navItems[index].id === active) return;
-    playTick();
     setActive(navItems[index].id);
   };
 
@@ -136,6 +136,29 @@ export default function SiteHeader() {
     if (id === active) return;
     playTick();
     setActive(id);
+  };
+
+  // Tick whenever the item nearest to the center changes (so dragging past
+  // sections fires one tick per section, like a dial)
+  const tickTo = (index: number) => {
+    if (index === lastTickIndexRef.current) return;
+    lastTickIndexRef.current = index;
+    playTick();
+  };
+
+  const nearestIndexTo = (translate: number) => {
+    const centers = itemCentersRef.current;
+    const containerCenter = containerWidthRef.current / 2;
+    let nearest = activeIndex;
+    let best = Infinity;
+    centers.forEach((center, index) => {
+      const distance = Math.abs(center + translate - containerCenter);
+      if (distance < best) {
+        best = distance;
+        nearest = index;
+      }
+    });
+    return nearest;
   };
 
   // --- Drag / swipe to change the active item -----------------------------
@@ -147,6 +170,7 @@ export default function SiteHeader() {
       pointerId: e.pointerId,
       moved: false,
     };
+    lastTickIndexRef.current = activeIndex;
     setDragging(true);
     e.currentTarget.setPointerCapture(e.pointerId);
   };
@@ -157,6 +181,7 @@ export default function SiteHeader() {
     const delta = e.clientX - drag.startX;
     if (Math.abs(delta) > 5) drag.moved = true;
     setDragDelta(delta);
+    tickTo(nearestIndexTo(offset + delta));
   };
 
   const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -170,22 +195,10 @@ export default function SiteHeader() {
       /* already released */
     }
 
-    const centers = itemCentersRef.current;
-    const translate = offset + dragDelta;
-    const containerCenter = containerWidthRef.current / 2;
-
-    let nearest = activeIndex;
-    let best = Infinity;
-    centers.forEach((center, index) => {
-      const distance = Math.abs(center + translate - containerCenter);
-      if (distance < best) {
-        best = distance;
-        nearest = index;
-      }
-    });
-
+    const nearest = nearestIndexTo(offset + dragDelta);
     setDragDelta(0);
-    if (nearest !== activeIndex) selectIndex(nearest);
+    tickTo(nearest);
+    commitIndex(nearest);
   };
 
   const linkBase =
