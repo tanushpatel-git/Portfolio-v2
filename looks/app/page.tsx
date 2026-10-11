@@ -25,7 +25,8 @@ export default function Home() {
           id="about"
           aria-label="About Tanush Patel"
         >
-        <div>
+        {/* Introduction */}
+        <div className="min-w-0">
           <h1 className="m-0 text-[1.08em] font-semibold leading-[1.3]">Tanush Patel</h1>
           <p className="mb-0 mt-2 max-w-[470px]">
             A designer and developer crafting thoughtful digital experiences.
@@ -35,7 +36,8 @@ export default function Home() {
           </p>
         </div>
 
-        <div id="design">
+        {/* Selected work */}
+        <div className="min-w-0" id="design">
           <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Case studies</h2>
           <ul className="m-0 list-none p-0">
             {["Product design", "Brand systems", "Digital experiences", "Experiments", "See more..."].map(
@@ -50,7 +52,8 @@ export default function Home() {
           </ul>
         </div>
 
-        <div id="engineering">
+        {/* Experience */}
+        <div className="min-w-0" id="engineering">
           <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Experience</h2>
           <div className="space-y-1">
             <p className="m-0">Independent: Designer &amp; developer (2024 – present)</p>
@@ -60,7 +63,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div id="articles">
+        {/* Articles */}
+        <div className="min-w-0" id="articles">
           <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Writing, talks &amp; more</h2>
           <ul className="m-0 list-none p-0">
             <li><a className={linkCls} href="#articles">Selected writing</a></li>
