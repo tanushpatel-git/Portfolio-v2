@@ -16,6 +16,7 @@ const navItems = [
 const GAP = "gap-x-3 sm:gap-x-5";
 
 const TICK_SRC = "/SoundBar/tick.wav";
+const TICK_GAIN = 6;
 
 export default function SiteHeader() {
   const [active, setActive] = useState("about");
@@ -26,19 +27,61 @@ export default function SiteHeader() {
   const rowRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const tickBufferRef = useRef<AudioBuffer | null>(null);
 
   const activeIndex = navItems.findIndex((item) => item.id === active);
 
-  // Preload the tick sound once the component mounts
+  // Decode the tick once so playback is instant and can be amplified
   useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) audio.load();
+    const AudioCtor =
+      window.AudioContext ??
+      (window as typeof window & { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext;
+    if (!AudioCtor) return;
+
+    const ctx = new AudioCtor();
+    audioCtxRef.current = ctx;
+    let cancelled = false;
+
+    fetch(TICK_SRC)
+      .then((res) => res.arrayBuffer())
+      .then((data) => ctx.decodeAudioData(data))
+      .then((buffer) => {
+        if (!cancelled) tickBufferRef.current = buffer;
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+      void ctx.close().catch(() => {});
+      audioCtxRef.current = null;
+    };
   }, []);
 
   const playTick = useCallback(() => {
+    const ctx = audioCtxRef.current;
+    const buffer = tickBufferRef.current;
+
+    if (ctx && buffer) {
+      if (ctx.state === "suspended") void ctx.resume();
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      const gain = ctx.createGain();
+      gain.gain.value = TICK_GAIN;
+      source.connect(gain).connect(ctx.destination);
+      source.start();
+      return;
+    }
+
+    // Fallback: plain audio element
     const audio = audioRef.current;
     if (!audio) return;
-    audio.currentTime = 0;
+    try {
+      audio.currentTime = 0;
+    } catch {
+      /* metadata not ready yet */
+    }
     void audio.play().catch(() => {});
   }, []);
 
