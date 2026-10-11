@@ -37,7 +37,7 @@ export default function Home() {
         </div>
 
         {/* Selected work */}
-        <div className="min-w-0" id="design">
+        <div className="min-w-0 text-right" id="design">
           <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Case studies</h2>
           <ul className="m-0 list-none p-0">
             {["Product design", "Brand systems", "Digital experiences", "Experiments", "See more..."].map(
@@ -64,7 +64,7 @@ export default function Home() {
         </div>
 
         {/* Articles */}
-        <div className="min-w-0" id="articles">
+        <div className="min-w-0 text-right" id="articles">
           <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Writing, talks &amp; more</h2>
           <ul className="m-0 list-none p-0">
             <li><a className={linkCls} href="#articles">Selected writing</a></li>
