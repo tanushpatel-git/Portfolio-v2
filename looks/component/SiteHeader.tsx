@@ -13,7 +13,7 @@ const navItems = [
 ];
 
 // One gap value used everywhere, so spacing is identical between all items
-const GAP = "gap-x-3 sm:gap-x-5";
+const GAP = "gap-x-[clamp(6px,1.6vw,20px)]";
 
 const TICK_SRC = "/SoundBar/tick.wav";
 const TICK_GAIN = 6;
@@ -210,7 +210,7 @@ export default function SiteHeader() {
   };
 
   const linkBase =
-    "rounded-full px-3 py-1.5 text-sm leading-5 no-underline whitespace-nowrap transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:text-base";
+    "rounded-full px-[clamp(8px,2.6vw,12px)] py-[clamp(4px,1.1vw,6px)] text-[clamp(11px,3.2vw,16px)] leading-5 no-underline whitespace-nowrap transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
 
   // Hover/focus gives the same gray pill as the active item
   const inactive =
