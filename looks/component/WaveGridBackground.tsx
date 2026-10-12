@@ -306,3 +306,95 @@ export function WaveGridBackground({
     };
 
     const trail: { x: number; z: number; age: number; distDelta: number }[] = [];
+    let lastPoint: { x: number; z: number } | null = null;
+    let timeSinceLastMove = 0;
+    let randomPointTimer = 0;
+    let placingRandom = true;
+    const fadeTime = 2.0;
+    const trailSpacing = 0.1;
+
+    const rayPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(bounds, bounds),
+      new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, visible: false }),
+    );
+    rayPlane.rotation.x = -Math.PI / 2;
+    rayPlane.updateMatrixWorld(true);
+
+    const raycaster = new THREE.Raycaster();
+    const pointerNDC = new THREE.Vector2();
+    const onPointerMove = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      pointerNDC.set(
+        ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        -((e.clientY - rect.top) / rect.height) * 2 + 1,
+      );
+      mouse.copy(pointerNDC);
+      raycaster.setFromCamera(pointerNDC, camera);
+      const hits = raycaster.intersectObject(rayPlane);
+      if (hits.length === 0) return;
+      const { x, z } = hits[0].point;
+
+      let distDelta = 0;
+      if (lastPoint) {
+        const dx = x - lastPoint.x;
+        const dz = z - lastPoint.z;
+        distDelta = Math.sqrt(dx * dx + dz * dz);
+        if (distDelta < trailSpacing) return;
+      }
+      if (trail.length >= MAX_TRAIL) trail.shift();
+      trail.push({ x, z, age: 0, distDelta });
+      lastPoint = { x, z };
+      timeSinceLastMove = 0;
+      placingRandom = false;
+      randomPointTimer = 0;
+    };
+    canvas.addEventListener("pointermove", onPointerMove);
+    const onPointerLeave = () => {
+      mouse.set(0, 0);
+      lastPoint = null;
+    };
+    canvas.addEventListener("pointerleave", onPointerLeave);
+
+    const addRandomPoint = () => {
+      const x = (Math.random() * 0.5 - 0.25) * bounds;
+      const z = (Math.random() * 0.5 - 0.25) * bounds;
+      const distDelta = 0.8 + Math.random() * 0.2;
+      if (trail.length >= MAX_TRAIL) trail.shift();
+      trail.push({ x, z, age: 0, distDelta });
+    };
+
+    const updateTrail = (delta: number) => {
+      const expiry = fadeTime * 4;
+      for (let i = trail.length - 1; i >= 0; i--) {
+        trail[i].age += delta;
+        if (trail[i].age > expiry) trail.splice(i, 1);
+      }
+
+      timeSinceLastMove += delta;
+      if (timeSinceLastMove >= 3.0 && !placingRandom && propsRef.current.autoAnimate) {
+        placingRandom = true;
+        randomPointTimer = 0;
+      }
+      if (placingRandom && propsRef.current.autoAnimate) {
+        randomPointTimer += delta;
+        if (randomPointTimer >= 1.5) {
+          addRandomPoint();
+          randomPointTimer = 0;
+        }
+      }
+
+      const count = Math.min(trail.length, MAX_TRAIL);
+      if (count > 0 || trailUniforms.uTrailCount.value > 0) {
+        for (let i = 0; i < count; i++) {
+          const ti = i * 4;
+          trailData[ti] = trail[i].x;
+          trailData[ti + 1] = trail[i].z;
+          trailData[ti + 2] = trail[i].age;
+          trailData[ti + 3] = trail[i].distDelta;
+        }
+        trailTexture.needsUpdate = true;
+        trailUniforms.uTrailCount.value = count;
+      }
+    };
+
