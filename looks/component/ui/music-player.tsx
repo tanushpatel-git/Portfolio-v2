@@ -206,3 +206,41 @@ export function MusicPlayer({
         onEnded={handleEnded}
       />
 
+      <button
+        type="button"
+        onClick={() => setCollapsed((c) => !c)}
+        aria-label={collapsed ? "Expand player" : "Collapse player"}
+        aria-expanded={!collapsed}
+        className="absolute -right-3 -top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/15 backdrop-blur-md transition-transform hover:scale-105 active:scale-95"
+      >
+        {collapsed ? <Plus className="h-4 w-4" /> : <Minus className="h-4 w-4" />}
+      </button>
+
+      {artwork ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={artwork}
+          alt={`${track.title} artwork`}
+          className="absolute -top-5 left-0 z-20 h-20 w-20 rounded-xl object-cover shadow-lg shadow-black/30 ring-1 ring-white/20"
+        />
+      ) : null}
+
+      <div className="relative flex h-[70px] items-center gap-3 overflow-hidden rounded-xl border border-white/15 bg-white/15 pl-24 pr-5 backdrop-blur-md">
+        <div className="flex h-8 shrink-0 items-end gap-[3px]" aria-hidden="true">
+          {EQ_BARS.map((bar) => (
+            <span
+              key={bar}
+              className="block w-[3px] rounded-full"
+              style={{
+                height: "100%",
+                background: accent,
+                transformOrigin: "bottom",
+                animation: `vengeance-eq ${0.9 + bar * 0.18}s ease-in-out infinite`,
+                animationPlayState: isPlaying ? "running" : "paused",
+                transform: isPlaying ? undefined : "scaleY(0.28)",
+              }}
+            />
+          ))}
+        </div>
+
+        <div
