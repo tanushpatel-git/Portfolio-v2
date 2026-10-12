@@ -328,3 +328,119 @@ const articles = [
       "Natural Language Processing",
       "Hugging Face",
       "Transformers",
+      "Tokenization",
+      "Text Classification",
+      "Sentiment Analysis",
+      "Text Embeddings",
+      "Semantic Search",
+      "Vector Search",
+      "Retrieval-Augmented Generation",
+      "RAG",
+      "LangChain",
+      "LangGraph",
+      "LangFlow",
+      "OpenAI API",
+      "Anthropic API",
+      "Google Gemini API",
+      "Ollama",
+      "Hugging Face Inference",
+      "Prompt Engineering",
+      "AI Agents",
+      "Agentic Workflows",
+      "Tool Calling",
+      "Structured Outputs",
+      "LLM Evaluation",
+      "Fine-Tuning LLMs",
+      "Model Context Protocol",
+      "Multimodal AI",
+      "Speech Recognition",
+      "Text-to-Speech",
+    ],
+  },
+
+  {
+    title: "Big Data & Distributed Systems",
+    skills: [
+      "Apache Kafka",
+      "Apache ZooKeeper",
+      "Distributed Computing",
+      "Distributed Systems",
+      "Message Queues",
+      "RabbitMQ",
+      "Amazon SQS",
+      "Amazon SNS",
+      "Google Pub/Sub",
+      "Azure Service Bus",
+      "Event Streaming",
+      "Data Partitioning",
+      "Replication",
+      "Consistency Models",
+      "Fault Tolerance",
+      "Horizontal Scaling",
+      "CAP Theorem",
+    ],
+  },
+
+  {
+    title: "Software Architecture & Engineering",
+    skills: [
+      "Object-Oriented Programming",
+      "Functional Programming",
+      "Data Structures",
+      "Algorithms",
+      "System Design",
+      "Low-Level Design",
+      "High-Level Design",
+      "Design Patterns",
+      "SOLID Principles",
+      "Clean Architecture",
+      "Monolithic Architecture",
+      "Microservices Architecture",
+      "Event-Driven Architecture",
+      "CQRS",
+      "Event Sourcing",
+      "Caching Strategies",
+      "Concurrency",
+      "Parallel Programming",
+      "Distributed Transactions (In lerning phase)",
+      "Scalability",
+      "Reliability Engineering",
+      "Performance Optimization",
+    ],
+  },
+
+  {
+    title: "Tools & Developer Productivity",
+    skills: [
+      "VS Code",
+      "IntelliJ IDEA",
+      "PyCharm",
+      "WebStorm",
+      "JupyterLab",
+      "Jupyter Notebook",
+      "GitHub Copilot",
+      "Postman",
+      "Swagger UI",
+      "Figma",
+      "Notion",
+      "Markdown",
+      "Regex",
+      "Cron",
+    ],
+  },
+].map(({ title, skills }, sectionIndex) => (
+            <section key={title} aria-label={title} className="bio-skill-group border-t border-current/15 pt-4">
+              <h3 className="mb-3 mt-0 flex items-center gap-3 text-base font-medium sm:text-lg"><span className="text-xs opacity-50">0{sectionIndex + 1}</span>{title}</h3>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill) => <span key={skill} className="skill-pill rounded-full border border-black/10 bg-white/70 px-3 py-1 text-[13px] leading-5">{skill}</span>)}
+              </div>
+            </section>
+          ))}</div>
+      </section>
+
+      <blockquote className="m-0 max-w-[850px] border-l-2 border-[#dedede] py-1 pl-5 text-lg font-medium sm:pl-7 sm:text-xl">
+        Curious by nature. Always learning, always looking for the next idea to bring to life.
+      </blockquote>
+    </div>
+  </>,
+  <>
