@@ -8,3 +8,53 @@ import WaveGridBackground from "@/component/WaveGridBackground";
 // Each entry is a complete, editable article. Add or remove a JSX fragment to
 // add or remove a slide. Write any HTML/JSX inside it: headings, images, video,
 // links, and other components are all supported.
+const articles = [
+  <>
+    <header className="mb-8 max-w-[900px] sm:mb-10">
+      <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#e33b58] sm:text-sm">PROFILE / 01</p>
+      <h1 className="mb-3 mt-0 text-[clamp(2rem,4vw,3.5rem)] font-medium leading-[0.98] tracking-[-0.065em]">A little more about me.</h1>
+      <p className="m-0 max-w-[800px] text-base leading-relaxed sm:text-lg">
+        I’m Tanush, a 19-year-old CSE student, developer, and curious maker. I love learning how things work—and building ideas into things people can use.
+      </p>
+    </header>
+
+    <section
+      aria-label="Tanush — About me"
+      className="relative isolate mb-12 flex h-[min(76dvh,780px)] min-h-[440px] items-center justify-center overflow-hidden rounded-[1.5rem] bg-black sm:mb-16 sm:rounded-[2rem]"
+    >
+      <span className="sr-only">About me</span>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-[43%] z-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[clamp(6rem,25vw,22rem)] font-black leading-none tracking-[-0.11em] text-[#f04416]/55"
+      >
+        TLUX
+      </span>
+      <span className="absolute left-3 top-1/2 z-20 -translate-y-1/2 text-[10px] font-semibold uppercase tracking-[0.3em] text-white [writing-mode:vertical-rl] rotate-180 sm:left-6 sm:text-xs sm:tracking-[0.4em]">
+        ABOUT ME
+      </span>
+      <img
+        src="/aboutMain.png"
+        alt="Anime illustration centered over the TLUX wordmark"
+        className="relative z-10 h-[98%] max-w-[86vw] object-contain object-bottom mix-blend-screen"
+      />
+      <span className="absolute right-3 top-1/2 z-20 -translate-y-1/2 text-[10px] font-semibold uppercase tracking-[0.3em] text-white [writing-mode:vertical-rl] sm:right-6 sm:text-xs sm:tracking-[0.4em]">
+        ABOUT ME
+      </span>
+      <span className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/20 bg-black/50 px-4 py-1.5 text-[10px] uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm sm:bottom-6 sm:text-xs">
+        Tanush · 19 · CSE
+      </span>
+    </section>
+
+    <div className="max-w-[1050px] space-y-12 text-[15px] leading-[1.75] sm:space-y-16 sm:text-base lg:text-[clamp(16px,1.2vw,20px)]">
+      <section aria-labelledby="about-education" className="grid gap-4 sm:grid-cols-2">
+        <div className="bio-panel relative overflow-hidden rounded-2xl border border-black/10 bg-[#f6f4f2] p-5 sm:p-6">
+          <img src="/about/cursed-seal.svg" alt="Decorative occult seal" className="absolute right-4 top-4 size-12 opacity-80 sm:size-14" />
+          <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] opacity-60">Currently</p>
+          <h2 id="about-education" className="mb-2 mt-0 text-xl font-medium tracking-tight sm:text-2xl">Learning and building</h2>
+          <p className="m-0">I’m pursuing a B.Tech in Computer Science and Engineering at Oriental Institute of Science and Technology. I’m in my third semester, with graduation expected in 2029.</p>
+        </div>
+        <div className="bio-panel rounded-2xl border border-black/10 bg-[#f6f4f2] p-5 sm:p-6">
+          <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] opacity-60">Experience · 2026</p>
+          <h2 className="mb-2 mt-0 text-xl font-medium tracking-tight sm:text-2xl">EmrgeX</h2>
+          <p className="m-0">I completed an internship at EmrgeX, gaining experience working in a professional environment.</p>
+        </div>
