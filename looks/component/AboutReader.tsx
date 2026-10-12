@@ -498,3 +498,171 @@ const tracks: MusicTrack[] = [
   { title: "Vibe 1", artist: "Tanush", src: "/songs/vibe1.mp3", artwork: "/songs/Image/gojo.png" },
   { title: "Vibe 2", artist: "Tanush", src: "/songs/vibe2.mp3", artwork: "/songs/Image/itadori.png" },
 ];
+
+// Wave-grid accent (hover) color per article, cycling if there are more.
+const ARTICLE_ACCENTS = ["#e33b58", "#5b8cff", "#ff6a00"];
+
+export default function AboutReader() {
+  const railRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<Array<HTMLElement | null>>([]);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const drawerBufferRef = useRef<AudioBuffer | null>(null);
+  const drawerSourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+  const [showMusic, setShowMusic] = useState(false);
+  const activeAccent = ARTICLE_ACCENTS[activeIndex % ARTICLE_ACCENTS.length];
+
+  // Drawer sound segment played while opening, its speed, and its gain
+  const DRAWER_SRC = "/SoundBar/articles-drawer.mp3";
+  const DRAWER_START_S = 0.5;
+  const DRAWER_END_S = 1.7;
+  const DRAWER_REST_END_S = 3;
+  const DRAWER_RATE = 1.2;
+  const DRAWER_GAIN: 1 | 2 | 3 | 4 | 5 | 6 = 6;
+
+  const playTurnSound = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    try {
+      audio.currentTime = 0;
+    } catch {
+      /* metadata not ready yet */
+    }
+    void audio.play().catch(() => { });
+  }, []);
+
+  // Decode the drawer sound once so it can be amplified
+  useEffect(() => {
+    const AudioCtor =
+      window.AudioContext ??
+      (window as typeof window & { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext;
+    if (!AudioCtor) return;
+
+    const ctx = new AudioCtor();
+    audioCtxRef.current = ctx;
+    let cancelled = false;
+
+    fetch(DRAWER_SRC)
+      .then((res) => res.arrayBuffer())
+      .then((data) => ctx.decodeAudioData(data))
+      .then((buffer) => {
+        if (!cancelled) drawerBufferRef.current = buffer;
+      })
+      .catch(() => { });
+
+    return () => {
+      cancelled = true;
+      drawerSourceRef.current?.stop();
+      drawerSourceRef.current = null;
+      void ctx.close().catch(() => { });
+      audioCtxRef.current = null;
+    };
+  }, []);
+
+  const playDrawerSegment = useCallback((offset: number, duration?: number) => {
+    const ctx = audioCtxRef.current;
+    const buffer = drawerBufferRef.current;
+    if (!ctx || !buffer) return;
+
+    if (ctx.state === "suspended") void ctx.resume();
+
+    try {
+      drawerSourceRef.current?.stop();
+    } catch {
+      /* already stopped */
+    }
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.playbackRate.value = DRAWER_RATE;
+
+    const gain = ctx.createGain();
+    gain.gain.value = DRAWER_GAIN;
+    source.connect(gain).connect(ctx.destination);
+
+    if (duration !== undefined) {
+      source.start(0, offset, duration);
+    } else {
+      source.start(0, offset);
+    }
+    drawerSourceRef.current = source;
+  }, []);
+
+  // Opening an article: play the drawer sound from 0.5s to 1.5s, then stop
+  const playOpenSound = useCallback(() => {
+    playDrawerSegment(DRAWER_START_S, DRAWER_END_S - DRAWER_START_S);
+  }, [playDrawerSegment]);
+
+  // Back to the initial position: play the rest of the sound (up to 4.5s)
+  const playRestSound = useCallback(() => {
+    playDrawerSegment(DRAWER_END_S, DRAWER_REST_END_S - DRAWER_END_S);
+  }, [playDrawerSegment]);
+
+  const selectArticle = useCallback((index: number) => {
+    const nextIndex = Math.max(0, Math.min(articles.length - 1, index));
+    if (nextIndex !== activeIndex) playTurnSound();
+    setActiveIndex(nextIndex);
+
+    const rail = railRef.current;
+    const card = cardRefs.current[nextIndex];
+    if (rail && card) {
+      const railBox = rail.getBoundingClientRect();
+      const cardBox = card.getBoundingClientRect();
+      rail.scrollTo({
+        left:
+          rail.scrollLeft +
+          cardBox.left -
+          railBox.left +
+          cardBox.width / 2 -
+          rail.clientWidth / 2,
+        behavior: "smooth",
+      });
+    }
+    if (expanded && card) card.scrollTop = 0;
+  }, [expanded, activeIndex, playTurnSound]);
+
+  const syncActiveCard = useCallback(() => {
+    const rail = railRef.current;
+    if (!rail || expanded) return;
+
+    const focusPoint = rail.getBoundingClientRect().left + rail.clientWidth / 2;
+    let selected = 0;
+    let distance = Number.POSITIVE_INFINITY;
+
+    cardRefs.current.forEach((card, index) => {
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      const nextDistance = Math.abs(rect.left + rect.width / 2 - focusPoint);
+      if (nextDistance < distance) {
+        distance = nextDistance;
+        selected = index;
+      }
+    });
+
+    setActiveIndex(selected);
+  }, [expanded]);
+  const handleWheel = (
+    event: React.WheelEvent<HTMLElement>,
+    index: number,
+  ) => {
+    if (!expanded && event.deltaY > 4) {
+      event.preventDefault();
+      playOpenSound();
+      setActiveIndex(index);
+      setExpanded(true);
+      setShowMusic(true);
+      return;
+    }
+
+    if (expanded && event.deltaY < -4 && event.currentTarget.scrollTop <= 2) {
+      event.preventDefault();
+      playRestSound();
+      setExpanded(false);
+      setShowMusic(false);
+    }
+  };
+
+  return (
