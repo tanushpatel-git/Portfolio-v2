@@ -70,3 +70,47 @@ function clampIndex(index: number, length: number): number {
   if (length === 0) return 0;
   return Math.min(Math.max(index, 0), length - 1);
 }
+
+export function MusicPlayer({
+  tracks,
+  avatar,
+  startIndex = 0,
+  autoPlay = false,
+  loop = true,
+  defaultCollapsed = false,
+  showProgress = true,
+  accentColor,
+  onTrackChange,
+  className,
+}: MusicPlayerProps) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [index, setIndex] = useState(() => clampIndex(startIndex, tracks.length));
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const shouldPlayRef = useRef(autoPlay);
+  const onTrackChangeRef = useRef(onTrackChange);
+  useEffect(() => {
+    onTrackChangeRef.current = onTrackChange;
+  }, [onTrackChange]);
+
+  const track = tracks[index];
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !track) return;
+
+    audio.src = track.src;
+    audio.load();
+    setCurrentTime(0);
+    onTrackChangeRef.current?.(track, index);
+
+    if (shouldPlayRef.current) {
+      audio.play().catch(() => {
+        /* Autoplay can be blocked until the user interacts — ignore. */
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, track?.src]);
