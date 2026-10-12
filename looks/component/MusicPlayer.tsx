@@ -161,3 +161,48 @@ export function MusicPlayer({
     },
     [duration],
   );
+
+  if (tracks.length === 0 || !track) return null;
+
+  const accent = accentColor ?? "currentColor";
+  const artwork = avatar ?? track.artwork;
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  return (
+    <div
+      className={cn(
+        "relative select-none text-white transition-[width] duration-700 ease-out",
+        collapsed ? "w-[188px]" : "w-[min(420px,90vw)]",
+        className,
+      )}
+    >
+      <style>{EQ_KEYFRAMES}</style>
+
+      <audio
+        ref={audioRef}
+        preload="metadata"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+        onEnded={handleEnded}
+      />
+
+      <button
+        type="button"
+        onClick={() => setCollapsed((c) => !c)}
+        aria-label={collapsed ? "Expand player" : "Collapse player"}
+        aria-expanded={!collapsed}
+        className="absolute -right-3 -top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/15 backdrop-blur-md transition-transform hover:scale-105 active:scale-95"
+      >
+        {collapsed ? <Plus className="h-4 w-4" /> : <Minus className="h-4 w-4" />}
+      </button>
+
+      {artwork ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={artwork}
+          alt={`${track.title} artwork`}
+          className="absolute -top-5 left-0 z-20 h-20 w-20 rounded-xl object-cover shadow-lg shadow-black/30 ring-1 ring-white/20"
+        />
+      ) : null}
