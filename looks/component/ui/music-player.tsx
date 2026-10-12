@@ -114,3 +114,68 @@ export function MusicPlayer({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, track?.src]);
+
+  // Browsers block autoplay until the user interacts with the page. When
+  // autoPlay is requested, retry playback on the first user gesture so the
+  // track still starts if the initial attempt was rejected.
+  useEffect(() => {
+    if (!autoPlay) return;
+    const unlock = () => {
+      if (shouldPlayRef.current) void audioRef.current?.play().catch(() => {});
+    };
+    document.addEventListener("pointerdown", unlock);
+    document.addEventListener("keydown", unlock);
+    document.addEventListener("touchstart", unlock);
+    return () => {
+      document.removeEventListener("pointerdown", unlock);
+      document.removeEventListener("keydown", unlock);
+      document.removeEventListener("touchstart", unlock);
+    };
+  }, [autoPlay]);
+
+  const play = useCallback(() => {
+    shouldPlayRef.current = true;
+    audioRef.current?.play().catch(() => {});
+  }, []);
+
+  const pause = useCallback(() => {
+    shouldPlayRef.current = false;
+    audioRef.current?.pause();
+  }, []);
+
+  const togglePlay = useCallback(() => {
+    if (isPlaying) pause();
+    else play();
+  }, [isPlaying, play, pause]);
+
+  const next = useCallback(() => {
+    if (tracks.length === 0) return;
+    shouldPlayRef.current = true;
+    setIndex((i) => (i + 1) % tracks.length);
+  }, [tracks.length]);
+
+  const prev = useCallback(() => {
+    if (tracks.length === 0) return;
+    shouldPlayRef.current = true;
+    setIndex((i) => (i - 1 + tracks.length) % tracks.length);
+  }, [tracks.length]);
+
+  const handleEnded = useCallback(() => {
+    if (!loop && index === tracks.length - 1) {
+      shouldPlayRef.current = false;
+      setIsPlaying(false);
+      return;
+    }
+    next();
+  }, [loop, index, tracks.length, next]);
+
+  const seek = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const audio = audioRef.current;
+      if (!audio || !Number.isFinite(duration) || duration === 0) return;
+      const rect = event.currentTarget.getBoundingClientRect();
+      const ratio = (event.clientX - rect.left) / rect.width;
+      audio.currentTime = Math.min(Math.max(ratio, 0), 1) * duration;
+    },
+    [duration],
+  );
