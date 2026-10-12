@@ -211,11 +211,12 @@ export function ImageTrail({
               }}
               transition={transition}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.src}
                 alt={item.alt}
                 draggable={false}
+                loading="lazy"
+                decoding="async"
                 className={cn(
                   "block aspect-[3/4] w-32 select-none rounded-sm object-cover shadow-2xl",
                   imageClassName
