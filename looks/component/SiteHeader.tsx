@@ -1,25 +1,37 @@
 "use client";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+
+import { cn } from "@/lib/utils";
 
 const TICK_COUNT = 41;
 const CENTER_TICK = Math.floor(TICK_COUNT / 2); // 20
 const ticks = Array.from({ length: TICK_COUNT }, (_, i) => i);
 
 const navItems = [
-  { id: "about", label: "About" },
-  { id: "design", label: "Design" },
-  { id: "articles", label: "Articles" },
-  { id: "engineering", label: "& Engineering" },
-];
+  { id: "Home", label: "Home", href: "/" },
+  { id: "About", label: "About", href: "/about" },
+  { id: "Projects", label: "Projects", href: "/projects" },
+  { id: "Setting", label: "Setting", href: "/setting" },
+] as const;
+
+type NavId = (typeof navItems)[number]["id"];
 
 // One gap value used everywhere, so spacing is identical between all items
 const GAP = "gap-x-[clamp(6px,1.6vw,20px)]";
 
 const TICK_SRC = "/SoundBar/tick.wav";
-const TICK_GAIN = 6;
+const TICK_GAIN: 1 | 2 | 3 | 4 | 5 | 6 = 6;
 
 export default function SiteHeader() {
-  const [active, setActive] = useState("about");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [active, setActive] = useState<NavId>(() => {
+    const match = navItems.find((item) => item.href === pathname);
+    return match?.id ?? "Home";
+  });
   const [offset, setOffset] = useState(0);
   const [ready, setReady] = useState(false);
   const [dragDelta, setDragDelta] = useState(0);
@@ -61,11 +73,11 @@ export default function SiteHeader() {
       .then((buffer) => {
         if (!cancelled) tickBufferRef.current = buffer;
       })
-      .catch(() => {});
+      .catch(() => { });
 
     return () => {
       cancelled = true;
-      void ctx.close().catch(() => {});
+      void ctx.close().catch(() => { });
       audioCtxRef.current = null;
     };
   }, []);
@@ -93,7 +105,7 @@ export default function SiteHeader() {
     } catch {
       /* metadata not ready yet */
     }
-    void audio.play().catch(() => {});
+    void audio.play().catch(() => { });
   }, []);
 
   // Center the active item by sliding the whole row horizontally
@@ -126,27 +138,36 @@ export default function SiteHeader() {
     };
   }, [measure]);
 
-  const commitIndex = (index: number) => {
+  // Keep the active item in sync with the current route
+  useEffect(() => {
+    const match = navItems.find((item) => item.href === pathname);
+    if (match) setActive(match.id);
+  }, [pathname]);
+
+  const commitIndex = useCallback((index: number) => {
     if (index < 0 || index >= navItems.length) return;
     if (navItems[index].id === active) return;
     setActive(navItems[index].id);
-  };
+    const item = navItems[index];
+    if (item.href.startsWith("/")) router.push(item.href);
+  }, [active, router]);
 
-  const select = (id: string) => {
+  // Link handles route navigation; this only updates the pill + sound
+  const select = useCallback((id: NavId) => {
     if (id === active) return;
     playTick();
     setActive(id);
-  };
+  }, [active, playTick]);
 
   // Tick whenever the item nearest to the center changes (so dragging past
   // sections fires one tick per section, like a dial)
-  const tickTo = (index: number) => {
+  const tickTo = useCallback((index: number) => {
     if (index === lastTickIndexRef.current) return;
     lastTickIndexRef.current = index;
     playTick();
-  };
+  }, [playTick]);
 
-  const nearestIndexTo = (translate: number) => {
+  const nearestIndexTo = useCallback((translate: number) => {
     const centers = itemCentersRef.current;
     const containerCenter = containerWidthRef.current / 2;
     let nearest = activeIndex;
@@ -159,10 +180,10 @@ export default function SiteHeader() {
       }
     });
     return nearest;
-  };
+  }, [activeIndex]);
 
   // --- Drag / swipe to change the active item -----------------------------
-  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+  const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     dragRef.current = {
       active: true,
@@ -172,15 +193,13 @@ export default function SiteHeader() {
     };
     lastTickIndexRef.current = activeIndex;
     setDragging(true);
-  };
+  }, [activeIndex]);
 
-  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+  const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
     if (!drag.active) return;
     const delta = e.clientX - drag.startX;
     if (!drag.moved && Math.abs(delta) > 5) {
-      // Only capture once a real drag begins, so simple clicks still reach
-      // the links and fire their onClick.
       drag.moved = true;
       try {
         e.currentTarget.setPointerCapture(drag.pointerId);
@@ -190,9 +209,9 @@ export default function SiteHeader() {
     }
     setDragDelta(delta);
     tickTo(nearestIndexTo(offset + delta));
-  };
+  }, [offset, tickTo, nearestIndexTo]);
 
-  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+  const endDrag = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
     if (!drag.active) return;
     drag.active = false;
@@ -207,14 +226,14 @@ export default function SiteHeader() {
     setDragDelta(0);
     tickTo(nearest);
     commitIndex(nearest);
-  };
+  }, [offset, dragDelta, nearestIndexTo, tickTo, commitIndex]);
 
   const linkBase =
     "rounded-full px-[clamp(8px,2.6vw,12px)] py-[clamp(4px,1.1vw,6px)] text-[clamp(11px,3.2vw,16px)] leading-5 no-underline whitespace-nowrap transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
 
   // Hover/focus gives the same gray pill as the active item
   const inactive =
-    "text-[#888] hover:bg-[#e9e9e9] hover:text-[#111] focus-visible:bg-[#e9e9e9] focus-visible:text-[#111]";
+    "text-[#888] hover:underline hover:text-[#111] focus-visible:bg-[#e9e9e9] focus-visible:text-[#111]";
   const activeCls = "bg-[#e9e9e9] text-[#111]";
 
   return (
@@ -242,26 +261,29 @@ export default function SiteHeader() {
             onPointerMove={onPointerMove}
             onPointerUp={endDrag}
             onPointerCancel={endDrag}
-            className={`touch-pan-y overflow-hidden py-1 select-none ${
+            className={cn(
+              "touch-pan-y overflow-hidden py-1 select-none",
               dragging ? "cursor-grabbing" : "cursor-grab"
-            }`}
+            )}
           >
             <div
               ref={rowRef}
               style={{ transform: `translateX(${offset + dragDelta}px)` }}
-              className={`flex items-center justify-start ${GAP} ${
-                ready && !dragging
-                  ? "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
-                  : ""
-              }`}
+              className={cn(
+                "flex items-center justify-start",
+                GAP,
+                ready &&
+                !dragging &&
+                "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
+              )}
             >
               {navItems.map((item, index) => (
-                <a
+                <Link
                   key={item.id}
                   ref={(el) => {
                     itemRefs.current[index] = el;
                   }}
-                  href={`#${item.id}`}
+                  href={item.href}
                   draggable={false}
                   onClick={(e) => {
                     if (dragRef.current.moved) {
@@ -271,12 +293,13 @@ export default function SiteHeader() {
                     select(item.id);
                   }}
                   aria-current={index === activeIndex ? "page" : undefined}
-                  className={`${linkBase} ${
+                  className={cn(
+                    linkBase,
                     index === activeIndex ? activeCls : inactive
-                  }`}
+                  )}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
