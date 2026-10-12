@@ -469,3 +469,80 @@ export function WaveGridBackground({
     const vignettePass = new ShaderPass(VIGNETTE_RGB_SHIFT_SHADER);
     if (vignette) composer.addPass(vignettePass);
     composer.addPass(new OutputPass());
+    composer.setSize(size.width, size.height);
+    composer.setPixelRatio(size.pixelRatio);
+
+    // ── Resize ──────────────────────────────────────────────────────────────
+    const applySize = () => {
+      size = getSize();
+      camera.aspect = size.width / size.height;
+      camera.updateProjectionMatrix();
+      fitCamera();
+      positionCamera(lerpedMouse.x, lerpedMouse.y);
+      renderer.setSize(size.width, size.height);
+      renderer.setPixelRatio(size.pixelRatio);
+      composer.setSize(size.width, size.height);
+      composer.setPixelRatio(size.pixelRatio);
+    };
+    const resizeObserver = new ResizeObserver(applySize);
+    resizeObserver.observe(container);
+    window.addEventListener("resize", applySize);
+
+    // ── Animation loop ─────────────────────────────────────────────────────
+    const timer = new THREE.Timer();
+    timer.connect(document);
+    renderer.setAnimationLoop(() => {
+      timer.update();
+      const delta = timer.getDelta();
+      const p = propsRef.current;
+
+      // Reflect live prop changes into the shader uniforms.
+      trailUniforms.uWaveSpeed.value = p.waveSpeed;
+      trailUniforms.uWaveFreq.value = p.waveFrequency;
+      trailUniforms.uWaveWidth.value = p.waveWidth;
+      trailUniforms.uAmplitude.value = p.waveAmplitude;
+      trailUniforms.uJitter.value = p.waveJitter;
+      trailUniforms.uMaxHeight.value = p.waveMaxHeight;
+      colorUniforms.uColorBase.value.set(p.colorBase);
+      colorUniforms.uColorHigh.value.set(p.colorHigh);
+      scene.background = new THREE.Color(p.colorBase).multiplyScalar(0.5);
+
+      updateTrail(delta);
+      lerpedMouse.x += (mouse.x - lerpedMouse.x) * 0.04;
+      lerpedMouse.y += (mouse.y - lerpedMouse.y) * 0.04;
+      positionCamera(lerpedMouse.x, lerpedMouse.y);
+      composer.render();
+    });
+
+    // ── Cleanup ──────────────────────────────────────────────────────────────
+    return () => {
+      renderer.setAnimationLoop(null);
+      timer.dispose();
+      window.removeEventListener("resize", applySize);
+      canvas.removeEventListener("pointermove", onPointerMove);
+      canvas.removeEventListener("pointerleave", onPointerLeave);
+      resizeObserver.disconnect();
+
+      geometry.dispose();
+      material.dispose();
+      depthMaterial.dispose();
+      rayPlane.geometry.dispose();
+      (rayPlane.material as THREE.Material).dispose();
+      trailTexture.dispose();
+      composer.dispose();
+      renderer.dispose();
+    };
+    // Scene is built once; live values flow through propsRef. Rebuild only when
+    // structural inputs change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gridSize, vignette]);
+
+  return (
+    <div ref={containerRef} className={cn("relative h-full w-full overflow-hidden", className)}>
+      <canvas ref={canvasRef} className="block h-full w-full" />
+      {children != null && <div className="pointer-events-none absolute inset-0">{children}</div>}
+    </div>
+  );
+}
+
+export default WaveGridBackground;
