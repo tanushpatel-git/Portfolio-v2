@@ -1,0 +1,72 @@
+"use client";
+
+import * as React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Minus, Pause, Play, Plus, SkipBack, SkipForward } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+/**
+ * Music Player
+ *
+ * A collapsible, glassmorphic music player: a floating avatar peeks out of the
+ * top-left, an animated equalizer pulses while audio plays, and a slim seekable
+ * progress bar tracks position. The whole bar collapses to a compact pill,
+ * hiding the track info and transport controls behind a soft width transition.
+ *
+ * Ported from the vanilla "Azuki Style Music Player" (CodeGrid) into a single,
+ * self-contained, prop-driven React component. The Lottie sound-bars and
+ * Ionicons of the original are replaced with a pure-CSS equalizer and
+ * `lucide-react` icons, so the only runtime dependency is the icon set.
+ */
+
+export interface MusicTrack {
+  /** Track title shown in the player. */
+  title: string;
+  /** Artist / author name shown under the title. */
+  artist: string;
+  /** URL of the audio file. Must be same-origin or CORS-enabled to stream. */
+  src: string;
+  /** Optional per-track artwork; falls back to the player `avatar`. */
+  artwork?: string;
+}
+
+export interface MusicPlayerProps {
+  /** Playlist to play through. The player renders nothing when empty. */
+  tracks: MusicTrack[];
+  /** Floating avatar image. Falls back to the current track's `artwork`. */
+  avatar?: string;
+  /** Index of the track to start on. Defaults to 0. */
+  startIndex?: number;
+  /** Begin playing as soon as the player mounts. Defaults to false. */
+  autoPlay?: boolean;
+  /** Wrap from the last track back to the first when a track ends. Defaults to true. */
+  loop?: boolean;
+  /** Render collapsed (compact pill) on first paint. Defaults to false. */
+  defaultCollapsed?: boolean;
+  /** Show the seekable progress bar along the bottom edge. Defaults to true. */
+  showProgress?: boolean;
+  /** Accent color for the equalizer and progress fill. Defaults to `currentColor`. */
+  accentColor?: string;
+  /** Called whenever the active track changes, with the track and its index. */
+  onTrackChange?: (track: MusicTrack, index: number) => void;
+  /** Extra class names for the root element. */
+  className?: string;
+}
+
+const EQ_BARS = [0, 1, 2, 3];
+
+/** Shared equalizer keyframes — identical across instances, so safe to repeat. */
+const EQ_KEYFRAMES =
+  "@keyframes vengeance-eq{0%,100%{transform:scaleY(0.28)}50%{transform:scaleY(1)}}";
+
+function formatTime(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+function clampIndex(index: number, length: number): number {
+  if (length === 0) return 0;
+  return Math.min(Math.max(index, 0), length - 1);
+}
