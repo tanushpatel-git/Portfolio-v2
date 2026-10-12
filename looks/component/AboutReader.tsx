@@ -58,3 +58,143 @@ const articles = [
           <h2 className="mb-2 mt-0 text-xl font-medium tracking-tight sm:text-2xl">EmrgeX</h2>
           <p className="m-0">I completed an internship at EmrgeX, gaining experience working in a professional environment.</p>
         </div>
+      </section>
+
+      <section aria-labelledby="about-interests" className="max-w-[850px]">
+        <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] opacity-60">Away from the screen</p>
+        <h2 id="about-interests" className="mb-3 mt-0 text-2xl font-medium tracking-tight sm:text-3xl">A few things I enjoy</h2>
+        <p className="m-0">I love sketching and dancing, and anime is a favourite way to unwind. Coding has become a hobby too: I enjoy exploring a new idea and seeing where I can take it.</p>
+      </section>
+
+      <section aria-labelledby="about-skills">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-3 border-b border-current/15 pb-4">
+          <div>
+            <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] opacity-60">Curiosity, put to work</p>
+            <h2 id="about-skills" className="m-0 text-2xl font-medium tracking-tight sm:text-3xl">Things I work with</h2>
+          </div>
+          <span className="text-sm opacity-60">A growing toolkit</span>
+        </div>
+
+        <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+{[
+  {
+    title: "Programming Languages",
+    skills: [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "C++",
+      "Go",
+      "SQL",
+      "HTML5",
+      "CSS3",
+    ],
+  },
+
+  {
+    title: "Frontend Development",
+    skills: [
+      "React",
+      "Next.js",
+      "Vite",
+      "Redux Toolkit",
+      "Zustand",
+      "React Query",
+      "React Hook Form",
+      "Framer Motion",
+      "Tailwind CSS",
+      "Bootstrap",
+      "Material UI",
+      "Shadcn UI",
+      "Sass",
+      "CSS Modules",
+      "Styled Components",
+      "Responsive Design",
+      "Accessibility",
+      "Progressive Web Apps",
+      "Server-Side Rendering",
+      "Static Site Generation",
+    ],
+  },
+
+  {
+    title: "Backend Development",
+    skills: [
+      "Node.js",
+      "Express.js",
+      "NestJS",
+      "FastAPI",
+      "REST APIs",
+      "GraphQL",
+      "WebSockets",
+      "gRPC",
+      "Microservices",
+      "Event-Driven Architecture",
+      "Authentication",
+      "Authorization",
+      "JWT",
+      "OAuth 2.0",
+      "OpenAPI",
+      "Swagger",
+      "API Rate Limiting",
+      "Background Jobs",
+    ],
+  },
+
+  {
+    title: "Databases & Data Storage",
+    skills: [
+      "PostgreSQL",
+      "MySQL",
+      "SQLite",
+      "SQL Server",
+      "MongoDB",
+      "Redis",
+      "Firebase",
+      "Elasticsearch",
+      "Pinecone",
+      "Qdrant",
+      "ChromaDB",
+      "pgvector",
+      "Database Design",
+      "Database Indexing",
+      "Query Optimization",
+      "Mongoose",
+    ],
+  },
+
+  {
+    title: "DevOps & CI/CD",
+    skills: [
+      "Git",
+      "GitHub",
+      "GitLab",
+      "GitHub Actions",
+      "GitLab CI/CD",
+      "Docker",
+      "Docker Compose",
+      "Kubernetes",
+      "Deployment Automation",
+      "Infrastructure as Code",
+    ],
+  },
+
+  {
+    title: "Cloud Computing",
+    skills: [
+      "Amazon Web Services",
+      "Google Cloud Platform",
+      "Cloudflare",
+      "Vercel",
+      "Netlify",
+      "Render",
+      "AWS EC2",
+      "AWS S3",
+      "AWS Lambda",
+      "AWS ECS",
+      "Google Cloud Run",
+      "Google Cloud Storage",
+      "Load Balancing",
+      "Auto Scaling",
+      "Cloud Security",
