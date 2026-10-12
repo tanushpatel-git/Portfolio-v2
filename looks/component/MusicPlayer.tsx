@@ -206,3 +206,60 @@ export function MusicPlayer({
           className="absolute -top-5 left-0 z-20 h-20 w-20 rounded-xl object-cover shadow-lg shadow-black/30 ring-1 ring-white/20"
         />
       ) : null}
+
+      <div className="relative flex h-[70px] items-center gap-3 overflow-hidden rounded-xl border border-white/15 bg-white/15 pl-24 pr-5 backdrop-blur-md">
+        <div className="flex h-8 shrink-0 items-end gap-[3px]" aria-hidden="true">
+          {EQ_BARS.map((bar) => (
+            <span
+              key={bar}
+              className="block w-[3px] rounded-full"
+              style={{
+                height: "100%",
+                background: accent,
+                transformOrigin: "bottom",
+                animation: `vengeance-eq ${0.9 + bar * 0.18}s ease-in-out infinite`,
+                animationPlayState: isPlaying ? "running" : "paused",
+                transform: isPlaying ? undefined : "scaleY(0.28)",
+              }}
+            />
+          ))}
+        </div>
+
+        <div
+          className={cn(
+            "flex min-w-0 flex-1 items-center gap-3 transition-opacity duration-300",
+            collapsed ? "pointer-events-none opacity-0" : "opacity-100",
+          )}
+          style={{ transitionDelay: collapsed ? "0s" : "0.35s" }}
+        >
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-sm font-semibold uppercase tracking-wide">
+              {track.title}
+            </div>
+            <div className="truncate text-[0.65rem] uppercase tracking-[0.2em] text-white/50">
+              {track.artist}
+            </div>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-1">
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Previous track"
+              className="rounded-full p-1.5 opacity-80 transition hover:bg-white/10 hover:opacity-100"
+            >
+              <SkipBack className="h-4 w-4 fill-current" />
+            </button>
+            <button
+              type="button"
+              onClick={togglePlay}
+              aria-label={isPlaying ? "Pause" : "Play"}
+              className="rounded-full p-1.5 opacity-90 transition hover:bg-white/10 hover:opacity-100"
+            >
+              {isPlaying ? (
+                <Pause className="h-5 w-5 fill-current" />
+              ) : (
+                <Play className="h-5 w-5 fill-current" />
+              )}
+            </button>
+            <button
