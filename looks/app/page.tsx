@@ -1,5 +1,4 @@
 import Image from "next/image";
-import SiteHeader from "@/component/SiteHeader";
 import ImageTrail from "@/component/ImageTrail";
 
 const socials = [
@@ -15,17 +14,22 @@ const linkCls = "underline underline-offset-2 hover:decoration-2";
 export default function Home() {
   return (
     // Locked to screen height: nothing can scroll
-    <main className="flex h-dvh flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
-        <div className="relative z-20 shrink-0">
-          <SiteHeader />
-        </div>
+    <main className="relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
+      {/* Full-viewport background (also sits behind the shared header) */}
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/mainBackgroundImage.jpeg')",
+        }}
+      />
 
-        {/* About and portfolio sections (natural height) */}
-        <section
-          className="relative z-20 mt-6 grid shrink-0 grid-cols-2 items-start gap-x-4 gap-y-5 text-[clamp(13px,2.4dvh,19px)] leading-[1.45] sm:mt-8 sm:gap-x-8 sm:text-[clamp(14px,2.2dvh,20px)] lg:text-[clamp(15px,2dvh,21px)] xl:mt-[40px] xl:grid-cols-[minmax(0,1.28fr)_minmax(0,.55fr)_minmax(0,1.12fr)_minmax(0,1.05fr)] xl:gap-x-[clamp(22px,2.1vw,42px)] xl:text-[clamp(16px,1.13vw,23px)] xl:leading-[1.37]"
-          id="about"
-          aria-label="About Tanush Patel"
-        >
+      {/* About and portfolio sections (natural height) */}
+      <section
+        className="relative z-20 mt-6 grid shrink-0 grid-cols-2 items-start gap-x-4 gap-y-5 text-[clamp(13px,2.4dvh,19px)] leading-[1.45] sm:mt-8 sm:gap-x-8 sm:text-[clamp(14px,2.2dvh,20px)] lg:text-[clamp(15px,2dvh,21px)] xl:mt-[40px] xl:grid-cols-[minmax(0,1.28fr)_minmax(0,.55fr)_minmax(0,1.12fr)_minmax(0,1.05fr)] xl:gap-x-[clamp(22px,2.1vw,42px)] xl:text-[clamp(16px,1.13vw,23px)] xl:leading-[1.37]"
+        id="about"
+        aria-label="About Tanush Patel"
+      >
         {/* Introduction */}
         <div className="min-w-0">
           <h1 className="m-0 text-[1.08em] font-semibold leading-[1.3]">
@@ -83,48 +87,52 @@ export default function Home() {
       {/* Footer: takes ALL remaining height */}
       <ImageTrail
         images={[
-          "/HoverImage/hoverImage1.png",
-          "/HoverImage/hoverImage2.png",
-          "/HoverImage/hoverImage3.png",
-          "/HoverImage/hoverImage4.png",
-          "/HoverImage/hoverImage5.png",
-          "/HoverImage/hoverImage6.png",
+          "/HoverImage/hoverImage1.webp",
+          "/HoverImage/hoverImage2.webp",
+          "/HoverImage/hoverImage3.webp",
+          "/HoverImage/hoverImage4.webp",
+          "/HoverImage/hoverImage5.webp",
+          "/HoverImage/hoverImage6.webp",
         ]}
         className="flex flex-1 flex-col"
         overlayClassName="z-10"
         imageClassName="aspect-square h-25 w-25 rounded-full"
-        maxItems={6}
-        duration={1000}
+        maxItems={100}
+        duration={2000}
       >
-      <footer className="mt-8 flex flex-1 flex-col sm:mt-10">
-        <nav
-          className="relative z-20 mt-auto mb-3 flex shrink-0 flex-wrap gap-1.5 sm:mb-4"
-          aria-label="Social links"
-        >
-          {socials.map((social) => (
-            <a
-              className="rounded-[5px] bg-[#ededed] px-3 py-2 text-[13px] leading-none no-underline transition-colors hover:bg-[#dcdcdc] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:px-[11px] sm:text-base lg:text-[clamp(14px,.92vw,18px)]"
-              key={social.name}
-              href={social.href}
-              target={social.name === "Mail" ? undefined : "_blank"}
-              rel={social.name === "Mail" ? undefined : "noopener noreferrer"}
-            >
-              {social.name}
-            </a>
-          ))}
-        </nav>
+        <footer className="mt-8 flex flex-1 flex-col sm:mt-10">
+          <nav
+            className="relative z-20 mt-auto mb-3 flex shrink-0 flex-wrap gap-1.5 sm:mb-4"
+            aria-label="Social links"
+          >
+            {socials.map((social) => (
+              <a
+                className="rounded-[5px] bg-[#ededed] px-3 py-2 text-[13px] leading-none no-underline transition-colors hover:bg-[#dcdcdc] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:px-[11px] sm:text-base lg:text-[clamp(14px,.92vw,18px)]"
+                key={social.name}
+                href={social.href}
+                target={social.name === "Mail" ? undefined : "_blank"}
+                rel={social.name === "Mail" ? undefined : "noopener noreferrer"}
+              >
+                {social.name}
+              </a>
+            ))}
+          </nav>
 
-        {/* Full image: height follows the width, nothing is cropped */}
-        <Image
-          className="block h-auto max-h-[65dvh] w-full shrink-0 object-contain object-bottom"
-          src="/tanushDesign.jpeg"
-          alt="Tanush Design"
-          width={1600}
-          height={700}
-          sizes="100vw"
-          priority
-        />
-      </footer>
+          {/* Full image: height follows the width, nothing is cropped */}
+          <picture>
+            <source srcSet="/tanushDesign.png" type="image/png" />
+            <Image
+              className="block h-auto max-h-[65dvh] w-full shrink-0 object-contain object-bottom"
+              src="/tanushDesign.png"
+              alt="Tanush Design"
+              width={1600}
+              height={700}
+              sizes="100vw"
+              priority
+              quality={80}
+            />
+          </picture>
+        </footer>
       </ImageTrail>
     </main>
   );
