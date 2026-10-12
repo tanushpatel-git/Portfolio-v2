@@ -179,3 +179,30 @@ export function MusicPlayer({
     },
     [duration],
   );
+
+  if (tracks.length === 0 || !track) return null;
+
+  const accent = accentColor ?? "currentColor";
+  const artwork = avatar ?? track.artwork;
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  return (
+    <div
+      className={cn(
+        "relative select-none text-white transition-[width] duration-700 ease-out",
+        collapsed ? "w-[188px]" : "w-[min(420px,90vw)]",
+        className,
+      )}
+    >
+      <style>{EQ_KEYFRAMES}</style>
+
+      <audio
+        ref={audioRef}
+        preload="metadata"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+        onEnded={handleEnded}
+      />
+
