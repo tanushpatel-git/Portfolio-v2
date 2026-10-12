@@ -167,3 +167,142 @@ export function WaveGridBackground({
   autoAnimate = true,
   vignette = true,
 }: WaveGridBackgroundProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Keep the latest prop values available to the (once-created) scene without
+  // tearing it down on every change.
+  const propsRef = useRef({
+    colorBase,
+    colorHigh,
+    waveAmplitude,
+    waveSpeed,
+    waveFrequency,
+    waveWidth,
+    waveMaxHeight,
+    waveJitter,
+    autoAnimate,
+  });
+  useEffect(() => {
+    propsRef.current = {
+      colorBase,
+      colorHigh,
+      waveAmplitude,
+      waveSpeed,
+      waveFrequency,
+      waveWidth,
+      waveMaxHeight,
+      waveJitter,
+      autoAnimate,
+    };
+  });
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
+
+    const cubeWidth = 0.8;
+    const cubeHeight = 3;
+    const gap = 0.01;
+    const bounds = gridSize * (cubeWidth + gap);
+
+    // ── Sizes ────────────────────────────────────────────────────────────────
+    const getSize = () => ({
+      width: container.clientWidth || 1,
+      height: container.clientHeight || 1,
+      pixelRatio: Math.min(window.devicePixelRatio, 2),
+    });
+    let size = getSize();
+
+    // ── Scene ────────────────────────────────────────────────────────────────
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(colorBase).multiplyScalar(0.5);
+
+    // ── Camera (mouse-driven orbit) ────────────────────────────────────────
+    const alphaRange = Math.PI * 0.03;
+    const betaRange = Math.PI * 0.05;
+    const mouse = new THREE.Vector2(0, 0);
+    const lerpedMouse = new THREE.Vector2(0, 0);
+
+    const camera = new THREE.PerspectiveCamera(40, size.width / size.height, 0.1, 500);
+    let cameraRadius = 12;
+    const fitCamera = () => {
+      const verticalHalfFov = THREE.MathUtils.degToRad(camera.fov) / 2;
+      const horizontalHalfFov = Math.atan(Math.tan(verticalHalfFov) * camera.aspect);
+      const halfBounds = bounds / 2;
+      // This is a background: cover the rectangular canvas with square cubes
+      // instead of showing the entire square grid with empty side bands.
+      cameraRadius =
+        Math.min(
+          halfBounds / Math.tan(verticalHalfFov),
+          halfBounds / Math.tan(horizontalHalfFov),
+        ) *
+          0.9 +
+        cubeHeight * 0.5;
+    };
+    const positionCamera = (mx: number, my: number) => {
+      const alpha = my * alphaRange;
+      const beta = mx * betaRange;
+      camera.position.set(
+        -cameraRadius * Math.cos(alpha) * Math.sin(beta),
+        cameraRadius * Math.cos(alpha) * Math.cos(beta),
+        cameraRadius * Math.sin(alpha),
+      );
+      camera.up.set(0, 0, -1);
+      camera.lookAt(0, 0, 0);
+    };
+    fitCamera();
+    positionCamera(0, 0);
+    scene.add(camera);
+
+    // ── Lighting ───────────────────────────────────────────────────────────
+    const ambientLight = new THREE.AmbientLight("#ffffff", 0.5);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight("#ffffff", 4.0);
+    keyLight.position.set(-20, 10, 6);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(1024, 1024);
+    keyLight.shadow.radius = 6;
+    keyLight.shadow.camera.near = 0.1;
+    keyLight.shadow.camera.far = 60;
+    keyLight.shadow.camera.left = -22;
+    keyLight.shadow.camera.right = 22;
+    keyLight.shadow.camera.top = 22;
+    keyLight.shadow.camera.bottom = -22;
+    keyLight.shadow.bias = 0.0001;
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight("#ffffff", 1.0);
+    fillLight.position.set(10, 5, -3);
+    scene.add(fillLight);
+
+    // ── Mouse trail (world-space ripple sources) ───────────────────────────
+    const trailData = new Float32Array(MAX_TRAIL * 4);
+    const trailTexture = new THREE.DataTexture(
+      trailData,
+      MAX_TRAIL,
+      1,
+      THREE.RGBAFormat,
+      THREE.FloatType,
+    );
+    trailTexture.needsUpdate = true;
+
+    const trailUniforms = {
+      uTrailTexture: { value: trailTexture },
+      uTrailCount: { value: 0 },
+      uFadeTime: { value: 2.0 },
+      uWaveSpeed: { value: waveSpeed },
+      uWaveFreq: { value: waveFrequency },
+      uWaveWidth: { value: waveWidth },
+      uAmplitude: { value: waveAmplitude },
+      uJitter: { value: waveJitter },
+      uMaxHeight: { value: waveMaxHeight },
+    };
+    const colorUniforms = {
+      uColorBase: { value: new THREE.Color(colorBase) },
+      uColorHigh: { value: new THREE.Color(colorHigh) },
+    };
+
+    const trail: { x: number; z: number; age: number; distDelta: number }[] = [];
