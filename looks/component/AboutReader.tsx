@@ -666,3 +666,135 @@ export default function AboutReader() {
   };
 
   return (
+    <main className="relative h-full min-h-0 flex-1 overflow-hidden text-[#111]">
+      {/* Full-viewport background (also sits behind the shared header) */}
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/AboutBackground.png')" }}
+      />
+
+      <div
+        ref={railRef}
+        onScroll={syncActiveCard}
+        className="absolute inset-0 flex items-start gap-[5vw] overflow-x-auto overflow-y-hidden px-[7vw] pt-[clamp(72px,13vh,170px)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-[18vw] lg:px-[21vw]"
+        aria-label="About articles. Swipe sideways to browse, scroll an article to open it."
+      >
+        {articles.map((article, index) => {
+          const isExpanded = expanded && index === activeIndex;
+          const isSelected = index === activeIndex;
+          const accent = ARTICLE_ACCENTS[index % ARTICLE_ACCENTS.length];
+          const themeCls = isExpanded
+            ? "bg-[#100d18] text-[#f8f4fb] [&_blockquote]:border-[var(--accent)] [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-[var(--accent)]/10 [&_blockquote]:to-transparent [&_blockquote]:pr-5 [&_blockquote]:text-white [&_header>div>div>p:first-child]:text-[var(--accent)] [&_header>div>div>p:first-child]:opacity-100 [&_a]:text-[var(--accent)] [&_.bio-panel]:border-white/10 [&_.bio-panel]:bg-[#171321] [&_.bio-panel]:text-white [&_.skill-pill]:border-white/10 [&_.skill-pill]:bg-[#23182d] [&_.skill-pill]:text-[#eee5f7] [&_.bio-skill-group]:border-white/15 [&_h3]:text-[#eee5f7]"
+            : "";
+
+          return (
+            <Fragment key={index}>
+              {isExpanded && (
+                <div
+                  aria-hidden="true"
+                  className="invisible h-[calc(100dvh-7rem)] min-h-[520px] w-[86vw] shrink-0 rounded-xl sm:h-[calc(100dvh-9rem)] sm:w-[64vw] lg:w-[58vw]"
+                />
+              )}
+              <motion.article
+                layout
+                layoutId={`about-article-${index}`}
+                initial={{ opacity: 0, y: 72 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  ["--accent" as string]: accent,
+                  ...(isExpanded
+                    ? {
+                      backgroundImage:
+                        "radial-gradient(circle at 86% 8%, rgba(126, 55, 200, 0.2), transparent 34%), radial-gradient(circle at 8% 72%, rgba(227, 59, 88, 0.12), transparent 30%), linear-gradient(#100d18, #100d18)",
+                    }
+                    : {}),
+                }}
+                transition={{
+                  layout: { duration: 0.72, ease: [0.22, 1, 0.36, 1] },
+                  opacity: { duration: 0.55, delay: index * 0.12 },
+                  y: { duration: 0.72, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] },
+                }}
+                ref={(element) => {
+                  cardRefs.current[index] = element;
+                }}
+                onWheel={(event) => handleWheel(event, index)}
+                onClick={() => {
+                  if (!expanded && index !== activeIndex) selectArticle(index);
+                }}
+                className={
+                  isExpanded
+                    ? `fixed inset-0 z-50 h-dvh w-screen overflow-y-auto overscroll-contain rounded-none px-6 pb-12 pt-10 shadow-none sm:px-10 sm:pt-14 lg:px-[8vw] ${themeCls}`
+                    : `relative h-[calc(100dvh-7rem)] min-h-[520px] w-[86vw] shrink-0 overflow-hidden rounded-xl bg-white px-6 pb-10 pt-7 shadow-[0_8px_50px_rgba(0,0,0,0.07)] transition-colors sm:h-[calc(100dvh-9rem)] sm:w-[64vw] sm:px-8 sm:pt-8 lg:w-[58vw] lg:px-[3vw] lg:pt-9 ${isSelected ? "text-black" : "text-[#929292]"}`
+                }
+                aria-label={`About article ${index + 1}`}
+              >
+                <WaveGridBackground
+                  className={isExpanded ? "fixed inset-0 z-0" : "absolute inset-0 z-0"}
+                  gridSize={52}
+                  colorBase={isExpanded ? "#100d18" : "#f4f1ee"}
+                  colorHigh={accent}
+                />
+                <motion.div
+                  initial={isExpanded ? { opacity: 0, y: 18 } : false}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.48, delay: isExpanded ? 0.16 : 0, ease: [0.22, 1, 0.36, 1] }}
+                  className={`relative z-10 mx-auto w-full max-w-[1100px] ${isExpanded ? "pb-8 pt-7 sm:pt-3" : ""} ${!isExpanded ? "pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto" : ""}`}
+                >
+                  {article}
+                </motion.div>
+              </motion.article>
+            </Fragment>
+          );
+        })}
+      </div>
+
+      <nav
+        className={`z-[70] flex items-center gap-2 ${expanded
+          ? "fixed right-5 top-5"
+          : "absolute right-[calc(7vw_+_1rem)] top-[calc(clamp(72px,13vh,170px)_+_1rem)] sm:right-[calc(18vw_+_1rem)] lg:right-[calc(21vw_+_1rem)]"
+          }`}
+        style={{ ["--accent" as string]: activeAccent }}
+        aria-label="Article navigation"
+      >
+        <button
+          type="button"
+          onClick={() => selectArticle(activeIndex - 1)}
+          disabled={activeIndex === 0}
+          aria-label="Previous article"
+          className={`grid size-10 place-items-center rounded-full text-xl transition-colors disabled:cursor-default disabled:opacity-40 ${expanded ? "border border-white/15 bg-[#171321] text-white hover:bg-[var(--accent)]" : "bg-[#ededed] hover:bg-[#dedede]"}`}
+        >
+          <span aria-hidden="true">←</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => selectArticle(activeIndex + 1)}
+          disabled={activeIndex === articles.length - 1}
+          aria-label="Next article"
+          className={`grid size-10 place-items-center rounded-full text-xl transition-colors disabled:cursor-default disabled:opacity-40 ${expanded ? "border border-white/15 bg-[#171321] text-white hover:bg-[var(--accent)]" : "bg-[#ededed] hover:bg-[#dedede]"}`}
+        >
+          <span aria-hidden="true">→</span>
+        </button>
+      </nav>
+
+      {!expanded && (
+        <p className="pointer-events-none absolute bottom-4 left-1/2 z-10 m-0 -translate-x-1/2 text-[11px] text-[#999] sm:text-xs">
+          Scroll to open · swipe sideways to browse
+        </p>
+      )}
+
+      {showMusic && tracks[activeIndex] ? (
+        <div className="fixed bottom-6 right-6 z-[80]">
+          <MusicPlayer
+            key={activeIndex}
+            tracks={tracks}
+            startIndex={activeIndex}
+            autoPlay
+            accentColor={expanded ? activeAccent : "#ff6a00"}
+          />
+        </div>
+      ) : null}
+      <audio ref={audioRef} src="/SoundBar/articles-page-turn.wav" preload="auto" className="hidden" />
+    </main>
+  );
+}
