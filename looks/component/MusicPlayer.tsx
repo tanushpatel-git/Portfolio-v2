@@ -263,3 +263,45 @@ export function MusicPlayer({
               )}
             </button>
             <button
+              type="button"
+              onClick={next}
+              aria-label="Next track"
+              className="rounded-full p-1.5 opacity-80 transition hover:bg-white/10 hover:opacity-100"
+            >
+              <SkipForward className="h-4 w-4 fill-current" />
+            </button>
+          </div>
+        </div>
+
+        {showProgress && !collapsed ? (
+          <div
+            role="slider"
+            aria-label="Seek"
+            aria-valuemin={0}
+            aria-valuemax={Math.round(duration) || 0}
+            aria-valuenow={Math.round(currentTime)}
+            aria-valuetext={`${formatTime(currentTime)} of ${formatTime(duration)}`}
+            tabIndex={0}
+            onClick={seek}
+            onKeyDown={(e) => {
+              const audio = audioRef.current;
+              if (!audio || !duration) return;
+              if (e.key === "ArrowRight") audio.currentTime = Math.min(duration, currentTime + 5);
+              if (e.key === "ArrowLeft") audio.currentTime = Math.max(0, currentTime - 5);
+            }}
+            className="group absolute inset-x-0 bottom-0 flex h-3 cursor-pointer items-end"
+          >
+            <div className="relative h-[3px] w-full bg-white/15">
+              <div
+                className="absolute inset-y-0 left-0 transition-[width] duration-100 ease-linear"
+                style={{ width: `${progress}%`, background: accent }}
+              />
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+export default MusicPlayer;
