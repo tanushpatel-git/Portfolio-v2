@@ -398,3 +398,74 @@ export function WaveGridBackground({
       }
     };
 
+    // ── Grid (instanced cubes with wave shader) ────────────────────────────
+    const count = gridSize * gridSize;
+    const geometry = new THREE.BoxGeometry(cubeWidth, cubeHeight, cubeWidth);
+    const offsetAttribute = new THREE.InstancedBufferAttribute(new Float32Array(count * 2), 2);
+    geometry.setAttribute("aOffset", offsetAttribute);
+
+    const material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    material.onBeforeCompile = (shader) => {
+      Object.assign(shader.uniforms, trailUniforms, colorUniforms);
+      shader.vertexShader = overrideVertexShader(shader.vertexShader);
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          "#include <common>",
+          `#include <common>
+          varying float vHeight;
+          uniform vec3  uColorBase;
+          uniform vec3  uColorHigh;
+          uniform float uMaxHeight;`,
+        )
+        .replace(
+          "#include <color_fragment>",
+          `#include <color_fragment>
+          float t = clamp( vHeight / uMaxHeight, 0.0, 1.0 );
+          diffuseColor.rgb = mix( uColorBase, uColorHigh, t );`,
+        );
+    };
+
+    const depthMaterial = new THREE.MeshDepthMaterial();
+    depthMaterial.onBeforeCompile = (shader) => {
+      Object.assign(shader.uniforms, trailUniforms);
+      shader.vertexShader = overrideVertexShader(shader.vertexShader);
+    };
+
+    const instancedMesh = new THREE.InstancedMesh(geometry, material, count);
+    instancedMesh.customDepthMaterial = depthMaterial;
+    instancedMesh.castShadow = true;
+    instancedMesh.receiveShadow = true;
+    scene.add(instancedMesh);
+
+    const dummy = new THREE.Object3D();
+    const spacing = cubeWidth + gap;
+    const offset = ((gridSize - 1) * spacing) / 2;
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+        const index = i * gridSize + j;
+        const x = i * spacing - offset;
+        const z = j * spacing - offset;
+        dummy.position.set(x, 0, z);
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(index, dummy.matrix);
+        offsetAttribute.setXY(index, x, z);
+      }
+    }
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    offsetAttribute.needsUpdate = true;
+
+    // ── Renderer + post-processing ─────────────────────────────────────────
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.95;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.setClearColor("#808080");
+    renderer.setSize(size.width, size.height);
+    renderer.setPixelRatio(size.pixelRatio);
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const vignettePass = new ShaderPass(VIGNETTE_RGB_SHIFT_SHADER);
+    if (vignette) composer.addPass(vignettePass);
+    composer.addPass(new OutputPass());
