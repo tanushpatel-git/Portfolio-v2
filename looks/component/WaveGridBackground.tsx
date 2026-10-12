@@ -122,3 +122,48 @@ function overrideVertexShader(vertexShader: string): string {
       }`,
     );
 }
+
+export interface WaveGridBackgroundProps {
+  /** Content rendered on top of the animated background. */
+  children?: React.ReactNode;
+  /** Extra classes for the wrapper element. */
+  className?: string;
+  /** Grid resolution (N×N cubes). Defaults to 40. */
+  gridSize?: number;
+  /** Base cube color / scene tint. Defaults to white. */
+  colorBase?: string;
+  /** Color of the wave peaks. Defaults to blue. */
+  colorHigh?: string;
+  /** Peak displacement multiplier. Defaults to 0.4. */
+  waveAmplitude?: number;
+  /** Wavefront expansion speed (world units/sec). Defaults to 6. */
+  waveSpeed?: number;
+  /** Spatial oscillation frequency. Defaults to 1.2. */
+  waveFrequency?: number;
+  /** Gaussian half-width of the wave ring. Defaults to 3. */
+  waveWidth?: number;
+  /** Hard clamp on displacement height. Defaults to 0.4. */
+  waveMaxHeight?: number;
+  /** Per-cube positional jitter. Defaults to 0.2. */
+  waveJitter?: number;
+  /** Emit gentle random ripples while the cursor is idle. Defaults to true. */
+  autoAnimate?: boolean;
+  /** Apply the vignette + RGB-shift post-processing pass. Defaults to true. */
+  vignette?: boolean;
+}
+
+export function WaveGridBackground({
+  children,
+  className,
+  gridSize = 40,
+  colorBase = "#ffffff",
+  colorHigh = "#0055ff",
+  waveAmplitude = 0.4,
+  waveSpeed = 6.0,
+  waveFrequency = 1.2,
+  waveWidth = 3.0,
+  waveMaxHeight = 0.4,
+  waveJitter = 0.2,
+  autoAnimate = true,
+  vignette = true,
+}: WaveGridBackgroundProps) {
