@@ -807,7 +807,7 @@ export default function AboutReader() {
           onClick={() => selectArticle(activeIndex - 1)}
           disabled={activeIndex === 0}
           aria-label="Previous article"
-          className={`grid size-10 place-items-center rounded-full text-xl transition-colors disabled:cursor-default disabled:opacity-40 ${expanded ? "border border-white/15 bg-[#171321] text-white hover:bg-[var(--accent)]" : "bg-[#ededed] hover:bg-[#dedede]"}`}
+          className={`grid size-10 place-items-center rounded-full text-xl transition-colors disabled:cursor-default disabled:opacity-40 ${expanded && activeIndex === 1 ? "border border-white/15 bg-[#101729]/80 text-[#edf2ff] backdrop-blur hover:bg-[#18233b]" : expanded ? "border border-white/15 bg-[#171321] text-white hover:bg-[var(--accent)]" : "bg-[#ededed] hover:bg-[#dedede]"}`}
         >
           <span aria-hidden="true">←</span>
         </button>
