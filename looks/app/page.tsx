@@ -1,6 +1,7 @@
 "use client"
 import Image from "next/image";
 import ImageTrail from "@/component/ImageTrail";
+import { useRouter } from 'next/navigation';
 
 const socials = [
   { name: "Mail", href: "tanush000patel@gmail.com" },
