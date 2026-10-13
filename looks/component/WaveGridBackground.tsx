@@ -506,6 +506,7 @@ export function WaveGridBackgroundComponent({
       colorUniforms.uColorBase.value.set(p.colorBase);
       colorUniforms.uColorHigh.value.set(p.colorHigh);
       scene.background = new THREE.Color(p.colorBase).multiplyScalar(0.5);
+      renderer.setClearColor(scene.background as THREE.Color);
 
       updateTrail(delta);
       lerpedMouse.x += (mouse.x - lerpedMouse.x) * 0.04;
