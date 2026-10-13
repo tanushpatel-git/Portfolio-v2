@@ -15,7 +15,7 @@ export interface CursorCardProps {
   className?: string;
 }
 
-export function CursorCard({ children, image, description, href = "#", className }: CursorCardProps) {
+export function CursorCard({ children, image, description, href = "#", target, rel, className }: CursorCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
 
