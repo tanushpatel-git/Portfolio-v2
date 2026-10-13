@@ -80,8 +80,7 @@ export default function Home() {
         <div className="min-w-0 text-right" id="articles">
           <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Writing, talks &amp; more</h2>
           <ul className="m-0 list-none p-0">
-            <li><a className={linkCls} href="#articles">Selected writing</a></li>
-            <li><a className={linkCls} href="#articles">Design notes</a></li>
+            <li><p className={linkCls}>Selected writing</p></li>
             <li>Conversations &amp; features</li>
             <li><a className={linkCls} href="#articles">Ideas in progress</a></li>
             <li><a className={linkCls} href="#articles">The creative process</a></li>
