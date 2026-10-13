@@ -62,3 +62,25 @@ async function fetchGitHubData(): Promise<GitHubData> {
       const data = JSON.parse(payload) as { content?: string; encoding?: string };
       if (data.content && data.encoding === "base64") readme = decodeReadmeContent(data.content);
       else if (data.content) readme = data.content;
+    } else {
+      readme = payload;
+    }
+  }
+
+  return { profile: user, repositories, contributions, contributionTotal, readme };
+}
+
+const getGitHubData = unstable_cache(fetchGitHubData, ["github-about"], {
+  revalidate: REVALIDATE_SECONDS,
+  tags: ["github-about"],
+});
+
+export async function GET() {
+  try {
+    const data = await getGitHubData();
+    return NextResponse.json(data);
+  } catch (cause) {
+    const message = cause instanceof Error ? cause.message : "Could not load GitHub data.";
+    return NextResponse.json({ error: message }, { status: 502 });
+  }
+}
