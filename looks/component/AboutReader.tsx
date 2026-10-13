@@ -445,55 +445,8 @@ const articles = [
       </blockquote>
     </div>
   </>,
-  <>
-    <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.12em] opacity-70 sm:mb-5 sm:text-sm">
-      MY APPROACH TO DESIGN
-    </p>
-    <h1 className="mb-6 mt-0 max-w-[1000px] text-[clamp(2.6rem,6.8vw,5.7rem)] font-medium leading-[0.98] tracking-[-0.065em] sm:mb-8">
-      Start with the person on the other side of the screen.
-    </h1>
-    <div className="max-w-[1050px] space-y-6 text-[15px] leading-[1.75] sm:space-y-7 sm:text-base lg:text-[clamp(16px,1.35vw,22px)]">
-      <p className="m-0 font-medium">
-        Every strong experience starts with understanding what someone needs, what they’re trying to do, and what might make the journey feel clearer.
-      </p>
-      <p className="m-0">
-        From there, I look for the simplest structure that can carry the idea. Thoughtful typography, a considered layout, and clear interactions give people confidence as they move through a product.
-        <span className="block h-3 sm:h-5" aria-hidden="true" />
-      </p>
-      <p className="m-0">
-        I also care about the details people may not notice individually, but feel together: rhythm, feedback, motion, and the moments that give a digital space its character.
-      </p>
-      <blockquote className="m-0 border-l-2 border-[#dedede] py-1 pl-5 font-medium sm:pl-7">
-        Clarity gives an experience its foundation. The details give it a voice.
-      </blockquote>
-    </div>
-  </>,
-  <>
-    <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.12em] opacity-70 sm:mb-5 sm:text-sm">
-      DESIGN MEETS ENGINEERING
-    </p>
-    <h1 className="mb-6 mt-0 max-w-[1000px] text-[clamp(2.6rem,6.8vw,5.7rem)] font-medium leading-[0.98] tracking-[-0.065em] sm:mb-8">
-      Bringing ideas into the browser helps me see the whole picture.
-    </h1>
-    <div className="max-w-[1050px] space-y-6 text-[15px] leading-[1.75] sm:space-y-7 sm:text-base lg:text-[clamp(16px,1.35vw,22px)]">
-      <p className="m-0 font-medium">
-        I enjoy moving between design and development, exploring how an idea behaves once it becomes something people can actually use.
-      </p>
-      <p className="m-0">
-        Building in the browser helps me work through the full experience: the layout, the states, the interactions, and the small transitions between them. It turns abstract decisions into things I can test and refine.
-        <span className="block h-3 sm:h-5" aria-hidden="true" />
-      </p>
-      <p className="m-0">
-        My work spans visual design, product thinking, and front-end development. I’m especially interested in the space where a strong system meets playful, thoughtful details.
-      </p>
-      <blockquote className="m-0 border-l-2 border-[#dedede] py-1 pl-5 font-medium sm:pl-7">
-        Have something thoughtful in mind? Let’s make it real.
-      </blockquote>
-      <a className="inline-block text-sm text-black underline underline-offset-4 sm:text-base" href="mailto:tanush000patel@gmail.com">
-        Let’s talk <span aria-hidden="true">↗</span>
-      </a>
-    </div>
-  </>,
+  <GitHubAboutArticle />,
+  <EmergXExperienceArticle />,
 ];
 
 const tracks: MusicTrack[] = [
