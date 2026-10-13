@@ -4,9 +4,8 @@ import ImageTrail from "@/component/ImageTrail";
 import { useRouter } from 'next/navigation';
 
 const socials = [
-  { name: "Mail", href: "tanush000patel@gmail.com" },
-  { name: "LinkedIn", href: "https://www.linkedin.com/" },
-  { name: "Instagram", href: "https://www.instagram.com/" },
+  { name: "Mail", href: "mailto:tanush000patel@gmail.com" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/tanush-patel-52b0823b4" },
   { name: "GitHub", href: "https://github.com/tanushpatel-git" },
   { name: "Portfolio-v1", href: "https://tanushportfolioo.netlify.app/" },
 ];
