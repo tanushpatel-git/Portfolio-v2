@@ -170,3 +170,46 @@ function GitHubAboutArticle() {
         const parsed = JSON.parse(cached) as GitHubCache;
         if (Date.now() - parsed.timestamp < CACHE_TTL) {
           applyData(parsed);
+          setLoading(false);
+          return () => controller.abort();
+        }
+      }
+    } catch {
+      /* ignore missing/corrupt cache */
+    }
+
+    // 2) Otherwise ask our server route, which caches the GitHub data for 24h
+    //    so the upstream API is hit at most once per day across all visitors.
+    const load = async () => {
+      try {
+        const response = await fetch("/api/github", { signal: controller.signal });
+        const payload = (await response.json()) as GitHubApiResponse;
+        if (!response.ok || payload.error) {
+          throw new Error(payload.error ?? "Could not load GitHub data.");
+        }
+
+        const fresh: GitHubCache = {
+          timestamp: Date.now(),
+          profile: payload.profile ?? null,
+          repositories: payload.repositories ?? [],
+          contributions: payload.contributions ?? [],
+          contributionTotal: payload.contributionTotal ?? null,
+          readme: payload.readme ?? "",
+        };
+        applyData(fresh);
+
+        try {
+          window.localStorage.setItem(CACHE_KEY, JSON.stringify(fresh));
+        } catch {
+          /* storage may be blocked or full */
+        }
+      } catch (cause) {
+        if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "Could not load GitHub data.");
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    };
+    void load();
+    return () => controller.abort();
+  }, []);
+
