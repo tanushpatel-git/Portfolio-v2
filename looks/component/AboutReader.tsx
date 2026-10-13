@@ -1,7 +1,7 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { MusicPlayer, type MusicTrack } from "@/component/ui/music-player";
 import WaveGridBackground from "@/component/WaveGridBackground";
 
