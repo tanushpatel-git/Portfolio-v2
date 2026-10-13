@@ -1,6 +1,7 @@
 "use client"
 import Image from "next/image";
 import ImageTrail from "@/component/ImageTrail";
+import { CursorCard } from "@/component/ui/cursor-card";
 import { useRouter } from 'next/navigation';
 
 const socials = [
