@@ -51,3 +51,30 @@ export default function EmergXExperienceArticle() {
               <p className="mb-1 text-xs uppercase tracking-[0.14em] text-[var(--experience-muted-color)]">Role</p>
               <p className="m-0 text-sm font-medium text-[var(--experience-heading-color)] sm:text-base">Remote intern</p>
             </div>
+            <div>
+              <p className="mb-1 text-xs uppercase tracking-[0.14em] text-[var(--experience-muted-color)]">Company</p>
+              <p className="m-0 text-sm font-medium text-[var(--experience-heading-color)] sm:text-base">EmergX</p>
+            </div>
+            <div>
+              <p className="mb-1 text-xs uppercase tracking-[0.14em] text-[var(--experience-muted-color)]">Duration</p>
+              <p className="m-0 text-sm font-medium text-[var(--experience-heading-color)] sm:text-base">Apr 1 – Jun 30, 2026</p>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="emergx-story" className="mb-8 grid gap-6 sm:grid-cols-[0.75fr_1.25fr] sm:gap-12">
+          <div>
+            <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-[var(--experience-label-color)]">THE EXPERIENCE</p>
+            <h2 id="emergx-story" className="m-0 max-w-sm text-2xl font-medium leading-tight tracking-[-0.04em] text-[var(--experience-heading-color)] sm:text-3xl">Building tools for job discovery and hiring.</h2>
+          </div>
+          <div className="space-y-4 text-[15px] leading-7 text-[var(--experience-copy-color)] sm:text-base">
+            <p className="m-0">During my three-month remote internship from April 1 to June 30, 2026, I worked on features for the EmergX platform that supported both job seekers and HR teams.</p>
+            <p className="m-0">I built a LinkedIn job-search agent and extended the recruiting workflow with candidate questions and an Excel-style applicant view, helping bring the relevant information into one place.</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="emergx-projects" className="mb-8 rounded-[1.5rem] border border-[var(--experience-border-color)] bg-[var(--experience-panel-color)] p-5 backdrop-blur-xl sm:rounded-[2rem] sm:p-8">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-[var(--experience-border-color)] pb-5 sm:mb-8">
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-[var(--experience-label-color)]">MY CONTRIBUTIONS</p>
+              <h2 id="emergx-projects" className="m-0 text-2xl font-medium tracking-[-0.04em] text-[var(--experience-heading-color)] sm:text-3xl">What I built</h2>
