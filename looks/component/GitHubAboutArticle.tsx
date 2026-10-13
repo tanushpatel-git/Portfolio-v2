@@ -84,3 +84,46 @@ function Readme({ markdown }: { markdown: string }) {
       flushParagraph(); flushList();
       blocks.push(<blockquote key={`q-${index}`} className="my-4 border-l-2 border-[#8ab4ff]/50 pl-4 text-[#aebbd3]"><InlineMarkdown text={line.slice(2)} /></blockquote>);
     } else if (/^https?:\/\//.test(line.trim())) {
+      flushParagraph(); flushList();
+      blocks.push(<p key={`url-${index}`} className="my-3 break-all"><a href={line.trim()} target="_blank" rel="noreferrer" className="text-[#8ab4ff] underline underline-offset-2">{line.trim()}</a></p>);
+    } else {
+      paragraph.push(line.trim());
+    }
+  });
+  flushParagraph(); flushList();
+  return <div>{blocks.length ? blocks : <p className="text-[#9aa9c4]">The GitHub profile does not have a README yet.</p>}</div>;
+}
+
+function sanitizeGitHubHtml(html: string) {
+  const document = new DOMParser().parseFromString(html, "text/html");
+  const allowedTags = new Set([
+    "A", "B", "BLOCKQUOTE", "BR", "CODE", "DEL", "DETAILS", "DIV", "EM", "H1", "H2", "H3", "H4", "H5", "H6", "HR", "IMG", "KBD", "LI", "OL", "P", "PRE", "S", "SAMP", "SECTION", "STRONG", "SUMMARY", "TABLE", "TBODY", "TD", "TH", "THEAD", "TR", "U", "UL",
+  ]);
+  const blockedTags = new Set(["SCRIPT", "STYLE", "IFRAME", "OBJECT", "EMBED", "FORM", "INPUT", "BUTTON", "SVG", "MATH"]);
+  const walk = (node: Element) => {
+    for (const child of Array.from(node.children)) walk(child);
+    if (blockedTags.has(node.tagName)) {
+      node.remove();
+      return;
+    }
+    if (!allowedTags.has(node.tagName)) {
+      const parent = node.parentNode;
+      if (!parent) return;
+      while (node.firstChild) parent.insertBefore(node.firstChild, node);
+      node.remove();
+      return;
+    }
+
+    for (const attribute of Array.from(node.attributes)) {
+      const name = attribute.name.toLowerCase();
+      if (node.tagName === "A" && name === "href") {
+        try {
+          const url = new URL(attribute.value, `https://github.com/${USERNAME}/${USERNAME}/blob/HEAD/`);
+          if (url.protocol !== "https:" && url.protocol !== "http:") node.removeAttribute(attribute.name);
+          else node.setAttribute("href", url.href);
+        } catch { node.removeAttribute(attribute.name); }
+      } else if (node.tagName === "IMG" && ["src", "alt", "title", "width", "height"].includes(name)) {
+        if (name === "src") {
+          try {
+            const url = new URL(attribute.value, `https://github.com/${USERNAME}/${USERNAME}/raw/HEAD/`);
+            if (url.protocol !== "https:") node.removeAttribute(attribute.name);
