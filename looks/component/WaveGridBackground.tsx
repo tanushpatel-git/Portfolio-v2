@@ -460,7 +460,7 @@ export function WaveGridBackgroundComponent({
     renderer.toneMappingExposure = 1.95;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
-    renderer.setClearColor("#808080");
+    renderer.setClearColor(scene.background as THREE.Color);
     renderer.setSize(size.width, size.height);
     renderer.setPixelRatio(size.pixelRatio);
 
