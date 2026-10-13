@@ -27,3 +27,18 @@ export type GitHubRepo = {
 };
 
 export type Contribution = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 };
+
+export type GitHubData = {
+  profile: GitHubUser | null;
+  repositories: GitHubRepo[];
+  contributions: Contribution[];
+  contributionTotal: number | null;
+  readme: string;
+};
+
+export type GitHubApiResponse = GitHubData & { error?: string };
+
+export function decodeReadmeContent(value: string) {
+  const bytes = Uint8Array.from(atob(value.replace(/\s/g, "")), (char) => char.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
