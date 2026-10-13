@@ -213,3 +213,46 @@ function GitHubAboutArticle() {
     return () => controller.abort();
   }, []);
 
+  const date = (value: string) => new Intl.DateTimeFormat(undefined, { month: "short", year: "numeric" }).format(new Date(value));
+  const activeDays = contributions.filter((day) => day.count > 0).length;
+  const busiestDay = contributions.reduce((best, day) => day.count > best.count ? day : best, { date: "", count: 0, level: 0 as Contribution["level"] });
+  const calendarCells: Array<Contribution | null> = contributions.length
+    ? [
+        ...Array.from({ length: new Date(`${contributions[0].date}T00:00:00`).getDay() }, () => null),
+        ...contributions,
+      ]
+    : [];
+  while (calendarCells.length && calendarCells.length % 7 !== 0) calendarCells.push(null);
+
+  return (
+    <article className="-mx-6 -mt-7 min-h-full bg-transparent text-[#edf2ff] sm:-mx-8 sm:-mt-8 lg:-mx-[3vw] lg:-mt-9">
+      <section className="px-6 pb-7 pt-8 sm:px-10 sm:pb-9 sm:pt-10">
+        <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#266be4] sm:text-sm">Github / 02</p>
+        <h1 style={{ color: "var(--github-heading-color, #000000)" }} className="mb-3 mt-0 text-[clamp(2rem,4vw,3.5rem)] font-medium leading-[0.98] tracking-[-0.065em] transition-colors duration-150">Building in public.</h1>
+        <p style={{ color: "var(--github-subheading-color, #000000)" }} className="m-0 max-w-[800px] text-base leading-relaxed transition-colors duration-150 sm:text-lg">My GitHub is where I share what I’m learning, the projects I’m shaping, and the progress behind them.</p>
+      </section>
+      <header className="mx-5 mt-2 rounded-2xl border border-white/10 bg-[#101729]/75 px-5 pb-6 pt-6 shadow-[0_20px_70px_rgba(0,0,0,0.2)] backdrop-blur-xl sm:mx-8 sm:px-8 sm:pb-8 sm:pt-8 lg:mx-10">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#93a4c5]">GITHUB PROFILE</p>
+        <div className="flex flex-wrap items-center gap-4">
+          {profile?.avatar_url && <img src={profile.avatar_url} alt="" className="size-16 rounded-full border border-[#8da5d9]/40 bg-[#151e34] p-0.5 shadow-[0_0_30px_rgba(104,140,255,0.22)] sm:size-20" />}
+          <div className="min-w-0 flex-1">
+            <h2 className="m-0 text-3xl font-semibold tracking-tight sm:text-4xl">{profile?.name || "Tanush Patel"}</h2>
+            <a href={`https://github.com/${USERNAME}`} target="_blank" rel="noreferrer" className="mt-1 inline-block text-base text-[#a8b6d0] hover:text-[#8ab4ff]">@{profile?.login || USERNAME}</a>
+          </div>
+          <a href={`https://github.com/${USERNAME}`} target="_blank" rel="noreferrer" className="rounded-full border border-[#8da5d9]/30 bg-[#8da5d9]/10 px-4 py-2 text-sm font-medium text-[#eaf0ff] shadow-[0_0_24px_rgba(104,140,255,0.12)] transition hover:border-[#8ab4ff]/60 hover:bg-[#8da5d9]/20">View GitHub ↗</a>
+        </div>
+        <p className="mb-0 mt-5 max-w-3xl text-base leading-7 text-[#d7dfef]">{profile?.bio || "CSE student, developer, and curious maker—learning in public and building along the way."}</p>
+        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#9aa9c4]">
+          {profile?.location && <span>{profile.location}</span>}
+          {profile?.company && <span>{profile.company}</span>}
+          {profile?.blog && <a href={profile.blog.startsWith("http") ? profile.blog : `https://${profile.blog}`} target="_blank" rel="noreferrer" className="text-[#8ab4ff] hover:underline">{profile.blog}</a>}
+        </div>
+        <div className="mt-5 flex flex-wrap gap-5 border-t border-white/10 pt-4 text-sm text-[#cbd5e8]">
+          <span><strong>{profile?.public_repos ?? "—"}</strong> public repositories</span>
+          <span><strong>{profile?.followers ?? "—"}</strong> followers</span>
+          <span><strong>{profile?.following ?? "—"}</strong> following</span>
+        </div>
+      </header>
+
+      <section className="mx-5 mt-5 overflow-hidden rounded-2xl border border-white/10 bg-[#101729]/70 shadow-[0_20px_70px_rgba(0,0,0,0.2)] backdrop-blur-xl sm:mx-8 lg:mx-10">
+        <div className="border-b border-white/10 px-5 py-4 sm:px-7">
