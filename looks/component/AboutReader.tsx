@@ -769,7 +769,7 @@ export default function AboutReader() {
                 }}
                 className={
                   isExpanded
-                    ? `fixed inset-0 z-50 h-dvh w-screen overflow-y-auto overscroll-contain rounded-none px-6 pb-12 pt-10 shadow-none sm:px-10 sm:pt-14 lg:px-[8vw] ${themeCls}`
+                    ? `fixed inset-0 z-50 h-dvh w-screen overflow-y-auto overscroll-contain rounded-none px-6 pb-12 pt-10 shadow-none sm:px-10 sm:pt-14 lg:px-[8vw] ${isGitHubArticle || isExperienceArticle ? "bg-transparent text-[#edf2ff]" : themeCls || "bg-white text-black"}`
                     : `relative h-[calc(100dvh-7rem)] min-h-[520px] w-[86vw] shrink-0 overflow-hidden rounded-xl bg-white px-6 pb-10 pt-7 shadow-[0_8px_50px_rgba(0,0,0,0.07)] transition-colors sm:h-[calc(100dvh-9rem)] sm:w-[64vw] sm:px-8 sm:pt-8 lg:w-[58vw] lg:px-[3vw] lg:pt-9 ${isSelected ? "text-black" : "text-[#929292]"}`
                 }
                 aria-label={`About article ${index + 1}`}
