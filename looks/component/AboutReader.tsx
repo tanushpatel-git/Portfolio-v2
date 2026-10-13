@@ -616,6 +616,10 @@ export default function AboutReader() {
   const selectArticle = useCallback((index: number) => {
     const nextIndex = Math.max(0, Math.min(articles.length - 1, index));
     if (nextIndex !== activeIndex) playTurnSound();
+    // Cancel any curtain still animating from a previous open before deciding
+    // whether this switch needs its own.
+    clearCurtainTimers();
+    setCurtain(false);
     setActiveIndex(nextIndex);
 
     const rail = railRef.current;
