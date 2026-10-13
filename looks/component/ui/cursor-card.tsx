@@ -53,3 +53,31 @@ export function CursorCard({ children, image, description, href = "#", className
         <AnimatePresence>
           {isHovered && (
             <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              style={{
+                x: springX,
+                y: springY,
+              }}
+              className={cn(
+                "fixed top-0 left-0 pointer-events-none z-50 w-[240px]",
+                "bg-white dark:bg-neutral-900 p-3 shadow-2xl rounded-xl border border-neutral-200 dark:border-neutral-800"
+              )}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={image} alt="hover preview" className="w-full h-auto rounded-md mb-3 object-cover" />
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 m-0 leading-relaxed">
+                {description}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+    </>
+  );
+}
+
+export default CursorCard;
