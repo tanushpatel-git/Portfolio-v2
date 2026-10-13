@@ -672,13 +672,29 @@ export default function AboutReader() {
         return;
       }
 
-    if (expanded && event.deltaY < -4 && event.currentTarget.scrollTop <= 2) {
-      event.preventDefault();
-      playRestSound();
-      setExpanded(false);
-      setShowMusic(false);
-    }
-  };
+      if (expanded && event.deltaY < -4 && event.currentTarget.scrollTop <= 2) {
+        event.preventDefault();
+        clearCurtainTimers();
+        setCurtain(false);
+        playRestSound();
+        setExpanded(false);
+        setShowMusic(false);
+      }
+    },
+    [expanded, openArticle, clearCurtainTimers, playRestSound],
+  );
+
+  // Stable ref setters so the article refs are not detached/re-attached on every
+  // re-render (which happens as you scroll / open an article).
+  const cardRefSetters = useMemo(
+    () =>
+      articles.map(
+        (_, index) => (element: HTMLElement | null) => {
+          cardRefs.current[index] = element;
+        },
+      ),
+    [],
+  );
 
   return (
     <main className="relative h-full min-h-0 flex-1 overflow-hidden text-[#111]">
