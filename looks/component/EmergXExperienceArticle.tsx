@@ -78,3 +78,29 @@ export default function EmergXExperienceArticle() {
             <div>
               <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-[var(--experience-label-color)]">MY CONTRIBUTIONS</p>
               <h2 id="emergx-projects" className="m-0 text-2xl font-medium tracking-[-0.04em] text-[var(--experience-heading-color)] sm:text-3xl">What I built</h2>
+            </div>
+            <span className="text-sm text-[var(--experience-muted-color)]">Two features · One internship</span>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {projects.map((project) => (
+              <article key={project.number} className="rounded-2xl border border-[var(--experience-border-color)] bg-[var(--experience-card-color)] p-5 sm:p-6">
+                <div className="mb-5 flex items-center justify-between gap-4">
+                  <p className="m-0 text-xs font-medium tracking-[0.12em] text-[var(--experience-label-color)]">{project.label}</p>
+                  <span className="text-xs text-[var(--experience-muted-color)]">{project.number}</span>
+                </div>
+                <h3 className="mb-3 mt-0 text-lg font-medium leading-snug text-[var(--experience-heading-color)] sm:text-xl">{project.title}</h3>
+                <p className="m-0 text-sm leading-6 text-[var(--experience-copy-color)]">{project.description}</p>
+                <div className="mt-5 border-t border-[var(--experience-border-color)] pt-4">
+                  <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--experience-muted-color)]">HOW IT WORKS</p>
+                  <ol className="m-0 list-none space-y-3 p-0">
+                    {project.steps.map((step, index) => (
+                      <li key={step.title} className="flex gap-3">
+                        <span className="grid size-6 shrink-0 place-items-center rounded-full border border-[var(--experience-border-color)] bg-[#0a66c2]/10 text-[10px] font-medium text-[var(--experience-label-color)]">0{index + 1}</span>
+                        <div>
+                          <p className="m-0 text-sm font-medium text-[var(--experience-heading-color)]">{step.title}</p>
+                          <p className="mb-0 mt-0.5 text-xs leading-5 text-[var(--experience-muted-color)]">{step.detail}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
