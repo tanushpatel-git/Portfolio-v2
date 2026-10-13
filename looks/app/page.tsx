@@ -52,7 +52,10 @@ export default function Home() {
             {["Product design", "Brand systems", "Digital experiences", "Experiments", "See more..."].map(
               (label) => (
                 <li key={label}>
-                  <a className={linkCls} href="/">
+                  <p
+                    onClick={() => label === "See more..." ? router.push('/projects') : null}
+                    className={`${linkCls} ${label == "See more..." ? "cursor-pointer" : ""}`}
+                  >
                     {label}
                   </a>
                 </li>
