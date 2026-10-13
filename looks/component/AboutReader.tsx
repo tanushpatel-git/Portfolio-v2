@@ -714,6 +714,8 @@ export default function AboutReader() {
         {articles.map((article, index) => {
           const isExpanded = expanded && index === activeIndex;
           const isSelected = index === activeIndex;
+          const isGitHubArticle = index === 1;
+          const isExperienceArticle = index === 2;
           const accent = ARTICLE_ACCENTS[index % ARTICLE_ACCENTS.length];
           const themeCls = isExpanded
             ? "bg-[#100d18] text-[#f8f4fb] [&_blockquote]:border-[var(--accent)] [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-[var(--accent)]/10 [&_blockquote]:to-transparent [&_blockquote]:pr-5 [&_blockquote]:text-white [&_header>div>div>p:first-child]:text-[var(--accent)] [&_header>div>div>p:first-child]:opacity-100 [&_a]:text-[var(--accent)] [&_.bio-panel]:border-white/10 [&_.bio-panel]:bg-[#171321] [&_.bio-panel]:text-white [&_.skill-pill]:border-white/10 [&_.skill-pill]:bg-[#23182d] [&_.skill-pill]:text-[#eee5f7] [&_.bio-skill-group]:border-white/15 [&_h3]:text-[#eee5f7]"
