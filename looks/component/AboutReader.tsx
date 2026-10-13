@@ -477,6 +477,12 @@ export default function AboutReader() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [showMusic, setShowMusic] = useState(false);
+  const [curtain, setCurtain] = useState(false);
+  const [curtainLabel, setCurtainLabel] = useState("About Me");
+  const [curtainColor, setCurtainColor] = useState(CURTAIN_COLORS[0]);
+  const [curtainLabelColor, setCurtainLabelColor] = useState(CURTAIN_LABEL_COLORS[0]);
+  const [curtainIndex, setCurtainIndex] = useState(0);
+  const curtainTimers = useRef<number[]>([]);
   const activeAccent = ARTICLE_ACCENTS[activeIndex % ARTICLE_ACCENTS.length];
 
   // Drawer sound segment played while opening, its speed, and its gain
