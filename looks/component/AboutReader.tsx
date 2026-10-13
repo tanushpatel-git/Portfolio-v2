@@ -664,18 +664,13 @@ export default function AboutReader() {
 
     setActiveIndex(selected);
   }, [expanded]);
-  const handleWheel = (
-    event: React.WheelEvent<HTMLElement>,
-    index: number,
-  ) => {
-    if (!expanded && event.deltaY > 4) {
-      event.preventDefault();
-      playOpenSound();
-      setActiveIndex(index);
-      setExpanded(true);
-      setShowMusic(true);
-      return;
-    }
+  const handleWheel = useCallback(
+    (event: React.WheelEvent<HTMLElement>, index: number) => {
+      if (!expanded && event.deltaY > 4) {
+        event.preventDefault();
+        openArticle(index);
+        return;
+      }
 
     if (expanded && event.deltaY < -4 && event.currentTarget.scrollTop <= 2) {
       event.preventDefault();
