@@ -104,3 +104,30 @@ export default function EmergXExperienceArticle() {
                     ))}
                   </ol>
                 </div>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => <span key={tag} className="rounded-full border border-[var(--experience-border-color)] bg-[#0a66c2]/10 px-3 py-1 text-xs text-[var(--experience-copy-color)]">{tag}</span>)}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section aria-labelledby="emergx-certificate" className="overflow-hidden rounded-[1.5rem] border border-[var(--experience-border-color)] bg-[var(--experience-panel-color)] p-5 backdrop-blur-xl sm:rounded-[2rem] sm:p-8">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3 border-b border-[var(--experience-border-color)] pb-5">
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-[var(--experience-label-color)]">INTERNSHIP CERTIFICATE</p>
+              <h2 id="emergx-certificate" className="m-0 text-2xl font-medium tracking-[-0.04em] text-[var(--experience-heading-color)] sm:text-3xl">Completed at EmergX</h2>
+            </div>
+            <a href="/certificationEmergX.png" target="_blank" rel="noreferrer" className="text-sm text-[var(--experience-copy-color)] underline underline-offset-4">View full certificate ↗</a>
+          </div>
+          <img src="/certificationEmergX.png" alt="Internship completion certificate from EmergX for Tanush Patel" className="mx-auto block h-auto w-full max-w-[760px] rounded-xl border border-black/10 bg-white shadow-lg" loading="lazy" />
+        </section>
+
+        <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--experience-border-color)] pt-5 text-sm text-[var(--experience-muted-color)]">
+          <span>EmergX · Remote internship · 2026</span>
+          <span>Building for hiring and job discovery</span>
+        </footer>
+      </div>
+    </article>
+  );
+}
