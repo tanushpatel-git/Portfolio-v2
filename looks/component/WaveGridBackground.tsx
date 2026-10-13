@@ -152,7 +152,7 @@ export interface WaveGridBackgroundProps {
   vignette?: boolean;
 }
 
-export function WaveGridBackground({
+export function WaveGridBackgroundComponent({
   children,
   className,
   gridSize = 40,
