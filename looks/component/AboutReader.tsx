@@ -57,8 +57,8 @@ const articles = [
         </div>
         <div className="bio-panel rounded-2xl border border-black/10 bg-[#f6f4f2] p-5 sm:p-6">
           <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] opacity-60">Experience · 2026</p>
-          <h2 className="mb-2 mt-0 text-xl font-medium tracking-tight sm:text-2xl">EmrgeX</h2>
-          <p className="m-0">I completed an internship at EmrgeX, gaining experience working in a professional environment.</p>
+          <h2 className="mb-2 mt-0 text-xl font-medium tracking-tight sm:text-2xl">EmergX</h2>
+          <p className="m-0">I completed an internship at EmergX, gaining experience working in a professional environment.</p>
         </div>
       </section>
 
