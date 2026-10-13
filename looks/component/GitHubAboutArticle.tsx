@@ -256,3 +256,46 @@ function GitHubAboutArticle() {
 
       <section className="mx-5 mt-5 overflow-hidden rounded-2xl border border-white/10 bg-[#101729]/70 shadow-[0_20px_70px_rgba(0,0,0,0.2)] backdrop-blur-xl sm:mx-8 lg:mx-10">
         <div className="border-b border-white/10 px-5 py-4 sm:px-7">
+          <p className="m-0 text-xs font-semibold uppercase tracking-[0.14em] text-[#91a4ca]">README.md</p>
+        </div>
+        <div className="px-5 py-5 text-[#e1e8f5] sm:px-7">
+          {loading ? <p className="text-sm text-[#9aa9c4]">Connecting to GitHub…</p> : error ? <p role="status" className="text-sm text-[#ff9b9b]">{error} The profile card still links to GitHub.</p> : <Readme markdown={readme} />}
+          {!loading && <p className="mb-0 mt-6 border-t border-white/10 pt-4 text-xs text-[#9aa9c4]">Live public profile data from GitHub</p>}
+        </div>
+      </section>
+
+      <section className="relative mx-5 mt-5 overflow-hidden rounded-[1.5rem] border border-[#8ab4ff]/20 bg-[linear-gradient(145deg,rgba(18,31,57,0.92),rgba(8,14,28,0.76))] p-4 shadow-[0_24px_90px_rgba(0,0,0,0.32)] backdrop-blur-xl sm:mx-8 sm:rounded-[1.75rem] sm:p-6 lg:mx-10 lg:p-7">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 size-64 rounded-full bg-[#4285ff]/10 blur-3xl" />
+        <div className="relative mb-5 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8ab4ff] sm:text-xs">
+              <span className="size-1.5 rounded-full bg-[#62e18c] shadow-[0_0_12px_rgba(98,225,140,0.9)]" />
+              GitHub activity
+            </div>
+            <h2 className="m-0 text-2xl font-semibold tracking-tight text-[#f1f5ff] sm:text-3xl">A year of showing up.</h2>
+          </div>
+          <a href={`https://github.com/${USERNAME}`} target="_blank" rel="noreferrer" className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-medium text-[#cbd9f2] transition hover:border-[#8ab4ff]/40 hover:bg-[#8ab4ff]/10 hover:text-white">Open GitHub ↗</a>
+        </div>
+
+        <div className="relative mb-5 grid grid-cols-3 gap-2 sm:gap-3">
+          {[
+            { label: "Contributions", value: contributionTotal?.toLocaleString() ?? "—", accent: "text-[#b5ceff]" },
+            { label: "Active days", value: activeDays ? activeDays.toLocaleString() : loading ? "…" : "0", accent: "text-[#8ce6ac]" },
+            { label: "Best day", value: busiestDay.count ? busiestDay.count.toLocaleString() : loading ? "…" : "0", accent: "text-[#ffd38a]" },
+          ].map((stat) => (
+            <div key={stat.label} className="rounded-xl border border-white/[0.08] bg-[#07101f]/45 px-3 py-3 sm:rounded-2xl sm:px-4 sm:py-4">
+              <p className="mb-1 text-[9px] font-medium uppercase tracking-[0.12em] text-[#8292ad] sm:text-[10px]">{stat.label}</p>
+              <p className={`m-0 text-lg font-semibold tabular-nums sm:text-2xl ${stat.accent}`}>{stat.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {calendarCells.length ? (
+          <div className="relative rounded-xl border border-white/[0.07] bg-[#050b16]/55 p-3 sm:rounded-2xl sm:p-5">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <div className="grid shrink-0 grid-rows-7 gap-1 pt-0.5 text-[8px] leading-3 text-[#73839e] sm:gap-1.5 sm:text-[9px]">
+                <span>Sun</span><span>Mon</span><span className="invisible">Tue</span><span>Wed</span><span className="invisible">Thu</span><span>Fri</span><span className="invisible">Sat</span>
+              </div>
+              <div className="overflow-x-auto pb-1" aria-label="GitHub contributions over the last year">
+                <div className="grid w-max grid-flow-col grid-rows-7 gap-1 sm:gap-1.5" role="img" aria-label={`${contributionTotal ?? "GitHub"} contributions during the last year`}>
+                  {calendarCells.map((day, index) => day ? (
