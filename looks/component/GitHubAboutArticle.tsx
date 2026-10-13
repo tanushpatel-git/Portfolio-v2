@@ -299,3 +299,46 @@ function GitHubAboutArticle() {
               <div className="overflow-x-auto pb-1" aria-label="GitHub contributions over the last year">
                 <div className="grid w-max grid-flow-col grid-rows-7 gap-1 sm:gap-1.5" role="img" aria-label={`${contributionTotal ?? "GitHub"} contributions during the last year`}>
                   {calendarCells.map((day, index) => day ? (
+                    <span key={day.date} title={`${day.count} ${day.count === 1 ? "contribution" : "contributions"} on ${day.date}`} className={`size-2.5 rounded-[3px] ring-1 ring-inset ring-white/[0.06] transition duration-150 hover:z-10 hover:scale-150 hover:ring-white/40 sm:size-3 ${["bg-[#202b40]", "bg-[#173d36]", "bg-[#1e7450]", "bg-[#31a66a]", "bg-[#62e18c]"][day.level]}`} />
+                  ) : <span key={`empty-${index}`} aria-hidden="true" className="size-2.5 sm:size-3" />)}
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.07] pt-3 text-[10px] text-[#8797b2] sm:text-xs">
+              <span>{busiestDay.count ? `Most active: ${new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${busiestDay.date}T00:00:00`))}` : "Daily contributions over the past year"}</span>
+              <span className="flex items-center gap-1.5">Less <i className="size-2.5 rounded-[3px] bg-[#202b40]" /><i className="size-2.5 rounded-[3px] bg-[#173d36]" /><i className="size-2.5 rounded-[3px] bg-[#1e7450]" /><i className="size-2.5 rounded-[3px] bg-[#31a66a]" /><i className="size-2.5 rounded-[3px] bg-[#62e18c]" /> More</span>
+            </div>
+          </div>
+        ) : <p className="relative m-0 rounded-xl border border-white/[0.07] bg-[#050b16]/55 p-5 text-sm text-[#9aa9c4]">{loading ? "Loading contribution activity…" : "Contribution activity is unavailable right now."}</p>}
+      </section>
+
+      <section aria-labelledby="github-repos" className="mx-5 mb-8 mt-7 sm:mx-8 lg:mx-10">
+          <div className="mb-3 flex items-end justify-between gap-3">
+            <div>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#91a4ca]">Selected work</p>
+              <h2 id="github-repos" className="m-0 text-xl font-semibold tracking-tight text-[#f1f5ff]">Public repositories</h2>
+            </div>
+            <a href={`https://github.com/${USERNAME}?tab=repositories`} target="_blank" rel="noreferrer" className="text-sm text-[#8ab4ff] hover:underline">All repositories ↗</a>
+          </div>
+          <div className="grid gap-3">
+            {repositories.map((repo) => (
+              <a key={repo.name} href={repo.html_url} target="_blank" rel="noreferrer" className="rounded-2xl border border-white/10 bg-[#101729]/70 p-4 shadow-[0_14px_45px_rgba(0,0,0,0.16)] backdrop-blur-lg transition duration-200 hover:-translate-y-0.5 hover:border-[#8ab4ff]/40 hover:bg-[#18233b]/85">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="m-0 break-all text-base font-semibold text-[#9dc1ff]">{repo.name}</h3>
+                  <span className="shrink-0 rounded-full border border-white/15 px-2 py-0.5 text-[11px] text-[#a9b7d0]">Public</span>
+                </div>
+                <p className="mb-3 mt-2 line-clamp-2 min-h-10 text-sm leading-5 text-[#aab7ce]">{repo.description || "No description provided yet."}</p>
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#9aa9c4]">
+                  {repo.language && <span className="flex items-center gap-1.5"><i className="size-2.5 rounded-full bg-[#6f42c1]" />{repo.language}</span>}
+                  <span>☆ {repo.stargazers_count}</span><span>⑂ {repo.forks_count}</span><span>Updated {date(repo.updated_at)}</span>
+                </div>
+              </a>
+            ))}
+            {!loading && !error && repositories.length === 0 && <p className="rounded-2xl border border-dashed border-white/15 bg-[#101729]/60 p-5 text-sm text-[#9aa9c4]">No public repositories found.</p>}
+          </div>
+      </section>
+    </article>
+  );
+}
+
+export default memo(GitHubAboutArticle);
