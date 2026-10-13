@@ -546,4 +546,6 @@ export function WaveGridBackgroundComponent({
   );
 }
 
+export const WaveGridBackground = React.memo(WaveGridBackgroundComponent);
+
 export default WaveGridBackground;
