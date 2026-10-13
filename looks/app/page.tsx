@@ -133,17 +133,29 @@ export default function Home() {
             className="relative z-20 mt-auto mb-3 flex shrink-0 flex-wrap gap-1.5 sm:mb-4"
             aria-label="Social links"
           >
-            {socials.map((social) => (
-              <a
-                className="rounded-[5px] bg-[#ededed] px-3 py-2 text-[13px] leading-none no-underline transition-colors hover:bg-[#dcdcdc] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:px-[11px] sm:text-base lg:text-[clamp(14px,.92vw,18px)]"
-                key={social.name}
-                href={social.href}
-                target={social.name === "Mail" ? undefined : "_blank"}
-                rel={social.name === "Mail" ? undefined : "noopener noreferrer"}
-              >
-                {social.name}
-              </a>
-            ))}
+            {socials.map((social) =>
+              social.image && social.description ? (
+                <CursorCard
+                  className="rounded-[5px] bg-[#ededed] px-3 py-2 text-[13px] leading-none no-underline transition-colors hover:bg-[#dcdcdc] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:px-[11px] sm:text-base lg:text-[clamp(14px,.92vw,18px)]"
+                  key={social.name}
+                  href={social.href}
+                  image={social.image}
+                  description={social.description}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {social.name}
+                </CursorCard>
+              ) : (
+                <a
+                  className="rounded-[5px] bg-[#ededed] px-3 py-2 text-[13px] leading-none no-underline transition-colors hover:bg-[#dcdcdc] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:px-[11px] sm:text-base lg:text-[clamp(14px,.92vw,18px)]"
+                  key={social.name}
+                  href={social.href}
+                >
+                  {social.name}
+                </a>
+              )
+            )}
           </nav>
 
           {/* Full image: height follows the width, nothing is cropped */}
