@@ -4,7 +4,14 @@ import ImageTrail from "@/component/ImageTrail";
 import { CursorCard } from "@/component/ui/cursor-card";
 import { useRouter } from 'next/navigation';
 
-const socials = [
+type Social = {
+  name: string;
+  href: string;
+  image?: string;
+  description?: string;
+};
+
+const socials: Social[] = [
   { name: "Mail", href: "mailto:tanush000patel@gmail.com" },
   { name: "LinkedIn", href: "https://www.linkedin.com/in/tanush-patel-52b0823b4" },
   { name: "GitHub", href: "https://github.com/tanushpatel-git" },
