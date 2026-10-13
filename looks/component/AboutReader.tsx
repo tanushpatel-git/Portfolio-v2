@@ -452,6 +452,7 @@ const articles = [
 const tracks: MusicTrack[] = [
   { title: "Vibe 1", artist: "Tanush", src: "/songs/vibe1.mp3", artwork: "/songs/Image/gojo.png" },
   { title: "Vibe 2", artist: "Tanush", src: "/songs/vibe2.mp3", artwork: "/songs/Image/itadori.png" },
+  { title: "Vibe 3", artist: "Tanush", src: "/songs/vibe3.mp3", artwork: "/songs/Image/sukuna.png" },
 ];
 
 // Wave-grid accent (hover) color per article, cycling if there are more.
