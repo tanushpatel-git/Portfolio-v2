@@ -20,3 +20,24 @@ async function fetchGitHubData(): Promise<GitHubData> {
   const headers: Record<string, string> = { Accept: "application/vnd.github+json" };
   const token = process.env.GITHUB_TOKEN;
   if (token) headers.Authorization = `Bearer ${token}`;
+
+  const [profileResponse, reposResponse, readmeResponse, contributionData] = await Promise.all([
+    fetch(GITHUB_PROFILE_URL, { headers }),
+    fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`, { headers }),
+    fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_USERNAME}/readme`, {
+      headers: { ...headers, Accept: "application/vnd.github.html+json" },
+    }),
+    fetch(`https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`)
+      .then((response) => (response.ok ? response.json() : null))
+      .catch(() => null),
+  ]);
+
+  if (!profileResponse.ok) {
+    throw new Error(
+      profileResponse.status === 404
+        ? "GitHub profile not found."
+        : "Could not load the GitHub profile right now.",
+    );
+  }
+
+  const [user, repos] = await Promise.all([
