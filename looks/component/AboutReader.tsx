@@ -738,7 +738,19 @@ export default function AboutReader() {
                 animate={{ opacity: 1, y: 0 }}
                 style={{
                   ["--accent" as string]: accent,
-                  ...(isExpanded
+                  ["--github-heading-color" as string]: isExpanded && isGitHubArticle ? "#f1f5ff" : "#000000",
+                  ["--github-subheading-color" as string]: isExpanded && isGitHubArticle ? "#d7dfef" : "#000000",
+                  ["--experience-heading-color" as string]: isExpanded && isExperienceArticle ? "#ffffff" : "#000000",
+                  ["--experience-subheading-color" as string]: isExpanded && isExperienceArticle ? "#d7dfef" : "#000000",
+                  ["--experience-copy-color" as string]: isExpanded && isExperienceArticle ? "#edf2ff" : "#111111",
+                  ["--experience-muted-color" as string]: isExpanded && isExperienceArticle ? "#b9c6dc" : "#454545",
+                  ["--experience-label-color" as string]: isExpanded && isExperienceArticle ? "#8ebcff" : "#222222",
+                  ["--experience-panel-color" as string]: isExpanded && isExperienceArticle ? "rgba(16,23,41,0.72)" : "rgba(255,255,255,0.9)",
+                  ["--experience-card-color" as string]: isExpanded && isExperienceArticle ? "rgba(11,20,38,0.78)" : "rgba(245,245,245,0.94)",
+                  ["--experience-border-color" as string]: isExpanded && isExperienceArticle ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.14)",
+                  ["--experience-overlay-opacity" as string]: isExpanded && isExperienceArticle ? "1" : "0",
+                  ["--experience-image-opacity" as string]: isExpanded && isExperienceArticle ? "0.9" : "0.45",
+                  ...(isExpanded && index === 0
                     ? {
                       backgroundImage:
                         "radial-gradient(circle at 86% 8%, rgba(126, 55, 200, 0.2), transparent 34%), radial-gradient(circle at 8% 72%, rgba(227, 59, 88, 0.12), transparent 30%), linear-gradient(#100d18, #100d18)",
