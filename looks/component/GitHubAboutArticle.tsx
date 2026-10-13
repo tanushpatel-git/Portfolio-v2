@@ -127,3 +127,46 @@ function sanitizeGitHubHtml(html: string) {
           try {
             const url = new URL(attribute.value, `https://github.com/${USERNAME}/${USERNAME}/raw/HEAD/`);
             if (url.protocol !== "https:") node.removeAttribute(attribute.name);
+            else node.setAttribute("src", url.href);
+          } catch { node.removeAttribute(attribute.name); }
+        }
+      } else {
+        node.removeAttribute(attribute.name);
+      }
+    }
+    if (node.tagName === "A") {
+      node.setAttribute("target", "_blank");
+      node.setAttribute("rel", "noopener noreferrer");
+    }
+  };
+  for (const child of Array.from(document.body.children)) walk(child);
+  return document.body.innerHTML;
+}
+
+function GitHubAboutArticle() {
+  const [profile, setProfile] = useState<GitHubUser | null>(null);
+  const [repositories, setRepositories] = useState<GitHubRepo[]>([]);
+  const [contributions, setContributions] = useState<Contribution[]>([]);
+  const [contributionTotal, setContributionTotal] = useState<number | null>(null);
+  const [readme, setReadme] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const applyData = (data: GitHubCache) => {
+      setProfile(data.profile);
+      setRepositories(data.repositories);
+      setContributions(data.contributions);
+      setContributionTotal(data.contributionTotal);
+      setReadme(data.readme);
+    };
+
+    // 1) Serve from cache while it is still fresh (< 24h old).
+    try {
+      const cached = window.localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached) as GitHubCache;
+        if (Date.now() - parsed.timestamp < CACHE_TTL) {
+          applyData(parsed);
