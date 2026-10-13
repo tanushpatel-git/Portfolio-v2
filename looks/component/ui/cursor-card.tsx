@@ -39,6 +39,8 @@ export function CursorCard({ children, image, description, href = "#", target, r
     <>
       <a
         href={href}
+        target={target}
+        rel={rel}
         className={cn(
           "relative inline-block font-bold text-neutral-900 dark:text-neutral-100 transition-colors",
           "hover:bg-orange-100 dark:hover:bg-orange-900/40 rounded px-1 -mx-1",
