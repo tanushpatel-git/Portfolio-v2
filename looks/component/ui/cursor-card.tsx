@@ -10,6 +10,8 @@ export interface CursorCardProps {
   image: string;
   description: string;
   href?: string;
+  target?: string;
+  rel?: string;
   className?: string;
 }
 
