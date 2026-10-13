@@ -725,6 +725,7 @@ export default function AboutReader() {
             <Fragment key={index}>
               {isExpanded && (
                 <div
+                  key="spacer"
                   aria-hidden="true"
                   className="invisible h-[calc(100dvh-7rem)] min-h-[520px] w-[86vw] shrink-0 rounded-xl sm:h-[calc(100dvh-9rem)] sm:w-[64vw] lg:w-[58vw]"
                 />
