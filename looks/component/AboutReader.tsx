@@ -731,6 +731,7 @@ export default function AboutReader() {
                 />
               )}
               <motion.article
+                key="article"
                 layout
                 layoutId={`about-article-${index}`}
                 initial={{ opacity: 0, y: 72 }}
