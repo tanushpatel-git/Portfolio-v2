@@ -69,10 +69,10 @@ export default function Home() {
         <div className="min-w-0" id="engineering">
           <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Experience</h2>
           <div className="space-y-1">
-            <p className="m-0">Independent: Designer &amp; developer (2024 – present)</p>
-            <p className="m-0">Digital studio: Product designer (2022 – 2024)</p>
-            <p className="m-0">Creative practice: Designer (2020 – 2022)</p>
-            <p className="m-0">Freelance designer (2019 – 2024)</p>
+            <p className="m-0">Independent: Data Science &amp; developer (2026 – present)</p>
+            <p className="m-0">EmergX: Full Stack Developer (2026/04 – 2026/06)</p>
+            <p className="m-0">Creative practice: Designer and Developer (2025/05 – 2025/08)</p>
+            <p className="m-0">Full Stack Developer (2024 – 2025)</p>
           </div>
         </div>
 
