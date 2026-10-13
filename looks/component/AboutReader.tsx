@@ -762,9 +762,7 @@ export default function AboutReader() {
                   opacity: { duration: 0.55, delay: index * 0.12 },
                   y: { duration: 0.72, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] },
                 }}
-                ref={(element) => {
-                  cardRefs.current[index] = element;
-                }}
+                ref={cardRefSetters[index]}
                 onWheel={(event) => handleWheel(event, index)}
                 onClick={() => {
                   if (!expanded && index !== activeIndex) selectArticle(index);
