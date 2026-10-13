@@ -638,7 +638,11 @@ export default function AboutReader() {
       });
     }
     if (expanded && card) card.scrollTop = 0;
-  }, [expanded, activeIndex, playTurnSound]);
+
+    // While an article is already open, switching to another curtained article
+    // (nav buttons) shows that article's curtain too.
+    if (expanded) scheduleCurtain(nextIndex);
+  }, [expanded, activeIndex, playTurnSound, clearCurtainTimers, scheduleCurtain]);
 
   const syncActiveCard = useCallback(() => {
     const rail = railRef.current;
