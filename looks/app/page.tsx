@@ -13,6 +13,7 @@ const socials = [
 const linkCls = "underline underline-offset-2 hover:decoration-2";
 
 export default function Home() {
+  const router = useRouter();
   return (
     // Locked to screen height: nothing can scroll
     <main className="relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
