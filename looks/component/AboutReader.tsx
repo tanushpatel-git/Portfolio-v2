@@ -572,6 +572,47 @@ export default function AboutReader() {
     playDrawerSegment(DRAWER_END_S, DRAWER_REST_END_S - DRAWER_END_S);
   }, [playDrawerSegment]);
 
+  const clearCurtainTimers = useCallback(() => {
+    curtainTimers.current.forEach((id) => window.clearTimeout(id));
+    curtainTimers.current = [];
+  }, []);
+
+  useEffect(() => clearCurtainTimers, [clearCurtainTimers]);
+
+  // Raise the label curtain for a curtained article, then slide it back down.
+  // It comes in shortly after the article has taken the full screen so the
+  // repaint flicker stays hidden.
+  const scheduleCurtain = useCallback((index: number) => {
+    const label = CURTAIN_LABELS[index];
+    if (!label) return;
+
+    setCurtainLabel(label);
+    setCurtainColor(CURTAIN_COLORS[index] ?? "#100d18");
+    setCurtainLabelColor(CURTAIN_LABEL_COLORS[index] ?? "#f8f4fb");
+    setCurtainIndex(index);
+    curtainTimers.current.push(
+      window.setTimeout(() => setCurtain(true), 200),
+      window.setTimeout(() => setCurtain(false), 1250),
+    );
+  }, []);
+
+  // Opening an article. Curtained articles expand to fullscreen first, then a
+  // full-screen label curtain rises to cover the settled article (hiding any
+  // repaint flicker) before sliding back down.
+  const openArticle = useCallback(
+    (index: number) => {
+      const nextIndex = Math.max(0, Math.min(articles.length - 1, index));
+
+      clearCurtainTimers();
+      playOpenSound();
+      setActiveIndex(nextIndex);
+      setExpanded(true);
+      setShowMusic(true);
+      scheduleCurtain(nextIndex);
+    },
+    [clearCurtainTimers, playOpenSound, scheduleCurtain],
+  );
+
   const selectArticle = useCallback((index: number) => {
     const nextIndex = Math.max(0, Math.min(articles.length - 1, index));
     if (nextIndex !== activeIndex) playTurnSound();
