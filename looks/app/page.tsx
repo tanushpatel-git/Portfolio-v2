@@ -82,9 +82,9 @@ export default function Home() {
           <ul className="m-0 list-none p-0">
             <li><p className={linkCls}>Selected writing</p></li>
             <li>Conversations &amp; features</li>
-            <li><a className={linkCls} href="#articles">Ideas in progress</a></li>
-            <li><a className={linkCls} href="#articles">The creative process</a></li>
-            <li><a className={linkCls} href="#articles">Get in touch</a></li>
+            <li><p className={linkCls}>Ideas in progress</p></li>
+            <li><p className={linkCls}>The creative process</p></li>
+            <li><a className={linkCls} href={"mailto:tanush000patel@gmail.com"}>Get in touch</a></li>
           </ul>
         </div>
       </section>
