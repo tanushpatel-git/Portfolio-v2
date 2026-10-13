@@ -26,3 +26,30 @@ export function CursorCard({ children, image, description, href = "#", className
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    x.set(e.clientX - 120); // Center horizontally (width 240 / 2)
+    y.set(e.clientY + 20);  // Offset vertically slightly below cursor
+  };
+
+  return (
+    <>
+      <a
+        href={href}
+        className={cn(
+          "relative inline-block font-bold text-neutral-900 dark:text-neutral-100 transition-colors",
+          "hover:bg-orange-100 dark:hover:bg-orange-900/40 rounded px-1 -mx-1",
+          className
+        )}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onMouseMove={handleMouseMove}
+      >
+        {children}
+      </a>
+
+      {mounted && typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
