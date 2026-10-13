@@ -777,8 +777,8 @@ export default function AboutReader() {
                 <WaveGridBackground
                   className={isExpanded ? "fixed inset-0 z-0" : "absolute inset-0 z-0"}
                   gridSize={52}
-                  colorBase={isExpanded ? "#100d18" : "#f4f1ee"}
-                  colorHigh={accent}
+                  colorBase={isExpanded ? (index === 0 ? "#221006" : isExperienceArticle ? "#0b0710" : isGitHubArticle ? "#10234a" : "#100d18") : "#f4f1ee"}
+                  colorHigh={index === 0 ? "#ff7a18" : isExperienceArticle ? "#ff4fa3" : accent}
                 />
                 <motion.div
                   initial={isExpanded ? { opacity: 0, y: 18 } : false}
