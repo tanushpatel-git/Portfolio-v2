@@ -57,7 +57,8 @@ export default function Home() {
                     className={`${linkCls} ${label == "See more..." ? "cursor-pointer" : ""}`}
                   >
                     {label}
-                  </a>
+                  </p>
+
                 </li>
               )
             )}
