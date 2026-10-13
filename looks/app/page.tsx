@@ -13,9 +13,24 @@ type Social = {
 
 const socials: Social[] = [
   { name: "Mail", href: "mailto:tanush000patel@gmail.com" },
-  { name: "LinkedIn", href: "https://www.linkedin.com/in/tanush-patel-52b0823b4" },
-  { name: "GitHub", href: "https://github.com/tanushpatel-git" },
-  { name: "Portfolio-v1", href: "https://tanushportfolioo.netlify.app/" },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/tanush-patel-52b0823b4",
+    image: "/linkedin.png",
+    description: "Let's connect — my experience, the roles I've held, and the teams I've built with.",
+  },
+  {
+    name: "GitHub",
+    href: "https://github.com/tanushpatel-git",
+    image: "/github.png",
+    description: "The code behind the work — repositories, experiments, and things I've shipped.",
+  },
+  {
+    name: "Portfolio-v1",
+    href: "https://tanushportfolioo.netlify.app/",
+    image: "/portfoliov1.png",
+    description: "Where this began — my first portfolio, the seed this site grew from.",
+  },
 ];
 
 const linkCls = "underline underline-offset-2 hover:decoration-2";
