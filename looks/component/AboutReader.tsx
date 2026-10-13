@@ -840,6 +840,56 @@ export default function AboutReader() {
         </div>
       ) : null}
       <audio ref={audioRef} src="/SoundBar/articles-page-turn.wav" preload="auto" className="hidden" />
+
+      {/* Top "wipe" that covers the expand transition for the first article */}
+      <AnimatePresence>
+        {curtain ? (
+          <motion.div
+            key="about-curtain"
+            aria-hidden="true"
+            initial={{ y: "100%" }}
+            animate={{ y: "0%" }}
+            exit={{ y: "100%" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-none fixed inset-0 z-[100] flex items-center justify-center"
+            style={{
+              backgroundColor: curtainColor,
+              backgroundImage: `radial-gradient(circle at 50% 48%, ${curtainColor} 0%, transparent 54%), linear-gradient(135deg, rgba(255,255,255,0.08), transparent 42%)`,
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.04 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-5 rounded-[2rem] border border-white/20 sm:inset-8 sm:rounded-[2.5rem]"
+            />
+            <span aria-hidden="true" className="absolute left-8 top-8 text-[clamp(5rem,20vw,18rem)] font-semibold leading-none tracking-[-0.1em] text-white/[0.07] sm:left-16 sm:top-10">
+              0{curtainIndex + 1}
+            </span>
+            <motion.span
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
+              className="relative flex max-w-[90vw] flex-col items-center text-center"
+            >
+              <span className="mb-5 inline-flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/70 sm:text-xs">
+                <span className="h-px w-8 bg-current sm:w-12" />
+                Article 0{curtainIndex + 1}
+                <span className="h-px w-8 bg-current sm:w-12" />
+              </span>
+              <span
+                className="text-[clamp(2.6rem,9vw,7rem)] font-medium leading-none tracking-[-0.05em]"
+              style={{ color: curtainLabelColor }}
+              >
+                {curtainLabel}
+              </span>
+              <span className="mt-6 h-1 w-16 rounded-full bg-white/70 shadow-[0_0_24px_rgba(255,255,255,0.4)] sm:mt-8 sm:w-24" />
+            </motion.span>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </main>
   );
 }
