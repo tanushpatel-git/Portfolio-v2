@@ -458,6 +458,15 @@ const tracks: MusicTrack[] = [
 // Wave-grid accent (hover) color per article, cycling if there are more.
 const ARTICLE_ACCENTS = ["#e33b58", "#5b8cff", "#ff6a00"];
 
+// Articles that open with the full-screen "curtain" wipe, keyed by index.
+const CURTAIN_LABELS: Record<number, string> = {
+  0: "About Me",
+  1: "About Github",
+  2: "EmergX Experience"
+};
+const CURTAIN_COLORS = ["#ff6a00", "#10234a", "#0b0710"];
+const CURTAIN_LABEL_COLORS = ["#17100b", "#f1f5ff", "#ff4fa3"];
+
 export default function AboutReader() {
   const railRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
