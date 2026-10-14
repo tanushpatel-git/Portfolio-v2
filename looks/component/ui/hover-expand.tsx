@@ -58,6 +58,17 @@ export function HoverExpand({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/5" />
                 </motion.div>
 
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (activeIndex !== index) setActiveIndex(index);
+                    else item.onSelect?.();
+                  }}
+                  onFocus={() => setActiveIndex(index)}
+                  aria-label={`Open ${item.label} project preview`}
+                  className="absolute inset-0 z-10 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#e60023]"
+                />
+
                 <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex items-end justify-between gap-4 sm:inset-x-6 sm:bottom-5">
                   <div className="min-w-0">
                     <div className="flex items-baseline gap-3">
@@ -71,6 +82,9 @@ export function HoverExpand({
                   </div>
                   <span className={`shrink-0 text-[10px] font-medium uppercase tracking-[0.16em] ${expanded ? "text-white/70" : "text-[#888]"}`}>{item.sublabel}</span>
                 </div>
+                {expanded && (
+                  <span aria-hidden="true" className="pointer-events-none absolute right-5 top-5 z-20 grid size-10 place-items-center rounded-full bg-white/90 text-lg text-black shadow-lg">↗</span>
+                )}
               </motion.div>
             </React.Fragment>
           );
