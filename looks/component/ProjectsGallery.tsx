@@ -70,6 +70,15 @@ export default function ProjectsGallery({ excludeSlug, animateEntrance = true }:
                 />
                 <span className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/[0.04]" />
               </motion.div>
+
+              <div className="px-1 pt-2.5 sm:px-2 sm:pt-3">
+                <h2 className="m-0 truncate text-[13px] font-semibold leading-5 tracking-[-0.015em] text-[#191919] sm:text-[15px]">
+                  {project.title}
+                </h2>
+                <p className="mb-0 mt-0.5 text-[11px] leading-4 text-[#777] sm:text-xs sm:leading-[1.15rem]">
+                  {project.category}
+                </p>
+              </div>
             </Link>
           </motion.article>
         ))}
