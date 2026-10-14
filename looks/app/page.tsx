@@ -94,7 +94,7 @@ export default function Home() {
       )}
 
       {/* Locked to screen height: nothing can scroll */}
-      <main className="relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
+      <main className={`relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto px-4 transition-opacity duration-700 ease-out sm:px-6 lg:px-[2.35vw] ${introState === "done" ? "opacity-100" : "opacity-0"}`}>
       {/* Full-viewport background (also sits behind the shared header) */}
       <div
         aria-hidden="true"
@@ -229,6 +229,7 @@ export default function Home() {
           </picture>
         </footer>
       </ImageTrail>
-    </main>
+      </main>
+    </>
   );
 }
