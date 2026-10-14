@@ -52,6 +52,18 @@ export default function Home() {
     }
   }, []);
 
+  const finishIntro = () => {
+    if (introFinished.current) return;
+    introFinished.current = true;
+    try {
+      window.sessionStorage.setItem(homeIntroStorageKey, "true");
+    } catch {
+      // The intro still fades out when browser storage is disabled.
+    }
+    setIntroState("fading");
+    window.setTimeout(() => setIntroState("done"), 900);
+  };
+
   return (
     // Locked to screen height: nothing can scroll
     <main className="relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
