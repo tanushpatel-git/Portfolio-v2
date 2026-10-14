@@ -145,7 +145,7 @@ export default function SiteHeader() {
 
   // Keep the active item in sync with the current route
   useEffect(() => {
-    const match = navItems.find((item) => item.href === pathname);
+    const match = findActiveNavItem(pathname);
     if (match) setActive(match.id);
   }, [pathname]);
 
