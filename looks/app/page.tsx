@@ -65,8 +65,36 @@ export default function Home() {
   };
 
   return (
-    // Locked to screen height: nothing can scroll
-    <main className="relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
+    <>
+      {/* The intro plays once per browser tab session, then reveals the home page. */}
+      {introState !== "done" && (
+        <div
+          aria-label="Portfolio introduction"
+          className={`fixed inset-0 z-[100] bg-black transition-opacity duration-[900ms] ease-out ${introState === "fading" ? "pointer-events-none opacity-0" : "opacity-100"}`}
+        >
+          <video
+            className="h-full w-full object-cover object-center"
+            src="/starterVideo.mov"
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            onEnded={finishIntro}
+            onError={finishIntro}
+            aria-label="Portfolio opening video"
+          />
+          <button
+            type="button"
+            onClick={finishIntro}
+            className="absolute bottom-5 right-5 rounded-full border border-white/40 bg-black/45 px-4 py-2 text-sm text-white backdrop-blur transition hover:bg-black/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Skip intro
+          </button>
+        </div>
+      )}
+
+      {/* Locked to screen height: nothing can scroll */}
+      <main className="relative flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-[2.35vw]">
       {/* Full-viewport background (also sits behind the shared header) */}
       <div
         aria-hidden="true"
