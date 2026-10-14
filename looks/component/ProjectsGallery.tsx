@@ -53,7 +53,25 @@ export default function ProjectsGallery({ excludeSlug, animateEntrance = true }:
             layoutId={`project-card-${project.slug}`}
             initial={prefersReducedMotion || !animateEntrance ? false : "hidden"}
             animate="visible"
-          />
+          >
+            <Link href={`/project/${project.slug}`} aria-label={`Open ${project.title} project`} className="block cursor-pointer">
+              <motion.div
+                layoutId={`project-image-${project.slug}`}
+                className={`relative overflow-hidden ${cardShapes[index % cardShapes.length]}`}
+                style={{ backgroundColor: cardTints[index % cardTints.length] }}
+              >
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  width={project.width}
+                  height={project.height}
+                  sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, (max-width: 1535px) 25vw, 20vw"
+                  className="h-auto w-full transition duration-500 ease-out group-hover:scale-[1.025]"
+                />
+                <span className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/[0.04]" />
+              </motion.div>
+            </Link>
+          </motion.article>
         ))}
       </section>
     </>
