@@ -46,7 +46,21 @@ export function HoverExpand({
                 }}
                 onHoverStart={() => setActiveIndex(index)}
                 onFocus={() => setActiveIndex(index)}
-              />
+              >
+                <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex items-end justify-between gap-4 sm:inset-x-6 sm:bottom-5">
+                  <div className="min-w-0">
+                    <div className="flex items-baseline gap-3">
+                      <span className={`shrink-0 text-xs tabular-nums ${expanded ? "text-white/60" : "text-[#777]"}`}>{String(index + 1).padStart(2, "0")}</span>
+                      <span className={`truncate text-[clamp(1.1rem,2.2vw,1.5rem)] font-semibold tracking-tight ${expanded ? "text-white" : "text-[#191919]"}`}>{item.label}</span>
+                      {item.description && (
+                        <span className={`hidden truncate text-sm sm:block ${expanded ? "text-white/75" : "text-[#777]"}`}>— {item.description}</span>
+                      )}
+                    </div>
+                    {expanded && item.description && <p className="mb-0 ml-8 mt-2 max-w-2xl text-sm leading-6 text-white/75 sm:hidden">{item.description}</p>}
+                  </div>
+                  <span className={`shrink-0 text-[10px] font-medium uppercase tracking-[0.16em] ${expanded ? "text-white/70" : "text-[#888]"}`}>{item.sublabel}</span>
+                </div>
+              </motion.div>
             </React.Fragment>
           );
         })}
