@@ -16,6 +16,11 @@ const navItems = [
   { id: "Setting", label: "Setting", href: "/setting" },
 ] as const;
 
+const findActiveNavItem = (pathname: string) =>
+  navItems.find(
+    (item) => item.href === pathname || (item.id === "Projects" && pathname.startsWith("/project/")),
+  );
+
 type NavId = (typeof navItems)[number]["id"];
 
 // One gap value used everywhere, so spacing is identical between all items
