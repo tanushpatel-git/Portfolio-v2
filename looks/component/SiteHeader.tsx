@@ -34,7 +34,7 @@ export default function SiteHeader() {
   const pathname = usePathname();
 
   const [active, setActive] = useState<NavId>(() => {
-    const match = navItems.find((item) => item.href === pathname);
+    const match = findActiveNavItem(pathname);
     return match?.id ?? "Home";
   });
   const [offset, setOffset] = useState(0);
