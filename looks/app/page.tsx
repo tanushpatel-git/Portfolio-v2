@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import ImageTrail from "@/component/ImageTrail";
 import { CursorCard } from "@/component/ui/cursor-card";
 import { useRouter } from 'next/navigation';
