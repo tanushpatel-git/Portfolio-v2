@@ -47,6 +47,17 @@ export function HoverExpand({
                 onHoverStart={() => setActiveIndex(index)}
                 onFocus={() => setActiveIndex(index)}
               >
+                <motion.div
+                  aria-hidden="true"
+                  className="absolute inset-0"
+                  initial={false}
+                  animate={{ opacity: expanded ? 1 : 0, scale: expanded ? 1 : 1.04 }}
+                  transition={{ opacity: { duration: 0.35 }, scale: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
+                >
+                  <img src={item.image} alt="" className="size-full object-cover" loading="lazy" decoding="async" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/5" />
+                </motion.div>
+
                 <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex items-end justify-between gap-4 sm:inset-x-6 sm:bottom-5">
                   <div className="min-w-0">
                     <div className="flex items-baseline gap-3">
