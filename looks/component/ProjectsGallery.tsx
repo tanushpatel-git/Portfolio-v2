@@ -34,3 +34,28 @@ const pinMotion = {
     },
   }),
 };
+
+export default function ProjectsGallery({ excludeSlug, animateEntrance = true }: { excludeSlug?: string; animateEntrance?: boolean }) {
+  const prefersReducedMotion = useReducedMotion();
+  const visibleProjects = projectImages.filter((project) => project.slug !== excludeSlug);
+
+  return (
+    <>
+      <section aria-label="Project pins" className="columns-2 gap-3 sm:columns-3 sm:gap-4 xl:columns-4 2xl:columns-5">
+        {visibleProjects.map((project, index) => (
+          <motion.article
+            key={project.slug}
+            className="group mb-4 break-inside-avoid sm:mb-5"
+            style={{ width: `${cardWidths[index % cardWidths.length]}%`, marginInline: "auto" }}
+            custom={index}
+            variants={pinMotion}
+            layout
+            layoutId={`project-card-${project.slug}`}
+            initial={prefersReducedMotion || !animateEntrance ? false : "hidden"}
+            animate="visible"
+          />
+        ))}
+      </section>
+    </>
+  );
+}
