@@ -312,6 +312,37 @@ function GitHubAboutArticle() {
         ) : <p className="relative m-0 rounded-xl border border-white/[0.07] bg-[#050b16]/55 p-5 text-sm text-[#9aa9c4]">{loading ? "Loading contribution activity…" : "Contribution activity is unavailable right now."}</p>}
       </section>
 
+      <section aria-labelledby="github-badges" className="relative mx-5 mt-5 overflow-hidden rounded-[1.5rem] border border-[#8ab4ff]/20 bg-[linear-gradient(145deg,rgba(18,31,57,0.92),rgba(8,14,28,0.76))] p-4 shadow-[0_24px_90px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:mx-8 sm:rounded-[1.75rem] sm:p-6 lg:mx-10 lg:p-7">
+        <div aria-hidden="true" className="pointer-events-none absolute -left-16 -top-20 size-56 rounded-full bg-[#4285ff]/10 blur-3xl" />
+        <div className="relative mb-5 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#91a4ca]">Milestones & achievements</p>
+            <h2 id="github-badges" className="m-0 text-2xl font-semibold tracking-tight text-[#f1f5ff] sm:text-3xl">GitHub badges.</h2>
+          </div>
+          <a href={`https://github.com/${USERNAME}`} target="_blank" rel="noreferrer" className="text-sm text-[#8ab4ff] hover:underline">See my profile ↗</a>
+        </div>
+        <div className="relative grid gap-3 sm:grid-cols-3">
+          {[
+            { label: "Public repositories", value: profile?.public_repos, mark: "⌘", color: "text-[#b5ceff]", glow: "bg-[#4285ff]/15" },
+            { label: "Community followers", value: profile?.followers, mark: "✳", color: "text-[#8ce6ac]", glow: "bg-[#35c978]/15" },
+            { label: "Contributions · last year", value: contributionTotal, mark: "✦", color: "text-[#ffd38a]", glow: "bg-[#f2a93b]/15" },
+          ].map((badge) => (
+            <div key={badge.label} className="relative flex min-h-32 items-center gap-4 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#050b16]/55 p-4 sm:min-h-36 sm:flex-col sm:items-start sm:justify-between sm:p-5">
+              <span aria-hidden="true" className={`absolute -right-5 -top-7 size-24 rounded-full blur-2xl ${badge.glow}`} />
+              <span aria-hidden="true" className={`relative grid size-11 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/[0.04] text-xl ${badge.color}`}>{badge.mark}</span>
+              <div className="relative min-w-0">
+                <p className="m-0 text-2xl font-semibold tabular-nums tracking-tight text-[#f1f5ff] sm:text-3xl">{loading ? "…" : (badge.value ?? 0).toLocaleString()}</p>
+                <p className="mb-0 mt-1 text-[10px] font-medium uppercase leading-4 tracking-[0.12em] text-[#91a4c2] sm:text-[11px]">{badge.label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <a href={`https://github.com/${USERNAME}?tab=achievements`} target="_blank" rel="noreferrer" className="relative mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#8ab4ff] hover:underline">
+          View GitHub achievements <span aria-hidden="true">↗</span>
+        </a>
+        <p className="relative mb-0 mt-2 text-xs leading-5 text-[#8797b2]">Profile badges update with the live GitHub data shown in this article.</p>
+      </section>
+
       <section aria-labelledby="github-repos" className="mx-5 mb-8 mt-7 sm:mx-8 lg:mx-10">
           <div className="mb-3 flex items-end justify-between gap-3">
             <div>
