@@ -146,6 +146,12 @@ export const projectImages: PortfolioProject[] = [
     image: "/projectImages/TraficDetection.webp", width: 577, height: 703, slug: "traffic-light-prediction",
     relatedImages: [{ src: "/projectImages/TraficDetection2.webp", width: 656, height: 922, alt: "Traffic Light Prediction model results" }],
   },
+  {
+    title: "Movie Recommendation", category: "Recommendation system", description: "A movie recommendation model that uses cosine similarity to find and suggest related films.",
+    overview: "Movie Recommendation uses cosine similarity to compare movies and surface recommendations with similar characteristics. The project applies a straightforward similarity-based approach to turn movie data into relevant suggestions.",
+    highlights: ["Compare movies using cosine similarity", "Find films with similar characteristics", "Recommend related movies from those comparisons"],
+    image: "/projectImages/MovieRecModel1.webp", width: 725, height: 278, slug: "movie-recommendation", relatedImages: [],
+  },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
   { title: "Project exploration 02", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage2.png", width: 1004, height: 1276, slug: "project-exploration-02" },
   { title: "Project exploration 03", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage3.png", width: 2940, height: 1682, slug: "project-exploration-03" },
