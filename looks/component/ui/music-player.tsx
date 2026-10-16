@@ -39,6 +39,10 @@ export interface MusicPlayerProps {
   startIndex?: number;
   /** Begin playing as soon as the player mounts. Defaults to false. */
   autoPlay?: boolean;
+  /** Output level from 0 (silent) to 1 (full). */
+  volume?: number;
+  /** Disable playback while the site-wide sound setting is off. */
+  enabled?: boolean;
   /** Wrap from the last track back to the first when a track ends. Defaults to true. */
   loop?: boolean;
   /** Render collapsed (compact pill) on first paint. Defaults to false. */
@@ -76,6 +80,8 @@ export function MusicPlayer({
   avatar,
   startIndex = 0,
   autoPlay = false,
+  volume = 1,
+  enabled = true,
   loop = true,
   defaultCollapsed = false,
   showProgress = true,
@@ -90,13 +96,33 @@ export function MusicPlayer({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const shouldPlayRef = useRef(autoPlay);
+  const shouldPlayRef = useRef(autoPlay && enabled);
   const onTrackChangeRef = useRef(onTrackChange);
   useEffect(() => {
     onTrackChangeRef.current = onTrackChange;
   }, [onTrackChange]);
 
   const track = tracks[index];
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = Math.min(1, Math.max(0, volume));
+    if (!enabled) {
+      shouldPlayRef.current = false;
+      audio.pause();
+      setIsPlaying(false);
+      return;
+    }
+    if (autoPlay) {
+      shouldPlayRef.current = true;
+      void audio.play().catch(() => {});
+    } else {
+      shouldPlayRef.current = false;
+      audio.pause();
+      setIsPlaying(false);
+    }
+  }, [autoPlay, enabled, volume]);
 
   useEffect(() => {
     const audio = audioRef.current;
