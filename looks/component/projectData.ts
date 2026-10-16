@@ -139,6 +139,13 @@ export const projectImages: PortfolioProject[] = [
     image: "/projectImages/spamDetectionModel.webp", width: 790, height: 709, slug: "spam-detection",
     relatedImages: [{ src: "/projectImages/SpamDetectionModel2.webp", width: 494, height: 362, alt: "Spam Detection model evaluation results" }],
   },
+  {
+    title: "Traffic Light Prediction", category: "Machine learning · prediction", description: "A traffic light prediction model whose accuracy improved from 40% to 65% while working with unstable data.",
+    overview: "This machine learning project predicts traffic light outcomes from unstable data. A key part of the work was improving the model's accuracy from 40% to 65%, making progress despite the inconsistency in the data.",
+    highlights: ["Predict traffic light outcomes with machine learning", "Work with unstable data", "Improve model accuracy from 40% to 65%"],
+    image: "/projectImages/TraficDetection.webp", width: 577, height: 703, slug: "traffic-light-prediction",
+    relatedImages: [{ src: "/projectImages/TraficDetection2.webp", width: 656, height: 922, alt: "Traffic Light Prediction model results" }],
+  },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
   { title: "Project exploration 02", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage2.png", width: 1004, height: 1276, slug: "project-exploration-02" },
   { title: "Project exploration 03", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage3.png", width: 2940, height: 1682, slug: "project-exploration-03" },
