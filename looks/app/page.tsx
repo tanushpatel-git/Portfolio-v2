@@ -42,10 +42,10 @@ const homeIntroStorageKey = "tlux-home-intro-played-v2";
 export default function Home() {
   const { preferences, preferencesLoaded } = useSitePreferences();
   const router = useRouter();
-  preload("/starterVideo.mp4", { as: "video", type: "video/mp4", fetchPriority: "high" });
-
   const [introState, setIntroState] = useState<"playing" | "fading" | "done">("playing");
   const introFinished = useRef(false);
+
+  preload("/starterVideo.mp4", { as: "video", type: "video/mp4", fetchPriority: "high" });
 
   useEffect(() => {
     if (!preferencesLoaded) return;
@@ -221,10 +221,10 @@ export default function Home() {
 
           {/* Full image: height follows the width, nothing is cropped */}
           <picture>
-            <source srcSet="/tanushDesign.png" type="image/png" />
+            <source srcSet="/tanushDesign.webp" type="image/webp" />
             <Image
               className="block h-auto max-h-[65dvh] w-full shrink-0 object-contain object-bottom"
-              src="/tanushDesign.png"
+              src="/tanushDesign.webp"
               alt="Tanush Design"
               width={1600}
               height={700}
