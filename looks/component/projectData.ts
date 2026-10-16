@@ -66,7 +66,12 @@ export const projectImages: PortfolioProject[] = [
     image: "/projectImages/bookManagement.webp", width: 2640, height: 1500, slug: "book-management",
     relatedImages: related("BookManagement", 2, [[2940, 1678], [992, 1672]]),
   },
-  { title: "HeadPhone Era", category: "Product design", description: "A dark, product-focused landing page concept for a headphone brand.", image: "/projectImages/headPhoneEra.webp", width: 2908, height: 1670, slug: "headphone-era" },
+  {
+    title: "HeadPhone Era", category: "Product storytelling", githubUrl: "https://github.com/tanushpatel-git/Headphone-Website", description: "A headphone brand experience told through a portfolio-style, scrolling website.",
+    overview: "HeadPhone Era is a headphone agency website built as a product storytelling experience. The page uses a guided, scrolling narrative to introduce the headphones and their visual world, with the interaction and pacing of a portfolio presentation.",
+    highlights: ["Present a headphone brand and its products", "Use a story-led scrolling experience", "Build the page as a visual portfolio piece"],
+    image: "/projectImages/headPhoneEra.webp", width: 2908, height: 1670, slug: "headphone-era", relatedImages: [],
+  },
   { title: "Job Portal", category: "Job search", description: "A job-search workspace for discovering opportunities, saving roles, and organizing applications.", image: "/projectImages/job-portal.webp", width: 2904, height: 1664, slug: "job-portal" },
   { title: "K72", category: "Creative agency", description: "A bold agency direction built around expressive typography, contrast, and graphic forms.", image: "/projectImages/k72.webp", width: 2936, height: 1672, slug: "k72" },
   { title: "OrderMate", category: "Food ordering", description: "A restaurant ordering experience that puts menus and convenient ordering within easy reach.", image: "/projectImages/order-mate.webp", width: 2884, height: 1588, slug: "ordermate" },
