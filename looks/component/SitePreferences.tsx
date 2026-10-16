@@ -65,6 +65,15 @@ export function SitePreferencesProvider({ children }: { children: ReactNode }) {
     setPreferencesLoaded(true);
   }, []);
 
+  useEffect(() => {
+    if (!preferencesLoaded) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
+    } catch {
+      // Preferences remain active for this visit if storage is unavailable.
+    }
+  }, [preferences, preferencesLoaded]);
+
   const updatePreference = useCallback<PreferencesContextValue["updatePreference"]>((key, value) => {
     setPreferences((current) => ({ ...current, [key]: value }));
   }, []);
