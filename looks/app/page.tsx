@@ -156,7 +156,6 @@ export default function Home() {
           <div className="space-y-1">
             <p className="m-0">Independent: Data Science &amp; developer (2026 – present)</p>
             <p className="m-0">EmergX: Full Stack Developer (2026/04 – 2026/06)</p>
-            <p className="m-0">Creative practice: Designer and Developer (2025/05 – 2025/08)</p>
             <p className="m-0">Full Stack Developer (2024 – 2025)</p>
           </div>
         </div>
