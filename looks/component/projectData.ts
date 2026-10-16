@@ -118,6 +118,13 @@ export const projectImages: PortfolioProject[] = [
       { src: "/projectImages/Vitaweave3.webp", width: 2940, height: 1682, alt: "Vitaweave project image 3" },
     ],
   },
+  {
+    title: "TLux Lazy", category: "Machine learning toolkit", description: "A Python library for comparing classification and regression models with one function.",
+    overview: "TLux Lazy makes it easier to compare machine learning models on a dataset. A single function runs classification or regression models, applies a selection of preprocessing steps, and returns a ranked DataFrame so results can be reviewed side by side.",
+    highlights: ["Compare classification and regression models through one function", "Apply a range of preprocessing options to the dataset", "Review and rank model performance in a returned DataFrame"],
+    image: "/projectImages/tluxLazy1.webp", width: 2320, height: 1484, slug: "tlux-lazy",
+    relatedImages: [{ src: "/projectImages/tluxLazy2.webp", width: 2296, height: 824, alt: "TLux Lazy model comparison results" }],
+  },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
   { title: "Project exploration 02", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage2.png", width: 1004, height: 1276, slug: "project-exploration-02" },
   { title: "Project exploration 03", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage3.png", width: 2940, height: 1682, slug: "project-exploration-03" },
