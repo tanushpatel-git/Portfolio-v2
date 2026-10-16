@@ -4,6 +4,7 @@ import { preload } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import ImageTrail from "@/component/ImageTrail";
 import { CursorCard } from "@/component/ui/cursor-card";
+import { useSitePreferences } from "@/component/SitePreferences";
 import { useRouter } from 'next/navigation';
 
 type Social = {
@@ -39,6 +40,7 @@ const linkCls = "underline underline-offset-2 hover:decoration-2";
 const homeIntroStorageKey = "tlux-home-intro-played-v2";
 
 export default function Home() {
+  const { preferences, preferencesLoaded } = useSitePreferences();
   const router = useRouter();
   preload("/starterVideo.mp4", { as: "video", type: "video/mp4", fetchPriority: "high" });
 
@@ -46,6 +48,7 @@ export default function Home() {
   const introFinished = useRef(false);
 
   useEffect(() => {
+    if (!preferencesLoaded) return;
     try {
       if (window.sessionStorage.getItem(homeIntroStorageKey) === "true") {
         setIntroState("done");
@@ -53,7 +56,7 @@ export default function Home() {
     } catch {
       // Keep the intro available if browser storage is disabled.
     }
-  }, []);
+  }, [preferencesLoaded]);
 
   const finishIntro = () => {
     if (introFinished.current) return;
