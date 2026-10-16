@@ -94,9 +94,23 @@ export default function ProjectDetail({ project, initialImageIndex = 0 }: { proj
           </h1>
           <p className="mb-0 mt-5 text-base text-[#555] sm:text-lg">{project.category}</p>
           <div className="my-8 h-px w-full bg-black/10" />
-          <p className="m-0 max-w-[36rem] text-[15px] leading-[1.8] text-[#4e4e4e] sm:text-base">
-            {project.description}
-          </p>
+          <div className="max-w-[36rem]">
+            <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#858585]">Project overview</h2>
+            <p className="m-0 text-[15px] leading-[1.8] text-[#4e4e4e] sm:text-base">
+              {project.overview}
+            </p>
+          </div>
+          <div className="mt-7 max-w-[36rem]">
+            <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#858585]">What it includes</h2>
+            <ul className="m-0 list-none space-y-2 p-0 text-[15px] leading-[1.65] text-[#4e4e4e] sm:text-base">
+              {project.highlights.map((highlight) => (
+                <li key={highlight} className="flex gap-3">
+                  <span aria-hidden="true" className="mt-[0.65em] size-1.5 shrink-0 rounded-full bg-[#171717]" />
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
           <p className="mb-0 mt-8 text-xs uppercase tracking-[0.14em] text-[#999]">Design · Development · Exploration</p>
         </motion.div>
       </section>
