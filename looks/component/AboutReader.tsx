@@ -718,12 +718,12 @@ export default function AboutReader() {
   );
 
   return (
-    <main className="relative h-full min-h-0 flex-1 overflow-hidden text-[#111]">
+    <main className={`relative h-full min-h-0 flex-1 overflow-hidden text-[#111] ${preferences.theme === "professional" ? "bg-white" : ""}`}>
       {/* Full-viewport background (also sits behind the shared header) */}
       <div
         aria-hidden="true"
-        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/AboutBackground.png')" }}
+        className={`fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat ${preferences.theme === "professional" ? "bg-white" : ""}`}
+        style={{ backgroundImage: preferences.theme === "anime" ? "url('/AboutBackground.webp')" : "none", backgroundColor: "#fff" }}
       />
 
       <div
@@ -771,7 +771,7 @@ export default function AboutReader() {
                   ["--experience-border-color" as string]: isExpanded && isExperienceArticle ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.14)",
                   ["--experience-overlay-opacity" as string]: isExpanded && isExperienceArticle ? "1" : "0",
                   ["--experience-image-opacity" as string]: isExpanded && isExperienceArticle ? "0.9" : "0.45",
-                  ...(isExpanded && index === 0
+                  ...(preferences.theme === "anime" && isExpanded && index === 0
                     ? {
                       backgroundImage:
                         "radial-gradient(circle at 86% 8%, rgba(126, 55, 200, 0.2), transparent 34%), radial-gradient(circle at 8% 72%, rgba(227, 59, 88, 0.12), transparent 30%), linear-gradient(#100d18, #100d18)",
@@ -788,8 +788,10 @@ export default function AboutReader() {
                 onClick={() => {
                   if (!expanded && index !== activeIndex) selectArticle(index);
                 }}
-                className={
-                  isExpanded
+                  className={
+                  isExpanded && preferences.theme === "professional"
+                    ? "professional-about-article fixed inset-0 z-50 h-dvh w-screen overflow-y-auto overscroll-contain rounded-none bg-white px-6 pb-12 pt-10 text-black shadow-none sm:px-10 sm:pt-14 lg:px-[8vw]"
+                    : isExpanded
                     ? `fixed inset-0 z-50 h-dvh w-screen overflow-y-auto overscroll-contain rounded-none px-6 pb-12 pt-10 shadow-none sm:px-10 sm:pt-14 lg:px-[8vw] ${isGitHubArticle || isExperienceArticle ? "bg-transparent text-[#edf2ff]" : themeCls || "bg-white text-black"}`
                     : `relative h-[calc(100dvh-7rem)] min-h-[520px] w-[86vw] shrink-0 overflow-hidden rounded-xl bg-white px-6 pb-10 pt-7 shadow-[0_8px_50px_rgba(0,0,0,0.07)] transition-colors sm:h-[calc(100dvh-9rem)] sm:w-[64vw] sm:px-8 sm:pt-8 lg:w-[58vw] lg:px-[3vw] lg:pt-9 ${isSelected ? "text-black" : "text-[#929292]"}`
                 }
