@@ -21,6 +21,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Tanush Patel — Designer & Developer",
   description: "The portfolio of Tanush Patel, designer and developer.",
+  icons: {
+    icon: "/logo.webp",
+  },
 };
 
 export default function RootLayout({
