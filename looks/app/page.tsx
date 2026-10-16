@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image";
+import { preload } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import ImageTrail from "@/component/ImageTrail";
 import { CursorCard } from "@/component/ui/cursor-card";
@@ -39,6 +40,8 @@ const homeIntroStorageKey = "tlux-home-intro-played-v2";
 
 export default function Home() {
   const router = useRouter();
+  preload("/starterVideo.mp4", { as: "video", type: "video/mp4", fetchPriority: "high" });
+
   const [introState, setIntroState] = useState<"playing" | "fading" | "done">("playing");
   const introFinished = useRef(false);
 
