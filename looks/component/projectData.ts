@@ -88,7 +88,16 @@ export const projectImages: PortfolioProject[] = [
     highlights: ["Recreate a creative agency portfolio", "Study the original visual direction", "Build the experience as a front-end implementation"],
     image: "/projectImages/k72.webp", width: 2936, height: 1672, slug: "k72", relatedImages: [],
   },
-  { title: "OrderMate", category: "Food ordering", description: "A restaurant ordering experience that puts menus and convenient ordering within easy reach.", image: "/projectImages/order-mate.webp", width: 2884, height: 1588, slug: "ordermate" },
+  {
+    title: "OrderMate", category: "Restaurant operations", githubUrl: "https://github.com/tanushpatel-git/Order-Mate", description: "A restaurant kitchen order board for tracking each order from queue to completion.",
+    overview: "OrderMate helps restaurant staff keep incoming orders organized in a kitchen to-do board. Each order can be tracked through its current state, so the team can see what is waiting, what is being prepared, and what has been completed.",
+    highlights: ["Track orders waiting to be prepared", "Move active orders through preparation", "Mark finished orders as complete"],
+    image: "/projectImages/OrderMate.webp", width: 2884, height: 1588, slug: "ordermate",
+    relatedImages: [
+      { src: "/projectImages/OrderMate1.webp", width: 996, height: 1664, alt: "OrderMate project image 2" },
+      { src: "/projectImages/OrderMate2.webp", width: 2940, height: 1672, alt: "OrderMate project image 3" },
+    ],
+  },
   { title: "Padthi", category: "Education", description: "An exam-preparation platform for study materials, interactive quizzes, and progress tracking.", image: "/projectImages/padthi.webp", width: 2896, height: 1604, slug: "padthi" },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
   { title: "Project exploration 02", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage2.png", width: 1004, height: 1276, slug: "project-exploration-02" },
