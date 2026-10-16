@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useRef, type ChangeEvent } from "react";
-import { useSitePreferences } from "@/component/SitePreferences";
+import { useSitePreferences, type DistortionLevel } from "@/component/SitePreferences";
 
 function WaveMark({ className = "" }: { className?: string }) {
   return (
@@ -50,6 +50,12 @@ function SettingSwitch({
   );
 }
 
+const distortionChoices: { value: DistortionLevel; label: string; detail: string; bars: number[] }[] = [
+  { value: "off", label: "Still", detail: "No distortion", bars: [12, 20, 27, 32, 27, 20, 12] },
+  { value: "subtle", label: "Subtle", detail: "Gentle movement", bars: [12, 22, 30, 36, 30, 22, 12] },
+  { value: "full", label: "Full", detail: "Full 3D waves", bars: [30, 24, 15, 8, 15, 24, 30] },
+];
+
 export default function Setting() {
   const { preferences, updatePreference, resetPreferences, preferencesLoaded } = useSitePreferences();
   const settingSoundRef = useRef<HTMLAudioElement>(null);
@@ -67,6 +73,12 @@ export default function Setting() {
     updatePreference("volume", Number(event.target.value));
   }, [updatePreference]);
   const soundDisabled = !preferences.soundsEnabled;
+  const selectTheme = useCallback((theme: "anime" | "professional") => {
+    updatePreference("theme", theme);
+    updatePreference("distortion", theme === "professional" ? "off" : "full");
+    updatePreference("musicAutoplay", theme === "anime");
+    updatePreference("musicEnabled", theme === "anime");
+  }, [updatePreference]);
   const soundItems = useMemo(() => [
     { key: "navigationSounds" as const, title: "Navigation", description: "A soft tick as you move between sections.", checked: preferences.navigationSounds },
     { key: "articleSounds" as const, title: "Article turns", description: "A page-turn sound when About articles change.", checked: preferences.articleSounds },
@@ -121,6 +133,55 @@ export default function Setting() {
           </div>
         </section>
 
+        <section aria-labelledby="visual-settings" className="mt-9 border-t border-[#e7e7e7] pt-7 sm:mt-12 sm:pt-9">
+          <div className="mb-5">
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#999]">02 / MOTION</p>
+            <h2 id="visual-settings" className="m-0 text-2xl font-semibold tracking-[-0.045em] sm:text-3xl">Movement &amp; visuals</h2>
+            <p className="mb-0 mt-2 text-sm text-[#777]">Tune the Three.js background and motion across the site.</p>
+          </div>
+
+          <div className="mb-8">
+            <h3 className="m-0 text-sm font-semibold sm:text-base">Portfolio theme</h3>
+            <p className="mb-4 mt-1 text-xs text-[#777] sm:text-sm">Choose the current anime look or a clean, white professional style.</p>
+            <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Portfolio theme">
+              {([
+                { value: "anime", label: "Anime", detail: "Current backgrounds and Three.js visuals" },
+                { value: "professional", label: "Professional", detail: "White backgrounds and no distortion" },
+              ] as const).map((option) => {
+                const selected = preferences.theme === option.value;
+                return (
+                  <button key={option.value} type="button" role="radio" aria-checked={selected} onClick={() => { playSettingSound(); selectTheme(option.value); }} className={`min-h-24 rounded-[22px] border-2 p-4 text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0875ef] sm:min-h-28 sm:p-5 ${selected ? "border-[#3d3d3d] bg-[#3d3d3d] text-white" : "border-transparent bg-[#f0f0f0] text-[#444] hover:bg-[#e8e8e8]"}`}>
+                    <span className="block text-sm font-semibold sm:text-base">{option.label}</span>
+                    <span className={`mt-1 block text-[11px] leading-4 sm:text-xs ${selected ? "text-white/65" : "text-[#999]"}`}>{option.detail}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-3">
+            <h3 className="m-0 text-sm font-semibold sm:text-base">Background distortion</h3>
+            <p className="mb-4 mt-1 text-xs text-[#777] sm:text-sm">Choose how the blue Three.js grid reacts and moves.</p>
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3" role="radiogroup" aria-label="Three.js background distortion">
+              {distortionChoices.map((choice) => {
+                const selected = preferences.distortion === choice.value;
+                return (
+                    <button key={choice.value} type="button" role="radio" aria-checked={selected} disabled={preferences.theme === "professional"} onClick={() => { playSettingSound(); updatePreference("distortion", choice.value); }} className={`group flex min-h-[112px] flex-col items-start justify-between rounded-[22px] border-2 p-3 text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0875ef] disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-[136px] sm:p-5 ${selected ? "border-[#3d3d3d] bg-[#3d3d3d] text-white" : "border-transparent bg-[#f0f0f0] text-[#444] hover:bg-[#e8e8e8]"}`}>
+                    <span aria-hidden="true" className={`flex h-9 items-center gap-[3px] sm:h-11 sm:gap-1 ${selected ? "text-white" : "text-[#c7c7c7]"}`}>
+                      {choice.bars.map((height, index) => <i key={index} className="block w-[5px] rounded-full bg-current sm:w-[7px]" style={{ height }} />)}
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold sm:text-base">{choice.label}</span>
+                      <span className={`mt-0.5 block text-[10px] sm:text-xs ${selected ? "text-white/65" : "text-[#999]"}`}>{choice.detail}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <p role="status" className="mb-0 mt-8 text-xs text-[#999]">{preferencesLoaded ? "Your settings are saved on this device." : "Loading your saved settings…"}</p>
       </div>
     </main>
   );
