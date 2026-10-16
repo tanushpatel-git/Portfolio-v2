@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { useSitePreferences } from "@/component/SitePreferences";
 
 const TICK_COUNT = 41;
 const CENTER_TICK = Math.floor(TICK_COUNT / 2); // 20
@@ -32,6 +33,7 @@ const TICK_GAIN: 1 | 2 | 3 | 4 | 5 | 6 = 6;
 export default function SiteHeader() {
   const router = useRouter();
   const pathname = usePathname();
+  const { preferences } = useSitePreferences();
 
   const [active, setActive] = useState<NavId>(() => {
     const match = findActiveNavItem(pathname);
@@ -88,6 +90,7 @@ export default function SiteHeader() {
   }, []);
 
   const playTick = useCallback(() => {
+    if (!preferences.soundsEnabled || !preferences.navigationSounds || preferences.volume <= 0) return;
     const ctx = audioCtxRef.current;
     const buffer = tickBufferRef.current;
 
@@ -96,7 +99,7 @@ export default function SiteHeader() {
       const source = ctx.createBufferSource();
       source.buffer = buffer;
       const gain = ctx.createGain();
-      gain.gain.value = TICK_GAIN;
+      gain.gain.value = TICK_GAIN * (preferences.volume / 100);
       source.connect(gain).connect(ctx.destination);
       source.start();
       return;
@@ -105,13 +108,14 @@ export default function SiteHeader() {
     // Fallback: plain audio element
     const audio = audioRef.current;
     if (!audio) return;
+    audio.volume = preferences.volume / 100;
     try {
       audio.currentTime = 0;
     } catch {
       /* metadata not ready yet */
     }
     void audio.play().catch(() => { });
-  }, []);
+  }, [preferences.navigationSounds, preferences.soundsEnabled, preferences.volume]);
 
   // Center the active item by sliding the whole row horizontally
   const measure = useCallback(() => {
