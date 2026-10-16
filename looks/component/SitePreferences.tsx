@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { MotionConfig } from "framer-motion";
 
 export type DistortionLevel = "off" | "subtle" | "full";
 export type PortfolioTheme = "anime" | "professional";
@@ -67,6 +68,7 @@ export function SitePreferencesProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!preferencesLoaded) return;
+    document.documentElement.dataset.portfolioTheme = preferences.theme;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
     } catch {
@@ -85,7 +87,13 @@ export function SitePreferencesProvider({ children }: { children: ReactNode }) {
     [preferences, updatePreference, resetPreferences, preferencesLoaded],
   );
 
-  return <PreferencesContext.Provider value={value}>{children}</PreferencesContext.Provider>;
+  return (
+    <PreferencesContext.Provider value={value}>
+      <MotionConfig reducedMotion="user">
+        {children}
+      </MotionConfig>
+    </PreferencesContext.Provider>
+  );
 }
 
 export function useSitePreferences() {
