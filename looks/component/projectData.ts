@@ -132,6 +132,13 @@ export const projectImages: PortfolioProject[] = [
     image: "/projectImages/ComputerVision1.webp", width: 658, height: 643, slug: "computer-vision",
     relatedImages: [{ src: "/projectImages/ComputerVision2.webp", width: 1536, height: 1024, alt: "Computer Vision model training progress" }],
   },
+  {
+    title: "Spam Detection", category: "Natural language processing", description: "An NLP model that classifies messages as spam or not spam and reports its evaluation results.",
+    overview: "Spam Detection uses machine learning to identify spam from message text. The project explores the NLP workflow and presents model evaluation, including accuracy, to show how well the classifier performs.",
+    highlights: ["Classify text messages as spam or not spam", "Use an NLP-based machine learning workflow", "Review model accuracy and other evaluation results"],
+    image: "/projectImages/spamDetectionModel.webp", width: 790, height: 709, slug: "spam-detection",
+    relatedImages: [{ src: "/projectImages/SpamDetectionModel2.webp", width: 494, height: 362, alt: "Spam Detection model evaluation results" }],
+  },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
   { title: "Project exploration 02", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage2.png", width: 1004, height: 1276, slug: "project-exploration-02" },
   { title: "Project exploration 03", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage3.png", width: 2940, height: 1682, slug: "project-exploration-03" },
