@@ -120,7 +120,7 @@ export default function EmergXExperienceArticle() {
             </div>
             <a href="/certificationEmergX.webp" target="_blank" rel="noreferrer" className="text-sm text-[var(--experience-copy-color)] underline underline-offset-4">View full certificate ↗</a>
           </div>
-          <img src="/certificationEmergX.webp" alt="Internship completion certificate from EmergX for Tanush Patel" className="mx-auto block h-auto w-full max-w-[760px] rounded-xl border border-black/10 bg-white shadow-lg" loading="lazy" />
+          <img src="/certificationEmergX.webp" alt="Internship completion certificate from EmergX for Tanush Patel" className="mx-auto block h-auto w-full max-w-[760px] rounded-xl border border-black/10 bg-white shadow-lg" loading="lazy" decoding="async" />
         </section>
 
         <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--experience-border-color)] pt-5 text-sm text-[var(--experience-muted-color)]">
