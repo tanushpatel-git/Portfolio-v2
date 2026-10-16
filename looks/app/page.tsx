@@ -17,19 +17,19 @@ const socials: Social[] = [
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/in/tanush-patel-52b0823b4",
-    image: "/linkedin.png",
+    image: "/linkedin.webp",
     description: "Let's connect — my experience, the roles I've held, and the teams I've built with.",
   },
   {
     name: "GitHub",
     href: "https://github.com/tanushpatel-git",
-    image: "/github.png",
+    image: "/github.webp",
     description: "The code behind the work — repositories, experiments, and things I've shipped.",
   },
   {
     name: "Portfolio-v1",
     href: "https://tanushportfolioo.netlify.app/",
-    image: "/portfoliov1.png",
+    image: "/portfoliov1.webp",
     description: "Where this began — my first portfolio, the seed this site grew from.",
   },
 ];
