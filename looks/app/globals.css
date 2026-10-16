@@ -11,3 +11,22 @@ html {
 body {
   margin: 0;
 }
+
+html[data-portfolio-theme="professional"] {
+  background: #fff;
+}
+
+/* The professional theme keeps expanded About content calm and paper-white. */
+.professional-about-article,
+.professional-about-article * {
+  color: #111 !important;
+  background-color: #fff !important;
+  background-image: none !important;
+  border-color: rgb(0 0 0 / 12%) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.professional-about-article img {
+  background-color: transparent !important;
+}
