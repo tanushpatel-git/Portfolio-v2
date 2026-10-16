@@ -104,9 +104,10 @@ export default function Home() {
       {/* Full-viewport background (also sits behind the shared header) */}
       <div
         aria-hidden="true"
-        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        className={`fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat ${preferences.theme === "professional" ? "bg-white" : ""}`}
         style={{
-          backgroundImage: "url('/mainBackgroundImage.jpeg')",
+          backgroundImage: preferences.theme === "anime" ? "url('/mainBackgroundImage.webp')" : "none",
+          backgroundColor: "#fff",
         }}
       />
 
