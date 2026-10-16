@@ -3,6 +3,12 @@ import localFont from "next/font/local";
 import { LayoutGroup } from "framer-motion";
 import SiteHeader from "@/component/SiteHeader";
 import { SitePreferencesProvider } from "@/component/SitePreferences";
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/lib/site";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -20,8 +26,26 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Tanush Patel — Designer & Developer",
-  description: "The portfolio of Tanush Patel, designer and developer.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
+    siteName: SITE_NAME,
+    type: "website",
+    images: ["/portfoliov1.webp"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/portfoliov1.webp"],
+  },
   icons: {
     icon: "/logo.webp",
   },
