@@ -655,7 +655,7 @@ export default function AboutReader() {
           railBox.left +
           cardBox.width / 2 -
           rail.clientWidth / 2,
-        behavior: "smooth",
+          behavior: "smooth",
       });
     }
     if (expanded && card) card.scrollTop = 0;
