@@ -797,12 +797,16 @@ export default function AboutReader() {
                 }
                 aria-label={`About article ${index + 1}`}
               >
-                <WaveGridBackground
+                {preferences.theme === "professional" || !isExpanded ? <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 bg-white" /> : <WaveGridBackground
                   className={isExpanded ? "fixed inset-0 z-0" : "absolute inset-0 z-0"}
                   gridSize={52}
                   colorBase={isExpanded ? (index === 0 ? "#221006" : isExperienceArticle ? "#0b0710" : isGitHubArticle ? "#10234a" : "#100d18") : "#f4f1ee"}
                   colorHigh={index === 0 ? "#ff7a18" : isExperienceArticle ? "#ff4fa3" : accent}
-                />
+                  waveAmplitude={distortionAmplitude}
+                  waveMaxHeight={preferences.distortion === "off" ? 0.01 : preferences.distortion === "subtle" ? 0.18 : 0.4}
+                  waveJitter={preferences.distortion === "off" ? 0 : preferences.distortion === "subtle" ? 0.08 : 0.2}
+                  autoAnimate={preferences.distortion !== "off"}
+                />}
                 <motion.div
                   initial={isExpanded ? { opacity: 0, y: 18 } : false}
                   animate={{ opacity: 1, y: 0 }}
