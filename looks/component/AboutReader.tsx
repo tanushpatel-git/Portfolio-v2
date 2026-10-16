@@ -501,15 +501,17 @@ export default function AboutReader() {
   const DRAWER_GAIN: 1 | 2 | 3 | 4 | 5 | 6 = 6;
 
   const playTurnSound = useCallback(() => {
+    if (!preferences.soundsEnabled || !preferences.articleSounds || preferences.volume <= 0) return;
     const audio = audioRef.current;
     if (!audio) return;
+    audio.volume = preferences.volume / 100;
     try {
       audio.currentTime = 0;
     } catch {
       /* metadata not ready yet */
     }
     void audio.play().catch(() => { });
-  }, []);
+  }, [preferences.articleSounds, preferences.soundsEnabled, preferences.volume]);
 
   // Decode the drawer sound once so it can be amplified
   useEffect(() => {
