@@ -108,6 +108,16 @@ export const projectImages: PortfolioProject[] = [
       { src: "/projectImages/padthi3.webp", width: 2940, height: 1672, alt: "Padthi project image 3" },
     ],
   },
+  {
+    title: "Vitaweave", category: "Healthcare AI", githubUrl: "https://github.com/tanushpatel-git/Vitaweave", description: "A hospital platform that helps doctors review patient history with an AI assistant grounded in medical knowledge.",
+    overview: "VitaWeave is a hospital experience designed to reduce the effort involved in understanding a patient's case. A retrieval-augmented generation (RAG) assistant draws on medical knowledge adapted to different doctors, while also bringing the patient's history into the conversation so a doctor can review the context more quickly.",
+    highlights: ["Give doctors an AI assistant grounded in medical knowledge", "Adapt the assistant's knowledge to different doctors", "Bring patient history into the review to provide context"],
+    image: "/projectImages/Vitaweave1.webp", width: 970, height: 1290, slug: "vitaweave",
+    relatedImages: [
+      { src: "/projectImages/Vitaweave2.webp", width: 1004, height: 1276, alt: "Vitaweave project image 2" },
+      { src: "/projectImages/Vitaweave3.webp", width: 2940, height: 1682, alt: "Vitaweave project image 3" },
+    ],
+  },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
   { title: "Project exploration 02", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage2.png", width: 1004, height: 1276, slug: "project-exploration-02" },
   { title: "Project exploration 03", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage3.png", width: 2940, height: 1682, slug: "project-exploration-03" },
