@@ -82,10 +82,7 @@ export function SitePreferencesProvider({ children }: { children: ReactNode }) {
 
   const resetPreferences = useCallback(() => setPreferences(defaultSitePreferences), []);
 
-  const value = useMemo(
-    () => ({ preferences, updatePreference, resetPreferences, preferencesLoaded }),
-    [preferences, updatePreference, resetPreferences, preferencesLoaded],
-  );
+  const value = useMemo(() => ({ preferences, updatePreference, resetPreferences, preferencesLoaded }), [preferences, updatePreference, resetPreferences, preferencesLoaded]);
 
   return (
     <PreferencesContext.Provider value={value}>
