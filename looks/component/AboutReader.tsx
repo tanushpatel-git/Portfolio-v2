@@ -855,13 +855,15 @@ export default function AboutReader() {
         </p>
       )}
 
-      {showMusic && tracks[activeIndex] ? (
+      {showMusic && tracks[activeIndex] && preferences.musicEnabled && preferences.soundsEnabled ? (
         <div className="fixed bottom-6 right-6 z-[80]">
           <MusicPlayer
             key={activeIndex}
             tracks={tracks}
             startIndex={activeIndex}
-            autoPlay
+            autoPlay={preferences.musicAutoplay}
+            volume={preferences.volume / 100}
+            enabled={preferences.musicEnabled && preferences.soundsEnabled}
             accentColor={expanded ? activeAccent : "#ff6a00"}
           />
         </div>
