@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { MusicPlayer, type MusicTrack } from "@/component/ui/music-player";
 import WaveGridBackground from "@/component/WaveGridBackground";
@@ -34,9 +35,12 @@ const articles = [
       <span className="absolute left-3 top-1/2 z-20 -translate-y-1/2 text-[10px] font-semibold uppercase tracking-[0.3em] text-white [writing-mode:vertical-rl] rotate-180 sm:left-6 sm:text-xs sm:tracking-[0.4em]">
         ABOUT ME
       </span>
-      <img
-        src="/aboutMain.png"
+      <Image
+        src="/aboutMain.webp"
         alt="Anime illustration centered over the TLUX wordmark"
+        width={1080}
+        height={2288}
+        sizes="(max-width: 640px) 86vw, 50vw"
         className="relative z-10 h-[98%] max-w-[86vw] object-contain object-bottom mix-blend-screen"
       />
       <span className="absolute right-3 top-1/2 z-20 -translate-y-1/2 text-[10px] font-semibold uppercase tracking-[0.3em] text-white [writing-mode:vertical-rl] sm:right-6 sm:text-xs sm:tracking-[0.4em]">
