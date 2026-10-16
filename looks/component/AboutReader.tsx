@@ -589,6 +589,17 @@ export default function AboutReader() {
 
   useEffect(() => clearCurtainTimers, [clearCurtainTimers]);
 
+  useEffect(() => {
+    if (preferences.soundsEnabled && preferences.articleSounds && preferences.volume > 0) return;
+    audioRef.current?.pause();
+    try {
+      drawerSourceRef.current?.stop();
+    } catch {
+      /* The sound may have already ended. */
+    }
+    drawerSourceRef.current = null;
+  }, [preferences.articleSounds, preferences.soundsEnabled, preferences.volume]);
+
   // Raise the label curtain for a curtained article, then slide it back down.
   // It comes in shortly after the article has taken the full screen so the
   // repaint flicker stays hidden.
