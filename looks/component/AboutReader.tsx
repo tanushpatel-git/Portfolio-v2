@@ -472,6 +472,13 @@ const CURTAIN_LABELS: Record<number, string> = {
 const CURTAIN_COLORS = ["#ff6a00", "#10234a", "#0b0710"];
 const CURTAIN_LABEL_COLORS = ["#17100b", "#f1f5ff", "#ff4fa3"];
 
+// Touch gestures mirror the desktop wheel behaviour: swipe up to open a
+// collapsed article, swipe down at the top of an open one to close it.
+const TOUCH_OPEN_THRESHOLD = 48;
+const TOUCH_CLOSE_THRESHOLD = 56;
+const TOUCH_SLOP = 10;
+const TOUCH_CLICK_GUARD_MS = 700;
+
 export default function AboutReader() {
   const { preferences } = useSitePreferences();
   const distortionAmplitude = preferences.distortion === "off" ? 0 : preferences.distortion === "subtle" ? 0.16 : 0.4;
@@ -490,6 +497,8 @@ export default function AboutReader() {
   const [curtainLabelColor, setCurtainLabelColor] = useState(CURTAIN_LABEL_COLORS[0]);
   const [curtainIndex, setCurtainIndex] = useState(0);
   const curtainTimers = useRef<number[]>([]);
+  const touchStartRef = useRef<{ x: number; y: number; moved: boolean } | null>(null);
+  const lastTouchRef = useRef<{ time: number; moved: boolean } | null>(null);
   const activeAccent = ARTICLE_ACCENTS[activeIndex % ARTICLE_ACCENTS.length];
 
   // Drawer sound segment played while opening, its speed, and its gain
@@ -685,6 +694,14 @@ export default function AboutReader() {
 
     setActiveIndex(selected);
   }, [expanded]);
+  const collapseArticle = useCallback(() => {
+    clearCurtainTimers();
+    setCurtain(false);
+    playRestSound();
+    setExpanded(false);
+    setShowMusic(false);
+  }, [clearCurtainTimers, playRestSound]);
+
   const handleWheel = useCallback(
     (event: React.WheelEvent<HTMLElement>, index: number) => {
       if (!expanded && event.deltaY > 4) {
@@ -695,15 +712,56 @@ export default function AboutReader() {
 
       if (expanded && event.deltaY < -4 && event.currentTarget.scrollTop <= 2) {
         event.preventDefault();
-        clearCurtainTimers();
-        setCurtain(false);
-        playRestSound();
-        setExpanded(false);
-        setShowMusic(false);
+        collapseArticle();
       }
     },
-    [expanded, openArticle, clearCurtainTimers, playRestSound],
+    [expanded, openArticle, collapseArticle],
   );
+
+  const handleTouchStart = useCallback((event: React.TouchEvent<HTMLElement>) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY, moved: false };
+  }, []);
+
+  const handleTouchMove = useCallback(
+    (event: React.TouchEvent<HTMLElement>, index: number) => {
+      const start = touchStartRef.current;
+      const touch = event.touches[0];
+      if (!start || !touch) return;
+
+      const dx = touch.clientX - start.x;
+      const dy = touch.clientY - start.y;
+      if (Math.abs(dx) > TOUCH_SLOP || Math.abs(dy) > TOUCH_SLOP) start.moved = true;
+
+      // Sideways drags stay with the rail's horizontal browsing.
+      if (Math.abs(dx) >= Math.abs(dy)) return;
+
+      if (!expanded) {
+        if (-dy >= TOUCH_OPEN_THRESHOLD) {
+          touchStartRef.current = null;
+          lastTouchRef.current = { time: Date.now(), moved: true };
+          openArticle(index);
+        }
+      } else if (dy >= TOUCH_CLOSE_THRESHOLD && event.currentTarget.scrollTop <= 2) {
+        touchStartRef.current = null;
+        lastTouchRef.current = { time: Date.now(), moved: true };
+        collapseArticle();
+      }
+    },
+    [expanded, openArticle, collapseArticle],
+  );
+
+  const handleTouchEnd = useCallback(() => {
+    if (touchStartRef.current) {
+      lastTouchRef.current = { time: Date.now(), moved: touchStartRef.current.moved };
+      touchStartRef.current = null;
+    }
+  }, []);
+
+  const handleTouchCancel = useCallback(() => {
+    touchStartRef.current = null;
+  }, []);
 
   // Stable ref setters so the article refs are not detached/re-attached on every
   // re-render (which happens as you scroll / open an article).
@@ -785,8 +843,19 @@ export default function AboutReader() {
                 }}
                 ref={cardRefSetters[index]}
                 onWheel={(event) => handleWheel(event, index)}
+                onTouchStart={handleTouchStart}
+                onTouchMove={(event) => handleTouchMove(event, index)}
+                onTouchEnd={handleTouchEnd}
+                onTouchCancel={handleTouchCancel}
                 onClick={() => {
-                  if (!expanded && index !== activeIndex) selectArticle(index);
+                  const recentTouch = lastTouchRef.current;
+                  if (recentTouch && Date.now() - recentTouch.time < TOUCH_CLICK_GUARD_MS) {
+                    lastTouchRef.current = null;
+                    if (recentTouch.moved) return;
+                  }
+                  if (expanded) return;
+                  if (index !== activeIndex) selectArticle(index);
+                  else openArticle(index);
                 }}
                   className={
                   isExpanded && preferences.theme === "professional"
@@ -851,7 +920,8 @@ export default function AboutReader() {
 
       {!expanded && (
         <p className="pointer-events-none absolute bottom-4 left-1/2 z-10 m-0 -translate-x-1/2 text-[11px] text-[#999] sm:text-xs">
-          Scroll to open · swipe sideways to browse
+          <span className="sm:hidden">Swipe up to open · swipe sideways to browse</span>
+          <span className="hidden sm:inline">Scroll to open · swipe sideways to browse</span>
         </p>
       )}
 
