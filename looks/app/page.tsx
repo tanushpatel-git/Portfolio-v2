@@ -74,7 +74,7 @@ export default function Home() {
         >
           <video
             className="h-full w-full object-cover object-center"
-            src="/starterVideo.mov"
+            src="/starterVideo.mp4"
             autoPlay
             muted
             playsInline
