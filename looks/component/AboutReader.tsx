@@ -543,6 +543,7 @@ export default function AboutReader() {
   }, []);
 
   const playDrawerSegment = useCallback((offset: number, duration?: number) => {
+    if (!preferences.soundsEnabled || !preferences.articleSounds || preferences.volume <= 0) return;
     const ctx = audioCtxRef.current;
     const buffer = drawerBufferRef.current;
     if (!ctx || !buffer) return;
@@ -560,7 +561,7 @@ export default function AboutReader() {
     source.playbackRate.value = DRAWER_RATE;
 
     const gain = ctx.createGain();
-    gain.gain.value = DRAWER_GAIN;
+    gain.gain.value = DRAWER_GAIN * (preferences.volume / 100);
     source.connect(gain).connect(ctx.destination);
 
     if (duration !== undefined) {
@@ -569,7 +570,7 @@ export default function AboutReader() {
       source.start(0, offset);
     }
     drawerSourceRef.current = source;
-  }, []);
+  }, [preferences.articleSounds, preferences.soundsEnabled, preferences.volume]);
 
   // Opening an article: play the drawer sound from 0.5s to 1.5s, then stop
   const playOpenSound = useCallback(() => {
