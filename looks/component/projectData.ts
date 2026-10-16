@@ -1,12 +1,31 @@
+export type ProjectImageAsset = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
 export type PortfolioProject = {
   title: string;
   category: string;
+  githubUrl?: string;
   description: string;
+  overview?: string;
+  highlights?: string[];
   image: string;
   width: number;
   height: number;
   slug: string;
+  relatedImages?: ProjectImageAsset[];
 };
+
+const related = (name: string, count: number, dimensions: Array<[number, number]>): ProjectImageAsset[] =>
+  Array.from({ length: count }, (_, index) => ({
+    src: `/projectImages/${name}${index + 2}.webp`,
+    width: dimensions[index][0],
+    height: dimensions[index][1],
+    alt: `${name} project image ${index + 2}`,
+  }));
 
 export const projectImages: PortfolioProject[] = [
   { title: "Codeera", category: "Collaborative coding", description: "A collaborative coding and interview workspace with live coding, video sessions, and real-time chat.", image: "/projectImages/Codeera.webp", width: 2918, height: 1650, slug: "codeera" },
