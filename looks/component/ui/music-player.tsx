@@ -160,9 +160,10 @@ export function MusicPlayer({
   }, [autoPlay]);
 
   const play = useCallback(() => {
+    if (!enabled) return;
     shouldPlayRef.current = true;
     audioRef.current?.play().catch(() => {});
-  }, []);
+  }, [enabled]);
 
   const pause = useCallback(() => {
     shouldPlayRef.current = false;
@@ -175,16 +176,16 @@ export function MusicPlayer({
   }, [isPlaying, play, pause]);
 
   const next = useCallback(() => {
-    if (tracks.length === 0) return;
+    if (tracks.length === 0 || !enabled) return;
     shouldPlayRef.current = true;
     setIndex((i) => (i + 1) % tracks.length);
-  }, [tracks.length]);
+  }, [enabled, tracks.length]);
 
   const prev = useCallback(() => {
-    if (tracks.length === 0) return;
+    if (tracks.length === 0 || !enabled) return;
     shouldPlayRef.current = true;
     setIndex((i) => (i - 1 + tracks.length) % tracks.length);
-  }, [tracks.length]);
+  }, [enabled, tracks.length]);
 
   const handleEnded = useCallback(() => {
     if (!loop && index === tracks.length - 1) {
