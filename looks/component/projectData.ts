@@ -72,7 +72,16 @@ export const projectImages: PortfolioProject[] = [
     highlights: ["Present a headphone brand and its products", "Use a story-led scrolling experience", "Build the page as a visual portfolio piece"],
     image: "/projectImages/headPhoneEra.webp", width: 2908, height: 1670, slug: "headphone-era", relatedImages: [],
   },
-  { title: "Job Portal", category: "Job search", description: "A job-search workspace for discovering opportunities, saving roles, and organizing applications.", image: "/projectImages/job-portal.webp", width: 2904, height: 1664, slug: "job-portal" },
+  {
+    title: "Job Portal", category: "Job search", githubUrl: "https://github.com/tanushpatel-git/JobPortal", description: "A job-search website for finding roles, saving opportunities, and applying.",
+    overview: "Job Portal helps people manage the job search from discovery through application. Users can search for roles, save opportunities to revisit, and apply to jobs from the same workspace.",
+    highlights: ["Search for job opportunities", "Save jobs for later", "Apply to selected roles"],
+    image: "/projectImages/job-portal.webp", width: 2904, height: 1664, slug: "job-portal",
+    relatedImages: [
+      { src: "/projectImages/Jobportal.webp", width: 990, height: 1670, alt: "Job Portal project image 2" },
+      { src: "/projectImages/Jobportal2.webp", width: 2164, height: 834, alt: "Job Portal project image 3" },
+    ],
+  },
   { title: "K72", category: "Creative agency", description: "A bold agency direction built around expressive typography, contrast, and graphic forms.", image: "/projectImages/k72.webp", width: 2936, height: 1672, slug: "k72" },
   { title: "OrderMate", category: "Food ordering", description: "A restaurant ordering experience that puts menus and convenient ordering within easy reach.", image: "/projectImages/order-mate.webp", width: 2884, height: 1588, slug: "ordermate" },
   { title: "Padthi", category: "Education", description: "An exam-preparation platform for study materials, interactive quizzes, and progress tracking.", image: "/projectImages/padthi.webp", width: 2896, height: 1604, slug: "padthi" },
