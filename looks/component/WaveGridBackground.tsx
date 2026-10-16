@@ -211,7 +211,9 @@ export function WaveGridBackgroundComponent({
     const getSize = () => ({
       width: container.clientWidth || 1,
       height: container.clientHeight || 1,
-      pixelRatio: Math.min(window.devicePixelRatio, 2),
+      // Keep the full-screen post-processing canvas sharp while limiting GPU
+      // fill cost on high-density displays.
+      pixelRatio: Math.min(window.devicePixelRatio, 1.5),
     });
     let size = getSize();
 
