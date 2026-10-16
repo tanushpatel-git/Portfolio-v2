@@ -10,13 +10,13 @@ export type PortfolioProject = {
   category: string;
   githubUrl?: string;
   description: string;
-  overview?: string;
-  highlights?: string[];
+  overview: string;
+  highlights: string[];
   image: string;
   width: number;
   height: number;
   slug: string;
-  relatedImages?: ProjectImageAsset[];
+  relatedImages: ProjectImageAsset[];
 };
 
 const related = (name: string, count: number, dimensions: Array<[number, number]>): ProjectImageAsset[] =>
