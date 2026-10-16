@@ -28,7 +28,13 @@ const related = (name: string, count: number, dimensions: Array<[number, number]
   }));
 
 export const projectImages: PortfolioProject[] = [
-  { title: "Codeera", category: "Collaborative coding", description: "A collaborative coding and interview workspace with live coding, video sessions, and real-time chat.", image: "/projectImages/Codeera.webp", width: 2918, height: 1650, slug: "codeera" },
+  {
+    title: "Codeera", category: "Collaborative coding", githubUrl: "https://github.com/tanushpatel-git/CodeEra", description: "A LeetCode-style coding platform brought together with video calls and live chat.",
+    overview: "CodeEra gives people one place to solve programming questions and work through them together. It combines the familiar challenge-based flow of a coding practice site with the communication tools needed to discuss an approach while it is being written.",
+    highlights: ["Browse and solve programming questions", "Discuss solutions over a video call", "Use chat messaging alongside the coding session"],
+    image: "/projectImages/Codeera.webp", width: 2918, height: 1650, slug: "codeera",
+    relatedImages: related("Codeera", 5, [[988, 1666], [2922, 1346], [2940, 1668], [2940, 1642], [1380, 1606]]),
+  },
   { title: "GitHub Wizard", category: "Developer tool", description: "A visual Git command assistant that helps developers build and run commands without memorizing syntax.", image: "/projectImages/GithubWizard.webp", width: 2846, height: 1638, slug: "github-wizard" },
   { title: "TLux AI", category: "AI product", description: "An AI assistant builder exploring how customizable assistants can live on any website.", image: "/projectImages/TluxAi.webp", width: 2912, height: 1668, slug: "tlux-ai" },
   { title: "Topmate", category: "Web experience", description: "A creator storefront concept for bringing sessions, products, and an online presence together.", image: "/projectImages/Topmate.webp", width: 2906, height: 1590, slug: "topmate" },
