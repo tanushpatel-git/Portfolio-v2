@@ -7,6 +7,7 @@ import { MusicPlayer, type MusicTrack } from "@/component/ui/music-player";
 import WaveGridBackground from "@/component/WaveGridBackground";
 import GitHubAboutArticle from "@/component/GitHubAboutArticle";
 import EmergXExperienceArticle from "@/component/EmergXExperienceArticle";
+import { useSitePreferences } from "@/component/SitePreferences";
 
 // Each entry is a complete, editable article. Add or remove a JSX fragment to
 // add or remove a slide. Write any HTML/JSX inside it: headings, images, video,
@@ -472,6 +473,8 @@ const CURTAIN_COLORS = ["#ff6a00", "#10234a", "#0b0710"];
 const CURTAIN_LABEL_COLORS = ["#17100b", "#f1f5ff", "#ff4fa3"];
 
 export default function AboutReader() {
+  const { preferences } = useSitePreferences();
+  const distortionAmplitude = preferences.distortion === "off" ? 0 : preferences.distortion === "subtle" ? 0.16 : 0.4;
   const railRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
