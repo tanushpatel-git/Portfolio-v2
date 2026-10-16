@@ -82,7 +82,12 @@ export const projectImages: PortfolioProject[] = [
       { src: "/projectImages/Jobportal2.webp", width: 2164, height: 834, alt: "Job Portal project image 3" },
     ],
   },
-  { title: "K72", category: "Creative agency", description: "A bold agency direction built around expressive typography, contrast, and graphic forms.", image: "/projectImages/k72.webp", width: 2936, height: 1672, slug: "k72" },
+  {
+    title: "K72", category: "Creative agency recreation", githubUrl: "https://github.com/tanushpatel-git/K72", description: "A recreation of a creative agency website, built to explore its portfolio and visual direction.",
+    overview: "K72 is a cloned creative agency website. The project recreates the agency's portfolio experience and visual direction as a front-end build, focusing on how its work is presented and how the site moves between sections.",
+    highlights: ["Recreate a creative agency portfolio", "Study the original visual direction", "Build the experience as a front-end implementation"],
+    image: "/projectImages/k72.webp", width: 2936, height: 1672, slug: "k72", relatedImages: [],
+  },
   { title: "OrderMate", category: "Food ordering", description: "A restaurant ordering experience that puts menus and convenient ordering within easy reach.", image: "/projectImages/order-mate.webp", width: 2884, height: 1588, slug: "ordermate" },
   { title: "Padthi", category: "Education", description: "An exam-preparation platform for study materials, interactive quizzes, and progress tracking.", image: "/projectImages/padthi.webp", width: 2896, height: 1604, slug: "padthi" },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
