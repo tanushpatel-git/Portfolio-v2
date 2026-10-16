@@ -111,9 +111,24 @@ export default function ProjectDetail({ project, initialImageIndex = 0 }: { proj
               ))}
             </ul>
           </div>
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-8 inline-flex w-fit items-center gap-3 rounded-full border border-black/15 px-5 py-3 text-sm font-medium text-[#171717] transition-colors hover:border-black hover:bg-[#171717] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="size-[18px] fill-current">
+                <path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.08c-3.1.68-3.76-1.32-3.76-1.32-.5-1.29-1.24-1.63-1.24-1.63-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .1.7 2.06 3.84 1.46.1-.73.4-1.23.71-1.51-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.05 1.15a10.6 10.6 0 0 1 5.55 0c2.1-1.45 3.05-1.15 3.05-1.15.61.54.23.72.23.9v.18c.72.78 1.16 1.78 1.16 3 0 4.29-2.62 5.24-5.11 5.52.4.35.76 1.03.76 2.08V22c0 .29.2.63.77.52A11.1 11.1 0 0 0 12 .9Z" />
+              </svg>
+              View source on GitHub
+              <span aria-hidden="true" className="text-base">↗</span>
+            </a>
+          )}
           <p className="mb-0 mt-8 text-xs uppercase tracking-[0.14em] text-[#999]">Design · Development · Exploration</p>
         </motion.div>
       </section>
+
     </main>
   );
 }
