@@ -125,6 +125,13 @@ export const projectImages: PortfolioProject[] = [
     image: "/projectImages/tluxLazy1.webp", width: 2320, height: 1484, slug: "tlux-lazy",
     relatedImages: [{ src: "/projectImages/tluxLazy2.webp", width: 2296, height: 824, alt: "TLux Lazy model comparison results" }],
   },
+  {
+    title: "Computer Vision", category: "Computer vision · model training", description: "A trained model that recognizes seven face classes, with its progress documented across 50 epochs.",
+    overview: "This project follows the training of a computer vision model built to detect seven types of face. The training journey is documented across 50 epochs, showing how the model develops as it learns from the data.",
+    highlights: ["Train a model to detect seven face classes", "Track the training process over 50 epochs", "Present the model and its learning progress visually"],
+    image: "/projectImages/ComputerVision1.webp", width: 658, height: 643, slug: "computer-vision",
+    relatedImages: [{ src: "/projectImages/ComputerVision2.webp", width: 1536, height: 1024, alt: "Computer Vision model training progress" }],
+  },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
   { title: "Project exploration 02", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage2.png", width: 1004, height: 1276, slug: "project-exploration-02" },
   { title: "Project exploration 03", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage3.png", width: 2940, height: 1682, slug: "project-exploration-03" },
