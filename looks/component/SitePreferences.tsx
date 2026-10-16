@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 export type DistortionLevel = "off" | "subtle" | "full";
 export type PortfolioTheme = "anime" | "professional";
@@ -38,8 +38,32 @@ type PreferencesContextValue = {
 
 const PreferencesContext = createContext<PreferencesContextValue | null>(null);
 
+function readStoredPreferences(): SitePreferences {
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (!stored) return defaultSitePreferences;
+    const parsed = JSON.parse(stored) as Partial<SitePreferences> & { animationsEnabled?: boolean };
+    delete parsed.animationsEnabled;
+    return {
+      ...defaultSitePreferences,
+      ...parsed,
+      volume: Math.min(100, Math.max(0, Number(parsed.volume ?? defaultSitePreferences.volume))),
+      distortion: parsed.theme === "professional" ? "off" : parsed.distortion === "off" || parsed.distortion === "subtle" ? parsed.distortion : "full",
+      theme: parsed.theme === "professional" ? "professional" : "anime",
+    };
+  } catch {
+    return defaultSitePreferences;
+  }
+}
+
 export function SitePreferencesProvider({ children }: { children: ReactNode }) {
   const [preferences, setPreferences] = useState(defaultSitePreferences);
+  const [preferencesLoaded, setPreferencesLoaded] = useState(false);
+
+  useEffect(() => {
+    setPreferences(readStoredPreferences());
+    setPreferencesLoaded(true);
+  }, []);
 
   const updatePreference = useCallback<PreferencesContextValue["updatePreference"]>((key, value) => {
     setPreferences((current) => ({ ...current, [key]: value }));
@@ -48,8 +72,8 @@ export function SitePreferencesProvider({ children }: { children: ReactNode }) {
   const resetPreferences = useCallback(() => setPreferences(defaultSitePreferences), []);
 
   const value = useMemo(
-    () => ({ preferences, updatePreference, resetPreferences, preferencesLoaded: true }),
-    [preferences, updatePreference, resetPreferences],
+    () => ({ preferences, updatePreference, resetPreferences, preferencesLoaded }),
+    [preferences, updatePreference, resetPreferences, preferencesLoaded],
   );
 
   return <PreferencesContext.Provider value={value}>{children}</PreferencesContext.Provider>;
