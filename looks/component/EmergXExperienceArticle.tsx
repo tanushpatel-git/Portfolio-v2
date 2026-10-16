@@ -36,7 +36,7 @@ export default function EmergXExperienceArticle() {
         </header>
 
         <section aria-label="EmergX internship" className="relative mb-6 overflow-hidden rounded-[1.5rem] border border-[var(--experience-border-color)] bg-[var(--experience-panel-color)] p-6 shadow-xl shadow-black/10 backdrop-blur-xl sm:mb-8 sm:rounded-[2rem] sm:p-10">
-          <img aria-hidden="true" src="/emergXImage.png" alt="" className="pointer-events-none absolute inset-0 size-full object-cover object-center opacity-[var(--experience-image-opacity,0.9)]" />
+          <img aria-hidden="true" src="/emergXImage.webp" alt="" className="pointer-events-none absolute inset-0 size-full object-cover object-center opacity-[var(--experience-image-opacity,0.9)]" />
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#101729]/95 via-[#101729]/75 to-[#101729]/25 opacity-[var(--experience-overlay-opacity,1)]" />
           <div className="relative z-10 flex flex-wrap items-end justify-between gap-6">
             <div>
@@ -118,9 +118,9 @@ export default function EmergXExperienceArticle() {
               <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-[var(--experience-label-color)]">INTERNSHIP CERTIFICATE</p>
               <h2 id="emergx-certificate" className="m-0 text-2xl font-medium tracking-[-0.04em] text-[var(--experience-heading-color)] sm:text-3xl">Completed at EmergX</h2>
             </div>
-            <a href="/certificationEmergX.png" target="_blank" rel="noreferrer" className="text-sm text-[var(--experience-copy-color)] underline underline-offset-4">View full certificate ↗</a>
+            <a href="/certificationEmergX.webp" target="_blank" rel="noreferrer" className="text-sm text-[var(--experience-copy-color)] underline underline-offset-4">View full certificate ↗</a>
           </div>
-          <img src="/certificationEmergX.png" alt="Internship completion certificate from EmergX for Tanush Patel" className="mx-auto block h-auto w-full max-w-[760px] rounded-xl border border-black/10 bg-white shadow-lg" loading="lazy" />
+          <img src="/certificationEmergX.webp" alt="Internship completion certificate from EmergX for Tanush Patel" className="mx-auto block h-auto w-full max-w-[760px] rounded-xl border border-black/10 bg-white shadow-lg" loading="lazy" />
         </section>
 
         <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--experience-border-color)] pt-5 text-sm text-[var(--experience-muted-color)]">
