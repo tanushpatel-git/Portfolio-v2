@@ -35,7 +35,12 @@ export const projectImages: PortfolioProject[] = [
     image: "/projectImages/Codeera.webp", width: 2918, height: 1650, slug: "codeera",
     relatedImages: related("Codeera", 5, [[988, 1666], [2922, 1346], [2940, 1668], [2940, 1642], [1380, 1606]]),
   },
-  { title: "GitHub Wizard", category: "Developer tool", description: "A visual Git command assistant that helps developers build and run commands without memorizing syntax.", image: "/projectImages/GithubWizard.webp", width: 2846, height: 1638, slug: "github-wizard" },
+  {
+    title: "GitHub Wizard", category: "Developer tool", githubUrl: "https://github.com/tanushpatel-git/Github_tanu", description: "A VS Code extension that makes common Git commands quick to find and run.",
+    overview: "GitHub Wizard brings a list of ready-to-use Git commands into VS Code. Instead of remembering command syntax or typing it from scratch, users can choose the command they need and run it in the integrated terminal.",
+    highlights: ["Find common Git commands in the extension", "Run a selected command in the VS Code terminal", "Speed up routine Git work"],
+    image: "/projectImages/GithubWizard.webp", width: 2846, height: 1638, slug: "github-wizard", relatedImages: [],
+  },
   { title: "TLux AI", category: "AI product", description: "An AI assistant builder exploring how customizable assistants can live on any website.", image: "/projectImages/TluxAi.webp", width: 2912, height: 1668, slug: "tlux-ai" },
   { title: "Topmate", category: "Web experience", description: "A creator storefront concept for bringing sessions, products, and an online presence together.", image: "/projectImages/Topmate.webp", width: 2906, height: 1590, slug: "topmate" },
   { title: "Book Collection", category: "Book management", description: "A book collection interface for browsing, organizing, and managing a personal library.", image: "/projectImages/bookManagement.webp", width: 2640, height: 1500, slug: "book-collection" },
