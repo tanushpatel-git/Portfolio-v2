@@ -63,7 +63,11 @@ export default function ProjectsGallery() {
             initial={motionEnabled ? "hidden" : false}
             animate="visible"
           >
-            <Link href={`/project/${pin.project.slug}`} aria-label={`Open ${pin.project.title} project`} className="block cursor-pointer">
+            <Link
+              href={`/project/${pin.project.slug}${pin.imageIndex ? `?image=${pin.imageIndex}` : ""}`}
+              aria-label={`Open ${pin.project.title}, image ${pin.imageIndex + 1}`}
+              className="block cursor-pointer"
+            >
               <motion.div
                 layoutId={`project-image-${pin.project.slug}-${pin.imageIndex}`}
                 className={`relative overflow-hidden ${cardShapes[index % cardShapes.length]}`}
@@ -85,7 +89,7 @@ export default function ProjectsGallery() {
                   {pin.project.title}
                 </h2>
                 <p className="mb-0 mt-0.5 text-[11px] leading-4 text-[#777] sm:text-xs sm:leading-[1.15rem]">
-                  {pin.project.category}
+                  {pin.imageIndex === 0 ? pin.project.category : `Image ${String(pin.imageIndex + 1).padStart(2, "0")} · ${pin.project.category}`}
                 </p>
               </div>
             </Link>
