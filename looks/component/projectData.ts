@@ -98,7 +98,16 @@ export const projectImages: PortfolioProject[] = [
       { src: "/projectImages/OrderMate2.webp", width: 2940, height: 1672, alt: "OrderMate project image 3" },
     ],
   },
-  { title: "Padthi", category: "Education", description: "An exam-preparation platform for study materials, interactive quizzes, and progress tracking.", image: "/projectImages/padthi.webp", width: 2896, height: 1604, slug: "padthi" },
+  {
+    title: "Padthi", category: "Government exam preparation", githubUrl: "https://github.com/tanushpatel-git/Padthi", description: "An exam-preparation website with exam information, study resources, and scheduled practice papers.",
+    overview: "Padthi supports people preparing for government exams by bringing exam information and learning resources together. Users can also schedule a paper for a particular exam, giving them a way to plan their practice around the exam they are targeting.",
+    highlights: ["Explore government exam information", "Access exam preparation resources", "Schedule a practice paper for a selected exam"],
+    image: "/projectImages/padthi.webp", width: 2896, height: 1604, slug: "padthi",
+    relatedImages: [
+      { src: "/projectImages/padthi2.webp", width: 998, height: 1484, alt: "Padthi project image 2" },
+      { src: "/projectImages/padthi3.webp", width: 2940, height: 1672, alt: "Padthi project image 3" },
+    ],
+  },
   { title: "Project exploration 01", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage1.png", width: 970, height: 1290, slug: "project-exploration-01" },
   { title: "Project exploration 02", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage2.png", width: 1004, height: 1276, slug: "project-exploration-02" },
   { title: "Project exploration 03", category: "Selected work", description: "A selected project from my design and development practice.", image: "/projectImages/projectImage3.png", width: 2940, height: 1682, slug: "project-exploration-03" },
