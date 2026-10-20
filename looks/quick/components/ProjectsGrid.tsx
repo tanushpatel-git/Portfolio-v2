@@ -37,8 +37,17 @@ export const ProjectCard = ({
   isPriority?: boolean;
 }) => {
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+  const [isTouch, setIsTouch] = useState(false);
   const { resolvedTheme } = useTheme();
   const router = useRouter();
+
+  useEffect(() => {
+    const query = window.matchMedia("(hover: none)");
+    const sync = () => setIsTouch(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
 
   const imageSrc = resolvedTheme === "light" && project.lightModeSrc ? project.lightModeSrc : project.src;
 
@@ -48,7 +57,7 @@ export const ProjectCard = ({
   return (
     <div
       className="flex flex-col group cursor-pointer"
-      onClick={() => router.push(`/projects/${project.slug}`)}
+      onClick={() => router.push(`/project/${project.slug}`)}
     >
       {/* Outer Wrapper exactly like screenshot */}
       <motion.div
@@ -95,8 +104,12 @@ export const ProjectCard = ({
 
         {project.video && (
           <motion.div
-            className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none group-hover:pointer-events-auto"
-            variants={{ rest: { scale: 0.5, opacity: 0 }, hover: { scale: 1, opacity: 1 } }}
+            className={`absolute inset-0 z-40 flex items-center justify-center ${isTouch ? "pointer-events-auto" : "pointer-events-none group-hover:pointer-events-auto"}`}
+            variants={
+              isTouch
+                ? { rest: { scale: 1, opacity: 1 }, hover: { scale: 1, opacity: 1 } }
+                : { rest: { scale: 0.5, opacity: 0 }, hover: { scale: 1, opacity: 1 } }
+            }
             transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.05 }}
           >
             <div 
