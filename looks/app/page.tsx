@@ -123,10 +123,11 @@ export default function Home() {
             Tanush Patel
           </h1>
           <p className="mb-0 mt-2 max-w-[470px]">
-            A designer and developer crafting thoughtful digital experiences.
-            I bring ideas to life through considered design and code.
-            <br className="hidden xl:block" /> Building for the web, with
-            curiosity and care.
+            A freelance full-stack developer and designer crafting thoughtful
+            digital experiences. I bring ideas to life through React, considered
+            design, and code.
+            <br className="hidden xl:block" /> Building for the web, from
+            Bhopal, India.
           </p>
         </div>
 
@@ -134,7 +135,7 @@ export default function Home() {
         <div className="min-w-0 text-right" id="design">
           <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Case studies</h2>
           <ul className="m-0 list-none p-0">
-            {["Product design", "Brand systems", "Digital experiences", "Experiments", "See more..."].map(
+            {["Full-stack development", "Design & development", "Interaction & animation", "AI products", "See more..."].map(
               (label) => (
                 <li key={label}>
                   <p
@@ -162,12 +163,12 @@ export default function Home() {
 
         {/* Articles */}
         <div className="min-w-0 text-right" id="articles">
-          <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Writing, talks &amp; more</h2>
+          <h2 className="mb-[7px] mt-0 text-[1.08em] font-semibold leading-[1.3]">Contact &amp; socials</h2>
           <ul className="m-0 list-none p-0">
-            <li><p className={linkCls}>Selected writing</p></li>
-            <li>Conversations &amp; features</li>
-            <li><p className={linkCls}>Ideas in progress</p></li>
-            <li><p className={linkCls}>The creative process</p></li>
+            <li><a className={linkCls} href="https://www.linkedin.com/in/tanush-patel-52b0823b4" target="_blank" rel="noreferrer">LinkedIn</a></li>
+            <li><a className={linkCls} href="https://github.com/tanushpatel-git" target="_blank" rel="noreferrer">GitHub</a></li>
+            <li><a className={linkCls} href="tel:+919729348173">+91 9729348173</a></li>
+            <li>Bhopal, India</li>
             <li><a className={linkCls} href={"mailto:tanush000patel@gmail.com"}>Get in touch</a></li>
           </ul>
         </div>

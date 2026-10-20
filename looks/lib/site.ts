@@ -1,7 +1,8 @@
 export const SITE_NAME = "Tanush Patel";
-export const SITE_TITLE = "Tanush Patel — Designer & Developer";
+export const SITE_TITLE =
+  "Tanush Patel | Freelance Full-Stack Developer & Designer";
 export const SITE_DESCRIPTION =
-  "The portfolio of Tanush Patel, designer and developer.";
+  "Tanush Patel — freelance full-stack developer and designer in India. React, web design, AI, and product-development work.";
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ??

@@ -32,25 +32,6 @@ interface TrailItem {
   rotation: number;
 }
 
-const DEFAULT_IMAGES: ImageTrailImage[] = [
-  {
-    src: "https://images.unsplash.com/photo-1617643472854-39a9dcc34eee?auto=format&fit=crop&w=480&q=80",
-    alt: "Abstract architectural detail",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1674914053928-3131b730916c?auto=format&fit=crop&w=480&q=80",
-    alt: "Abstract sculptural form",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1549800076-831d7a97afac?auto=format&fit=crop&w=480&q=80",
-    alt: "Textured abstract composition",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1730750374142-557f2417db3a?auto=format&fit=crop&w=480&q=80",
-    alt: "Minimal abstract artwork",
-  },
-];
-
 const DEFAULT_TRANSITION: Transition = {
   type: "spring",
   stiffness: 260,
@@ -66,7 +47,7 @@ const normalizeImage = (image: string | ImageTrailImage): ImageTrailImage =>
   typeof image === "string" ? { src: image, alt: "" } : image;
 
 export function ImageTrail({
-  images = DEFAULT_IMAGES,
+  images = [],
   threshold = 80,
   minDelay = 50,
   duration = 1000,
