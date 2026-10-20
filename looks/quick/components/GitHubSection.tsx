@@ -240,13 +240,13 @@ export function GitHubSection() {
         </div>
 
         {/* README */}
-        <div className="rounded-xl border border-black/10 dark:border-white/[0.15] bg-zinc-50 dark:bg-[#0b0b0d] p-5">
+        <div className="hidden sm:block rounded-xl border border-black/10 dark:border-white/[0.15] bg-zinc-50 dark:bg-[#0b0b0d] p-5">
           <p className="m-0 mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-400 dark:text-zinc-500">README.md</p>
           {loading ? <p className="text-[13px] text-zinc-500 dark:text-zinc-400">Connecting to GitHub…</p> : error ? <p role="status" className="text-[13px] text-red-500 dark:text-red-400">{error} The profile card still links to GitHub.</p> : <Readme markdown={readme} />}
         </div>
 
         {/* Public repositories */}
-        <div>
+        <div className="hidden sm:block">
           <div className="mb-3 flex items-end justify-between gap-3">
             <h3 className="m-0 text-[15px] font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Public repositories</h3>
             <a href={`https://github.com/${USERNAME}?tab=repositories`} target="_blank" rel="noreferrer" className="text-[12px] text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200">All repositories ↗</a>

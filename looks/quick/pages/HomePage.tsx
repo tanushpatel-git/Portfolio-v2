@@ -402,7 +402,7 @@ export default function Home() {
 
             <div className="flex items-center gap-3 text-[10px] font-medium tracking-[0.2em] text-zinc-400 dark:text-zinc-600 uppercase">
               <div className="w-4 h-[1px] bg-zinc-200 dark:bg-zinc-800" />
-              ALEX HORMOZI
+              TANUSH PATEL
               <div className="w-4 h-[1px] bg-zinc-200 dark:bg-zinc-800" />
             </div>
           </div>
